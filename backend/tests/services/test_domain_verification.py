@@ -151,7 +151,7 @@ def test_domain_endpoints_flow(client, db, test_organization):
     assert body["custom_domain"] == "help.customer.com"
     assert body["domain_status"] == "pending"
     assert [r["type"] for r in body["records"]] == ["CNAME", "TXT"]
-    assert body["records"][1]["host"] == "_chattermate.help.customer.com"
+    assert body["records"][1]["host"] == "_echo.help.customer.com"
 
     with patch.object(dv, "check_txt_record", return_value=True), \
          patch.object(dv, "check_cname_record", return_value=True), \

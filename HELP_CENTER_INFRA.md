@@ -134,7 +134,7 @@ CNAME target `cname.chattermate.chat` is **not** provisioned, so verification
 falls back to an A record pointing at `HELP_CENTER_TARGET_IPS` — either form
 works:
 - `CNAME  help.customer.com  →  cname.chattermate.chat`  *(or)*  `A  help.customer.com  →  <VPS_IPV4>`
-- `TXT    _chattermate.help.customer.com  →  cm-verify=<token>`
+- `TXT    _echo.help.customer.com  →  cm-verify=<token>`
 
 After they click **Verify domain** (DNS checks pass, `ssl_status` becomes
 `pending`), issue the certificate on the VPS — HTTP-01 works because the
