@@ -1,0 +1,42 @@
+name: Weekend log
+
+on:
+  schedule:
+    # Saturday and Sunday, 12:17 and 15:17 Pakistan time. The second run is a backup.
+    - cron: '17 7,10 * * 0,6'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency: weekend-log
+
+jobs:
+  log:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Add log entries
+        run: |
+          day=$(TZ=Asia/Karachi date +%F)
+          file=.github/weekend-log.md
+          if grep -q "^$day " "$file" 2>/dev/null; then
+            echo "Already done for $day."
+            exit 0
+          fi
+          git config user.name "${{ github.repository_owner }}"
+          git config user.email "${{ github.repository_owner_id }}+${{ github.repository_owner }}@users.noreply.github.com"
+          seed=$(printf '%s%s' "$day" "$GITHUB_REPOSITORY" | cksum | cut -d' ' -f1)
+          count=$(( seed % 14 + 7 ))
+          RANDOM=$seed
+          n=0
+          for m in $(for i in $(seq "$count"); do echo $(( RANDOM % 180 )); done | sort -n); do
+            n=$(( n + 1 ))
+            stamp=$(printf '%sT%02d:%02d:00+05:00' "$day" $(( 9 + m / 60 )) $(( m % 60 )))
+            echo "$day $n" >> "$file"
+            git add "$file"
+            GIT_AUTHOR_DATE=$stamp GIT_COMMITTER_DATE=$stamp git commit -q -m "Update weekend log"
+          done
+          git push
+          echo "Made $count commits."
