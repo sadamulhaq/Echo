@@ -25,7 +25,7 @@ from app.database import Base
 
 
 class ChannelConversation(Base):
-    """Maps an external channel conversation to a ChatterMate session.
+    """Maps an external channel conversation to an Echo session.
 
     The generic analog of SlackConversation: one row per
     (connected account, platform conversation, session). A new session for

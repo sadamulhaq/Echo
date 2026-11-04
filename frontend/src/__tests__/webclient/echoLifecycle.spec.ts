@@ -27,7 +27,7 @@ import {
  * in, logs out and unmounts swaps frames in place, and nothing secret is ever sent to a
  * frame before it has said who it is.
  */
-describe('ChatterMate frame and lifecycle API', () => {
+describe('Echo frame and lifecycle API', () => {
   let fetchMock: ReturnType<typeof vi.fn>
 
   beforeEach(() => {
@@ -77,7 +77,7 @@ describe('ChatterMate frame and lifecycle API', () => {
 
     it('prefers the token the page set over the stored one', async () => {
       localStorage.setItem('ctid', 'tok-stored')
-      ;(window as any).chattermateToken = 'tok-page'
+      ;(window as any).echoToken = 'tok-page'
       await loadLoader()
       expect(handshake()?.message.token).toBe('tok-page')
     })
@@ -168,7 +168,7 @@ describe('ChatterMate frame and lifecycle API', () => {
 
     it('drops the loading state once the widget is ready', async () => {
       await loadLoader()
-      const button = document.getElementById('chattermate-button')!
+      const button = document.getElementById('echo-button')!
       expect(button.classList.contains('loading')).toBe(true)
       bringUp()
       expect(button.classList.contains('loading')).toBe(false)
@@ -192,7 +192,7 @@ describe('ChatterMate frame and lifecycle API', () => {
   describe('before and after hello', () => {
     it('keeps talking to the frame after the page moves it', async () => {
       await loadLoader()
-      const container = document.getElementById('chattermate-container')!
+      const container = document.getElementById('echo-container')!
       const moved = document.createElement('div')
       document.body.appendChild(moved)
       moved.appendChild(container)
@@ -208,7 +208,7 @@ describe('ChatterMate frame and lifecycle API', () => {
     })
 
     it('closes a drawer on Escape pressed inside the frame', async () => {
-      ;(window as any).chattermateConfig = { displayMode: 'sidebar-right' }
+      ;(window as any).echoConfig = { displayMode: 'sidebar-right' }
       await loadLoader()
       bringUp()
       api().open()
@@ -282,7 +282,7 @@ describe('ChatterMate frame and lifecycle API', () => {
 
       await vi.advanceTimersByTimeAsync(3000)
 
-      const card = document.querySelector('.chattermate-error-ui')
+      const card = document.querySelector('.echo-error-ui')
       expect(card?.textContent).toContain('If the widget is limited to certain domains, add this one in its settings; otherwise check the widget ID.')
       expect(frames()).toHaveLength(0)
     })
@@ -295,7 +295,7 @@ describe('ChatterMate frame and lifecycle API', () => {
 
       await vi.advanceTimersByTimeAsync(60000)
 
-      expect(document.querySelector('.chattermate-error-ui')).toBeNull()
+      expect(document.querySelector('.echo-error-ui')).toBeNull()
       expect(frames()).toHaveLength(1)
     })
 
@@ -303,10 +303,10 @@ describe('ChatterMate frame and lifecycle API', () => {
       vi.useFakeTimers()
       await loadLoader({ fakeTimers: true })
       await vi.advanceTimersByTimeAsync(19000)
-      expect(document.querySelector('.chattermate-error-ui')).toBeNull()
+      expect(document.querySelector('.echo-error-ui')).toBeNull()
 
       await vi.advanceTimersByTimeAsync(1000)
-      expect(document.querySelector('.chattermate-error-ui')).not.toBeNull()
+      expect(document.querySelector('.echo-error-ui')).not.toBeNull()
     })
 
     it('gives up on a frame that said hello but never mounted', async () => {
@@ -315,17 +315,17 @@ describe('ChatterMate frame and lifecycle API', () => {
       handshake()
 
       await vi.advanceTimersByTimeAsync(19000)
-      expect(document.querySelector('.chattermate-error-ui')).toBeNull()
+      expect(document.querySelector('.echo-error-ui')).toBeNull()
 
       await vi.advanceTimersByTimeAsync(1000)
-      expect(document.querySelector('.chattermate-error-ui')?.textContent).toContain('Chat is unavailable right now')
+      expect(document.querySelector('.echo-error-ui')?.textContent).toContain('Chat is unavailable right now')
     })
 
     it('reveals the launcher so the card can be reached', async () => {
       vi.useFakeTimers()
       await loadLoader({ fakeTimers: true })
       await vi.advanceTimersByTimeAsync(20000)
-      expect(document.getElementById('chattermate-button')?.classList.contains('chattermate-pending')).toBe(false)
+      expect(document.getElementById('echo-button')?.classList.contains('echo-pending')).toBe(false)
     })
   })
 
@@ -377,7 +377,7 @@ describe('ChatterMate frame and lifecycle API', () => {
       await flush()
 
       expect(localStorage.getItem('ctid')).toBeNull()
-      expect((window as any).chattermateToken).toBeNull()
+      expect((window as any).echoToken).toBeNull()
       expect(handshake()?.message.token).toBeNull()
     })
 
@@ -446,8 +446,8 @@ describe('ChatterMate frame and lifecycle API', () => {
       await loadLoader()
       api().destroy()
 
-      for (const id of ['chattermate-button', 'chattermate-container', 'chattermate-backdrop',
-        'chattermate-mobile-close', 'chattermate-mobile-topbar', 'chattermate-styles']) {
+      for (const id of ['echo-button', 'echo-container', 'echo-backdrop',
+        'echo-mobile-close', 'echo-mobile-topbar', 'echo-styles']) {
         expect(document.getElementById(id)).toBeNull()
       }
       expect(frames()).toHaveLength(0)
@@ -474,14 +474,14 @@ describe('ChatterMate frame and lifecycle API', () => {
       api().reload()
       await flush()
 
-      const button = document.getElementById('chattermate-button')
+      const button = document.getElementById('echo-button')
       expect(button).not.toBeNull()
       expect(frames()).toHaveLength(1)
-      expect(button?.classList.contains('chattermate-pending')).toBe(true)
+      expect(button?.classList.contains('echo-pending')).toBe(true)
 
       handshake()
       fromFrame({ type: 'CUSTOMIZATION_UPDATE', data: { chat_bubble_color: '#123456' } })
-      expect(button?.classList.contains('chattermate-pending')).toBe(false)
+      expect(button?.classList.contains('echo-pending')).toBe(false)
     })
 
     it('identify() does not resurrect a destroyed widget', async () => {
@@ -490,7 +490,7 @@ describe('ChatterMate frame and lifecycle API', () => {
       api().identify('tok-1')
       await flush()
 
-      expect(document.getElementById('chattermate-button')).toBeNull()
+      expect(document.getElementById('echo-button')).toBeNull()
       // The identity is still recorded, so a later reload() runs as that visitor.
       expect(localStorage.getItem('ctid')).toBe('tok-1')
     })

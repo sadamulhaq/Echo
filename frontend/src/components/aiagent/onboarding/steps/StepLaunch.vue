@@ -46,13 +46,13 @@ const developerMailto = computed(() => {
   const body = [
     'Hi,',
     '',
-    'Could you add our ChatterMate chat to the website? Paste this just before </body> on every page:',
+    'Could you add our Echo chat to the website? Paste this just before </body> on every page:',
     '',
     widgetSnippet.value,
     '',
     `Guide: ${WIDGET_INSTALL_GUIDE_URL}`,
   ].join('\n')
-  const params = new URLSearchParams({ subject: 'Add our ChatterMate chat to the website', body })
+  const params = new URLSearchParams({ subject: 'Add our Echo chat to the website', body })
   return `mailto:?${params.toString().replace(/\+/g, '%20')}`
 })
 

@@ -1,4 +1,4 @@
-# Contributing to ChatterMate
+# Contributing to Echo
 
 Thanks for your interest in contributing! This document explains how to get
 your changes accepted.

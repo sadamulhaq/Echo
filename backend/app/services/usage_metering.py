@@ -34,7 +34,7 @@ logger = get_logger(__name__)
 
 # Model type whose provider costs land on the platform, hence metered. Own-key
 # orgs pay their provider directly and are never metered or blocked.
-HOSTED_MODEL_TYPE = "CHATTERMATE"
+HOSTED_MODEL_TYPE = "ECHO"
 
 
 def is_hosted_model(db: Session, organization_id: UUID) -> bool:

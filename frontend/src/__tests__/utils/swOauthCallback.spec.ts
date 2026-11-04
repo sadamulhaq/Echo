@@ -57,7 +57,7 @@ describe('service worker navigation denylist', () => {
   })
 
   describe('the pre-existing exclusions still hold', () => {
-    it.each(['/api/v1/users/login', '/widget/abc', '/webclient/chattermate.min.js', '/shopify/inbox'])(
+    it.each(['/api/v1/users/login', '/widget/abc', '/webclient/echo.min.js', '/shopify/inbox'])(
       'denies %s',
       (path) => {
         expect(isDeniedNavigation(path)).toBe(true)

@@ -1,4 +1,4 @@
-# ChatterMate end-to-end tests
+# Echo end-to-end tests
 
 Playwright tests that drive the real dashboard, the real widget and the real backend.
 
@@ -43,7 +43,7 @@ npx playwright test           # reuses the running stack
 ```
 
 **Safety:**
-- `stack.sh` only ever manages `chattermate_e2e` and its template `chattermate_e2e_tpl`. It refuses any database name that does not end in `_e2e`.
+- `stack.sh` only ever manages `echo_e2e` and its template `echo_e2e_tpl`. It refuses any database name that does not end in `_e2e`.
 - The backend reads only `e2e/.env.e2e` (through `ENV_FILE`), never `backend/.env`.
 - The OSS edition runs with `NO_ENTERPRISE=1`, and the dashboard is built without `src/modules/enterprise`, so it behaves like a community install even in a checkout that has the submodules.
 
@@ -169,4 +169,4 @@ A journey that should hold on every channel loops over `channels` (or `channelsW
 - **Port already in use:** something else is on 18000, 15173, 14010, 14020, 14030, 13000, 13001, 11025 or 18025. Run `./scripts/stack.sh down`, or stop the other process.
 - **The launcher never becomes clickable:** the suite runs with `reducedMotion: 'reduce'` because the launcher floats forever otherwise. Keep that option on any new browser context.
 - **The customer site must be a real server:** Chrome blocks a page faked with `page.route` from calling `127.0.0.1` (Local Network Access).
-- **The widget and loader are built from source on every run.** `stack.sh` builds the widget bundle and `chattermate.min.js` from the current `frontend/src/webclient` into `e2e/.cache`, and points the backend at that build with `WIDGET_ASSETS_DIR`. The committed production bundles in `backend/assets` and `frontend/public/webclient` are never rebuilt or modified.
+- **The widget and loader are built from source on every run.** `stack.sh` builds the widget bundle and `echo.min.js` from the current `frontend/src/webclient` into `e2e/.cache`, and points the backend at that build with `WIDGET_ASSETS_DIR`. The committed production bundles in `backend/assets` and `frontend/public/webclient` are never rebuilt or modified.

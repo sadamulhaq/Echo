@@ -6,7 +6,7 @@ deploy-time pieces that live **outside** the repo: DNS, TLS and the host
 nginx on the production VPS. `frontend/nginx.conf` and the docker-compose
 files need **no changes**.
 
-> **As deployed on the ChatterMate cloud VPS (2026-07-14):** the base domain is
+> **As deployed on the Echo cloud VPS (2026-07-14):** the base domain is
 > **`help.chattermate.chat`** (orgs serve at `{slug}.help.chattermate.chat`), not
 > the `chattermate.help` this doc originally planned — that domain was never
 > registered, and the org only owns `chattermate.chat`. DNS is **Route53**, so the
@@ -46,7 +46,7 @@ Route53 policy (`route53:ListHostedZones` + `GetChange` on `*`,
 (mode 600) on the box. Issue once:
 ```bash
 docker run --rm \
-  -v ~/chattermate/certbot/conf:/etc/letsencrypt \
+  -v ~/echo/certbot/conf:/etc/letsencrypt \
   -v ~/.aws:/root/.aws:ro \
   certbot/dns-route53 certonly --dns-route53 \
   -d '*.help.chattermate.chat' -d 'help.chattermate.chat' \
@@ -63,7 +63,7 @@ docker compose -f docker-compose.hostinger.yml \
 # ...then, if the flag file appeared: rm it && docker compose exec -T nginx nginx -s reload
 ```
 It uses the `certbot/dns-route53` image and mounts
-`/home/chattermate/.aws:/root/.aws:ro`, so the wildcard renews unattended (the
+`/home/echo/.aws:/root/.aws:ro`, so the wildcard renews unattended (the
 renewal conf remembers `authenticator = dns-route53`). Existing HTTP-01 webroot
 certs still renew — the dns-route53 image is a superset of `certbot/certbot`.
 `renew` covers every cert in the shared `certbot/conf`, not just the wildcard.
@@ -95,10 +95,10 @@ certs still renew — the dns-route53 image is a superset of `certbot/certbot`.
 > ```
 
 ### Host nginx server block
-Lives at `~/chattermate/nginx/conf.d/help-center.conf` (mounted read-only into
-the `chattermate-nginx-1` container). `proxy_set_header Host $host` is what
+Lives at `~/echo/nginx/conf.d/help-center.conf` (mounted read-only into
+the `echo-nginx-1` container). `proxy_set_header Host $host` is what
 makes backend host-dispatch resolve the org. Upstream is the compose service
-name `backend:8000` (nginx shares the `chattermate-network`), not a published
+name `backend:8000` (nginx shares the `echo-network`), not a published
 host port.
 
 ```nginx
@@ -163,7 +163,7 @@ whole VPS.
 ## 3. Verification checklist after deploy
 1. `curl -sS -o /dev/null -w '%{http_code}\n' https://<slug>.help.chattermate.chat/` → `200` (and `http://` → `301`).
 2. `https://<slug>.help.chattermate.chat` in a browser → published FAQs render, widget loads; an article at `/a/<faq-slug>` returns `200`.
-3. `docker exec chattermate-backend-1 printenv HELP_CENTER_BASE_DOMAIN` → `help.chattermate.chat` (and the backend is `healthy`, not crash-looping on `HELP_CENTER_TARGET_IPS`).
+3. `docker exec echo-backend-1 printenv HELP_CENTER_BASE_DOMAIN` → `help.chattermate.chat` (and the backend is `healthy`, not crash-looping on `HELP_CENTER_TARGET_IPS`).
 4. API unaffected: `https://app.chattermate.chat` / `https://api.chattermate.chat/api/v1/...` still route normally.
 5. `POST /ask` from the page returns an answer and appears in `help_center_queries`.
 6. `docker ps -a --filter name=certbot` → **empty**. `compose up -d` must not start a
@@ -180,7 +180,7 @@ The feature is gated by the `help_center` plan flag, which lives in the
 - backfill existing plan rows' `features` JSON with the same values;
 - extend the message-limit check to add the org's period
   `help_center_queries` count (`HelpCenterQueryRepository.count_for_period`)
-  to the bot-message count when the org runs on the ChatterMate-hosted model.
+  to the bot-message count when the org runs on the Echo-hosted model.
 
 Until that PR deploys, cloud orgs see the upgrade lock (`plan_allowed:
 false`); self-hosted/OSS installs are unrestricted immediately.

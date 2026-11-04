@@ -68,7 +68,7 @@ async def process_status_event(account_id: UUID, event: StatusEvent) -> None:
         if account is None:
             return
         # Announced before matching: extensions count every receipt, including
-        # ones for messages ChatterMate never stored.
+        # ones for messages Echo never stored.
         await emit_channel_event(ChannelEvent(
             kind=EventKind.STATUS,
             event_id=status_event_id(account.id, event.external_message_id, event.status.value),

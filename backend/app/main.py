@@ -323,7 +323,7 @@ async def root():
     return {
         "name": settings.PROJECT_NAME,
         "version": settings.VERSION,
-        "description": "Welcome to ChatterMate API"
+        "description": "Welcome to Echo API"
     }
 
 @app.api_route("/health", methods=["GET"], operation_id="get_health_check")

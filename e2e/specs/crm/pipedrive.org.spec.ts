@@ -49,9 +49,9 @@ test.describe('Pipedrive', () => {
 
     const personId = (created.response as { data: { id: number } }).data.id
     const [lead] = (await externals.calls('pipedrive', 'leads', { contains: `"person_id":${personId}` })).filter((c) => c.method === 'POST')
-    expect(lead.body).toMatchObject({ title: `${name} — ChatterMate lead`, person_id: personId })
+    expect(lead.body).toMatchObject({ title: `${name} — Echo lead`, person_id: personId })
     const leadId = (lead.response as { data: { id: string } }).data.id
     const [note] = await externals.calls('pipedrive', 'notes', { contains: leadId })
-    expect(note.body).toMatchObject({ lead_id: leadId, content: expect.stringContaining('Lead captured by ChatterMate') })
+    expect(note.body).toMatchObject({ lead_id: leadId, content: expect.stringContaining('Lead captured by Echo') })
   })
 })

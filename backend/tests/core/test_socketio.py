@@ -76,7 +76,7 @@ def test_configure_socketio_with_redis_enabled(mock_redis_manager, mock_settings
     configure_socketio()
 
     mock_redis_manager.assert_called_once_with(
-        "redis://localhost:6379", write_only=False, channel='chattermate', redis_options=REDIS_OPTIONS,
+        "redis://localhost:6379", write_only=False, channel='echo', redis_options=REDIS_OPTIONS,
     )
     assert sio.manager is mock_redis_instance
     mock_redis_instance.set_server.assert_called_once_with(sio)
@@ -94,7 +94,7 @@ def test_configure_socketio_with_elasticache(mock_redis_manager, mock_settings, 
     configure_socketio()
 
     mock_redis_manager.assert_called_once_with(
-        "rediss://my-cluster.cache.amazonaws.com:6379", write_only=False, channel='chattermate',
+        "rediss://my-cluster.cache.amazonaws.com:6379", write_only=False, channel='echo',
         redis_options={**REDIS_OPTIONS, 'ssl_cert_reqs': None},
     )
 

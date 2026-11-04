@@ -1,23 +1,19 @@
-# ChatterMate - Open Source AI Customer Support Chatbot Platform
+# Echo - Open Source AI Customer Support Chatbot Platform
 
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![npm version](https://img.shields.io/npm/v/chattermate-deploy.svg)](https://www.npmjs.com/package/chattermate-deploy)
-[![Docker Pulls](https://img.shields.io/docker/pulls/chattermate/backend.svg)](https://hub.docker.com/r/chattermate/backend)
+Echo is a renamed and modified version of ChatterMate, changed on 2026-11-05. See the license files in this repository.
 
-![ChatterMate Logo](frontend/public/assets/images/logo.svg)
+![Echo Logo](frontend/public/assets/images/logo.svg)
 
 > **Open-source AI customer support platform with human handoff.** A no-code AI chatbot for 24/7 customer service automation — multi-model AI (OpenAI, Anthropic Claude, Google Gemini, Mistral, xAI Grok, DeepSeek, Groq), intelligent AI-to-human handover, **Shopify & e-commerce support**, Slack and Jira integrations, visual workflow builder, and a fully themeable chat widget. Use the free hosted service or self-host it as an **open-source alternative to Intercom, Zendesk, and Chatbase**.
-
-**[Documentation](https://docs.chattermate.chat)** | **[Live Demo](https://chattermate.chat)** | **[Free Signup](https://app.chattermate.chat)** | **[Shopify App](https://apps.shopify.com/chattermate-chat)** | **[WordPress Plugin](https://github.com/chattermate/chattermate-wordpress-plugin/releases/latest/download/chattermate-chat.zip)**
 
 ---
 
 ## Table of Contents
 
-- [Why ChatterMate?](#why-chattermate)
+- [Why Echo?](#why-echo)
 - [Features](#features)
 - [Integrations](#integrations)
-- [ChatterMate vs. Intercom, Zendesk & Chatbase](#chattermate-vs-intercom-zendesk--chatbase)
+- [Echo vs. Intercom, Zendesk & Chatbase](#echo-vs-intercom-zendesk--chatbase)
 - [Demo](#demo)
 - [Quick Start](#quick-start)
 - [Installation](#installation-methods)
@@ -29,13 +25,13 @@
 
 ---
 
-## Why ChatterMate?
+## Why Echo?
 
-ChatterMate is a **no-code AI customer support platform** that enables businesses to provide **24/7 customer service** through intelligent AI agents. Your AI chatbot handles common queries, escalates complex issues to human agents when needed, and continuously learns from your knowledge base. Integrate the chat widget on any website — or any **Shopify store** — with a single line of code.
+Echo is a **no-code AI customer support platform** that enables businesses to provide **24/7 customer service** through intelligent AI agents. Your AI chatbot handles common queries, escalates complex issues to human agents when needed, and continuously learns from your knowledge base. Integrate the chat widget on any website — or any **Shopify store** — with a single line of code.
 
 **Perfect for:** e-commerce and Shopify stores, SaaS companies, help desks, customer success teams, and any business looking to automate customer support while maintaining a human touch.
 
-![ChatterMate AI chat widget on an e-commerce store](.github/images/chat-widget.webp)
+![Echo AI chat widget on an e-commerce store](.github/images/chat-widget.webp)
 
 ---
 
@@ -46,8 +42,8 @@ ChatterMate is a **no-code AI customer support platform** that enables businesse
 | Feature | Description |
 |---------|-------------|
 | 🤝 **Smart Human Handoff** | Intelligent AI-to-human transfer with **business hours awareness**, real-time availability detection, and context-aware escalation messages. |
-| 🛍️ **Shopify & E-commerce Support** | Native **Shopify integration** ([App Store listing](https://apps.shopify.com/chattermate-chat)) — answer order, shipping, and product questions from store data. Works for any online store. |
-| 📝 **WordPress Plugin** | Official **WordPress plugin** ([download](https://github.com/chattermate/chattermate-wordpress-plugin/releases/latest/download/chattermate-chat.zip)) — add the chat widget to any WordPress site by entering your Widget ID. No theme edits required. |
+| 🛍️ **Shopify & E-commerce Support** | Native **Shopify integration** — answer order, shipping, and product questions from store data. Works for any online store. |
+| 📝 **WordPress Plugin** | Official **WordPress plugin** — add the chat widget to any WordPress site by entering your Widget ID. No theme edits required. |
 | 🧠 **Multi-Model AI Support** | Choose your AI provider — **OpenAI**, **Anthropic (Claude)**, **Google Gemini**, **Mistral**, **xAI (Grok)**, **DeepSeek**, and **Groq** — with your own API key, or enter a custom model ID. Switch providers anytime without code changes. |
 | 💬 **Ask Anything Mode** | Let visitors start conversations instantly — no signup or email required. Perfect for Q&A, documentation assistants, and exploratory chat experiences. |
 | 📎 **File Attachments** | Customers can share **images, PDFs, Word docs, spreadsheets**, and more directly in chat. Secure uploads with S3 storage and magic byte validation. |
@@ -150,10 +146,10 @@ open-source codebase, and self-hosting unlocks the lot.
 What some of them need is **your own credentials**, because the integration
 talks to your account on someone else's platform:
 
-- **You create the app** — a developer app registered once per ChatterMate
+- **You create the app** — a developer app registered once per Echo
   install, with its keys in the backend `.env`.
 - **You paste a token** — no app to create; you generate a token or API key on
-  the provider's side and enter it in the ChatterMate UI when connecting.
+  the provider's side and enter it in the Echo UI when connecting.
 
 Both are marked in the tables below.
 
@@ -197,11 +193,11 @@ Synced by the `crm_sync` worker — see [Background processors](#background-proc
 
 ---
 
-## ChatterMate vs. Intercom, Zendesk & Chatbase
+## Echo vs. Intercom, Zendesk & Chatbase
 
-ChatterMate is a **free, open-source alternative to Intercom, Zendesk AI, and Chatbase** — with AI answers *and* human handoff in one inbox:
+Echo is a **free, open-source alternative to Intercom, Zendesk AI, and Chatbase** — with AI answers *and* human handoff in one inbox:
 
-| | **ChatterMate** | Intercom | Zendesk AI | Chatbase |
+| | **Echo** | Intercom | Zendesk AI | Chatbase |
 |---|---|---|---|---|
 | Open source (Apache-2.0) | ✅ | ❌ | ❌ | ❌ |
 | Self-hosting / data ownership | ✅ | ❌ | ❌ | ❌ |
@@ -212,15 +208,9 @@ ChatterMate is a **free, open-source alternative to Intercom, Zendesk AI, and Ch
 | Free tier | ✅ | trial only | trial only | ✅ |
 | Per-AI-resolution fees | ❌ none | $0.99/resolution | usage-based | credit-based |
 
-Detailed comparisons: [ChatterMate vs Chatbase](https://chattermate.chat/chattermate-vs-chatbase/) · [ChatterMate vs Chatwoot](https://chattermate.chat/chattermate-vs-chatwoot/)
-
 ---
 
 ## Demo
-
-### Video Walkthrough
-[![ChatterMate Demo](https://img.youtube.com/vi/bk40VSS2BLU/0.jpg)](https://youtu.be/bk40VSS2BLU)
-[![ChatterMate Demo](https://img.youtube.com/vi/WyMQ8Poqn5E/0.jpg)](https://www.youtube.com/embed/WyMQ8Poqn5E?mute=1&loop=1&playlist=WyMQ8Poqn5E&rel=0&controls=1)
 
 ### Shared Inbox with AI + Human Handoff
 ![AI customer support shared inbox with human handoff](.github/images/inbox-human-handoff.webp)
@@ -232,42 +222,15 @@ Detailed comparisons: [ChatterMate vs Chatbase](https://chattermate.chat/chatter
 
 ## Quick Start
 
-There are two ways to run ChatterMate. **Most people want the hosted service** — sign up and
-manage everything from the dashboard, the CLI, or an AI agent. **Self-host with Docker** only if
-you need to run ChatterMate on your own infrastructure.
-
-### Option A — Hosted (fastest)
-
-1. **Sign up:** [app.chattermate.chat](https://app.chattermate.chat) — free, no card required.
-2. **Manage from your terminal, automate, or drive it with an AI agent** using the **ChatterMate CLI**:
-
-```bash
-# The ChatterMate CLI — sign up, mint tokens, and manage agents, workflows & knowledge
-pip install chattermate-cli          # installs the `chattermate` command
-
-chattermate signup --name "Acme Inc" --domain acme.com --admin-email you@acme.com
-chattermate agent create --name "Support" --type customer_support -i "Be concise and friendly"
-chattermate knowledge add-url --website https://docs.acme.com --agent-id <agent-id>
-```
-
-➡️ **[AI Agent & Automation Quickstart](https://docs.chattermate.chat/features/agents-quickstart)** · **[CLI reference](https://docs.chattermate.chat/features/cli)** · **[MCP server](https://docs.chattermate.chat/features/mcp-server)**
-
-> 🤖 **Building an AI agent that sets up ChatterMate?** Start at
-> [`chattermate.chat/llms.txt`](https://chattermate.chat/llms.txt), follow the
-> [agent quickstart](https://docs.chattermate.chat/features/agents-quickstart), or connect the
-> [MCP server](https://docs.chattermate.chat/features/mcp-server) to configure ChatterMate over MCP.
-
-### Option B — Self-host with Docker
-
-Run the full ChatterMate stack on your own infrastructure with the **self-host CLI** (Docker-based):
+Run the full Echo stack on your own infrastructure with the **self-host CLI** (Docker-based):
 
 ```bash
 # Install the self-host / deployment CLI
 npm install -g chattermate-deploy
 
 # Scaffold a project, then start the full stack (Postgres, Redis, backend, frontend, worker)
-chattermate-deploy init my-chattermate-project
-cd my-chattermate-project
+chattermate-deploy init my-echo-project
+cd my-echo-project
 chattermate-deploy start                  # then open http://localhost/
 ```
 
@@ -284,18 +247,9 @@ chattermate-deploy reset                  # Reset and remove all data
 ```
 </details>
 
-> ⚠️ **Two different `chattermate` commands — don't mix them up.** The **hosted CLI**
-> (`pip install chattermate-cli`) signs you up and manages agents/knowledge against the
-> ChatterMate API. The **self-host CLI** (`npm install -g chattermate-deploy`) scaffolds and runs
-> the Docker stack. They are separate tools that happen to share the `chattermate` name.
-
 ---
 
 ## Installation Methods
-
-> Prefer the hosted service? Skip this section — just [sign up](https://app.chattermate.chat)
-> and/or use the [ChatterMate CLI](https://docs.chattermate.chat/features/cli)
-> (`pip install chattermate-cli`). The methods below are for **self-hosting**.
 
 ### Prerequisites
 
@@ -313,8 +267,6 @@ chattermate-deploy reset                  # Reset and remove all data
 ### Method 1: Self-Host CLI (Recommended)
 
 The self-host CLI (`chattermate-deploy`, installed via npm) scaffolds and runs the Docker stack.
-This is **not** the account CLI — for signup and agent management see the
-[ChatterMate CLI](https://docs.chattermate.chat/features/cli).
 
 ```bash
 npm install -g chattermate-deploy
@@ -465,7 +417,7 @@ cd backend && pytest tests/
 cd frontend && npm run test:unit
 ```
 
-**End-to-end**: Playwright drives the real dashboard, widget and backend against a throwaway database and a fake LLM, all on `127.0.0.1`. Needs a local Postgres with pgvector and [Mailpit](https://mailpit.axllent.org).
+**End-to-end**: Playwright drives the real dashboard, widget and backend against a throwaway database and a fake LLM, all on `127.0.0.1`. Needs a local Postgres with pgvector and Mailpit.
 ```bash
 cd e2e && npm ci && npx playwright install chromium && npm test
 ```
@@ -507,17 +459,17 @@ gunicorn app.main:app \
 
 **Knowledge Processor (systemd)**
 ```bash
-sudo tee /etc/systemd/system/chattermate-knowledge-processor.service << EOF
+sudo tee /etc/systemd/system/echo-knowledge-processor.service << EOF
 [Unit]
-Description=ChatterMate Knowledge Processor
+Description=Echo Knowledge Processor
 After=network.target
 
 [Service]
-User=chattermate
-Group=chattermate
-WorkingDirectory=/path/to/chattermate/backend
-Environment="PATH=/path/to/chattermate/backend/venv/bin"
-ExecStart=/path/to/chattermate/backend/venv/bin/python -m app.workers.run_knowledge_processor
+User=echo
+Group=echo
+WorkingDirectory=/path/to/echo/backend
+Environment="PATH=/path/to/echo/backend/venv/bin"
+ExecStart=/path/to/echo/backend/venv/bin/python -m app.workers.run_knowledge_processor
 Restart=always
 
 [Install]
@@ -525,8 +477,8 @@ WantedBy=multi-user.target
 EOF
 
 sudo systemctl daemon-reload
-sudo systemctl enable chattermate-knowledge-processor
-sudo systemctl start chattermate-knowledge-processor
+sudo systemctl enable echo-knowledge-processor
+sudo systemctl start echo-knowledge-processor
 ```
 
 **Frontend**
@@ -541,25 +493,25 @@ npm run build
 
 ## FAQ
 
-**What is ChatterMate?**
-ChatterMate is an open-source AI customer support platform. It combines an AI chatbot (trained on your knowledge base) with human agents in a shared inbox, so AI handles routine questions 24/7 and hands off to your team when it matters.
+**What is Echo?**
+Echo is an open-source AI customer support platform. It combines an AI chatbot (trained on your knowledge base) with human agents in a shared inbox, so AI handles routine questions 24/7 and hands off to your team when it matters.
 
-**Is ChatterMate free and open source?**
-Yes. The core platform is Apache-2.0 licensed — free for personal and commercial use, including self-hosted production deployments. There's also a free hosted plan at [app.chattermate.chat](https://app.chattermate.chat).
+**Is Echo free and open source?**
+Yes. The core platform is Apache-2.0 licensed — free for personal and commercial use, including self-hosted production deployments.
 
 **Can the AI hand off conversations to a human agent?**
-Yes — human handoff is a core feature, not an add-on. ChatterMate detects frustration or explicit requests for a human and transfers the conversation with full context, respecting business hours and agent availability.
+Yes — human handoff is a core feature, not an add-on. Echo detects frustration or explicit requests for a human and transfers the conversation with full context, respecting business hours and agent availability.
 
-**Does ChatterMate work with Shopify?**
-Yes. Install it from the [Shopify App Store](https://apps.shopify.com/chattermate-chat) to answer order-status, shipping, and product questions directly from your store data. The widget also embeds on any other e-commerce or website platform with one line of code.
+**Does Echo work with Shopify?**
+Yes. The Shopify integration answers order-status, shipping, and product questions directly from your store data. The widget also embeds on any other e-commerce or website platform with one line of code.
 
-**Does ChatterMate work with WordPress?**
-Yes. Download the [WordPress plugin](https://github.com/chattermate/chattermate-wordpress-plugin/releases/latest/download/chattermate-chat.zip), install it via **Plugins → Add New → Upload Plugin**, then enter your Widget ID under **Settings → ChatterMate Chat**. The chat launcher appears on your site with no theme edits. A WordPress.org directory listing is in progress.
+**Does Echo work with WordPress?**
+Yes. Install the WordPress plugin via **Plugins → Add New → Upload Plugin**, then enter your Widget ID under **Settings → Echo Chat**. The chat launcher appears on your site with no theme edits. A WordPress.org directory listing is in progress.
 
-**Can I self-host ChatterMate?**
+**Can I self-host Echo?**
 Yes. Run the full stack (Postgres, Redis, backend, frontend) on your own infrastructure with `npm install -g chattermate-deploy` — see [Quick Start](#quick-start). Self-hosting gives you complete data ownership.
 
-**Which AI models does ChatterMate support?**
+**Which AI models does Echo support?**
 OpenAI, Anthropic (Claude), Google Gemini, Mistral, xAI (Grok), DeepSeek, and Groq — bring your own API key, or enter a custom model ID for any model a provider supports. You can switch providers at any time without code changes.
 
 ---
@@ -596,17 +548,15 @@ We welcome contributions! Here's how to get started:
 
 ## Support
 
-- 📖 **Documentation**: [docs.chattermate.chat](https://docs.chattermate.chat)
-- 🐛 **Issues**: [GitHub Issues](https://github.com/chattermate/chattermate/issues)
-- 📧 **Email**: support@chattermate.chat
+- 🐛 **Issues**: [GitHub Issues](https://github.com/sadamulhaq/Echo/issues)
 
 ---
 
 ## License
 
-ChatterMate follows an **open-core** model:
+Echo follows an **open-core** model:
 
-**Open Source Core ([Apache-2.0](https://opensource.org/licenses/Apache-2.0))**
+**Open Source Core (Apache-2.0)**
 - Free for personal and commercial use — including proprietary and SaaS deployments
 - No source-disclosure or copyleft obligations
 - Includes an explicit patent grant
@@ -615,14 +565,13 @@ ChatterMate follows an **open-core** model:
 **Enterprise features & support**
 - Advanced/enterprise capabilities are provided separately under a commercial arrangement
 - Priority support, warranties, and indemnification available
-- Contact: [contact@chattermate.chat](mailto:contact@chattermate.chat)
 
 Contributions are accepted under Apache-2.0 with a [Developer Certificate of Origin](DCO) sign-off — see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
 <p align="center">
-  Made with ❤️ by the ChatterMate team
+  Made with ❤️ by the Echo team
 </p>
 
 <p align="center">

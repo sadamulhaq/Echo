@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 WhatsApp numbers and Messenger Pages that live in the customer's own Meta
-app (connected with manual credentials) rather than in ChatterMate's.
+app (connected with manual credentials) rather than in Echo's.
 
 Meta signs their webhooks with the customer's app secret, which the shared
 /webhooks/meta endpoint can't check. So each such account gets its own
@@ -95,7 +95,7 @@ async def resolve_own_app(access_token: str, entered_secret: Optional[str],
     """The customer's own app behind this token, proven with its secret —
     the one entered, or else the one kept from the last connect (checked
     again: the new token may be from another app). None without a secret, or
-    for ChatterMate's own app, whose webhooks the shared address already gets.
+    for Echo's own app, whose webhooks the shared address already gets.
 
     Raises AppSecretMismatch or AppCheckUnavailable."""
     secret = entered_secret or (own_app_secret(previous) if previous is not None else None)

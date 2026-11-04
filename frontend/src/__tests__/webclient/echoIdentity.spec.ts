@@ -28,7 +28,7 @@ import {
  * be told when a conversation is created, and re-authenticating the same visitor must
  * not cost them the chat they are in.
  */
-describe('ChatterMate identity continuity', () => {
+describe('Echo identity continuity', () => {
   let fetchMock: ReturnType<typeof vi.fn>
 
   beforeEach(() => {
@@ -77,7 +77,7 @@ describe('ChatterMate identity continuity', () => {
   describe('an identity that expires while the chat is open', () => {
     it('asks the host for a token and hands it to the live frame', async () => {
       const replacement = tokenFor('cust-1', 'fresh')
-      ;(window as any).chattermateConfig = { tokenProvider: () => Promise.resolve(replacement) }
+      ;(window as any).echoConfig = { tokenProvider: () => Promise.resolve(replacement) }
       await loadLoader()
       bringUp()
       const expired = vi.fn()
@@ -107,7 +107,7 @@ describe('ChatterMate identity continuity', () => {
     })
 
     it('survives a tokenProvider that throws', async () => {
-      ;(window as any).chattermateConfig = { tokenProvider: () => Promise.reject(new Error('no session')) }
+      ;(window as any).echoConfig = { tokenProvider: () => Promise.reject(new Error('no session')) }
       await loadLoader()
       bringUp()
       vi.spyOn(console, 'error').mockImplementation(() => {})
@@ -122,7 +122,7 @@ describe('ChatterMate identity continuity', () => {
 
     it('asks the host only once per load, so a bad token cannot loop', async () => {
       const provider = vi.fn().mockResolvedValue(tokenFor('cust-1', 'stale'))
-      ;(window as any).chattermateConfig = { tokenProvider: provider }
+      ;(window as any).echoConfig = { tokenProvider: provider }
       await loadLoader()
       bringUp()
 
@@ -138,8 +138,8 @@ describe('ChatterMate identity continuity', () => {
   describe('a frame that refuses to start', () => {
     it('re-identifies through the tokenProvider when the stored identity has lapsed', async () => {
       const fresh = tokenFor('cust-1', 'fresh')
-      ;(window as any).chattermateToken = tokenFor('cust-1', 'old')
-      ;(window as any).chattermateConfig = { tokenProvider: () => Promise.resolve(fresh) }
+      ;(window as any).echoToken = tokenFor('cust-1', 'old')
+      ;(window as any).echoConfig = { tokenProvider: () => Promise.resolve(fresh) }
       await loadLoader()
       handshake()
       const expired = vi.fn()
@@ -155,7 +155,7 @@ describe('ChatterMate identity continuity', () => {
     })
 
     it('falls back to anonymous when nobody can renew a lapsed identity', async () => {
-      ;(window as any).chattermateToken = tokenFor('cust-1')
+      ;(window as any).echoToken = tokenFor('cust-1')
       await loadLoader()
       handshake()
 
@@ -168,8 +168,8 @@ describe('ChatterMate identity continuity', () => {
 
     it('does not loop when the renewed identity is refused too', async () => {
       const provider = vi.fn().mockResolvedValue(tokenFor('cust-1', 'still-bad'))
-      ;(window as any).chattermateToken = tokenFor('cust-1', 'old')
-      ;(window as any).chattermateConfig = { tokenProvider: provider }
+      ;(window as any).echoToken = tokenFor('cust-1', 'old')
+      ;(window as any).echoConfig = { tokenProvider: provider }
       await loadLoader()
       handshake()
 
@@ -191,7 +191,7 @@ describe('ChatterMate identity continuity', () => {
 
       fromFrame({ type: 'WIDGET_ERROR', code: 'token_required' })
 
-      expect(document.querySelector('.chattermate-error-ui')?.textContent).toContain('not currently configured')
+      expect(document.querySelector('.echo-error-ui')?.textContent).toContain('not currently configured')
       expect(frames()).toHaveLength(0)
       expect(localStorage.getItem('ctid')).toBeNull()
     })
@@ -202,16 +202,16 @@ describe('ChatterMate identity continuity', () => {
 
       fromFrame({ type: 'WIDGET_ERROR', code: 'unavailable' })
 
-      expect(document.querySelector('.chattermate-error-ui')?.textContent).toContain('Chat is unavailable right now')
+      expect(document.querySelector('.echo-error-ui')?.textContent).toContain('Chat is unavailable right now')
     })
 
     it.each(['javascript:alert(1)//', 'data:text/html,<script>alert(1)</script>//'])(
       'never frames an API base that isn\'t a web address (%s)', async (base) => {
-        ;(window as any).chattermateBaseUrl = base
+        ;(window as any).echoBaseUrl = base
         await loadLoader()
 
         expect(frames()).toHaveLength(0)
-        expect(document.querySelector('.chattermate-error-ui')?.textContent).toContain('not currently configured')
+        expect(document.querySelector('.echo-error-ui')?.textContent).toContain('not currently configured')
       })
 
     it('frames the widget under a web API base', async () => {
@@ -228,7 +228,7 @@ describe('ChatterMate identity continuity', () => {
 
       api().open()
 
-      expect(document.querySelector('.chattermate-error-ui')).toBeNull()
+      expect(document.querySelector('.echo-error-ui')).toBeNull()
       expect(frames()).toHaveLength(1)
     })
 
@@ -241,14 +241,14 @@ describe('ChatterMate identity continuity', () => {
       api().close()
       api().open()
 
-      expect(document.querySelector('.chattermate-error-ui')?.textContent).toContain('not currently configured')
+      expect(document.querySelector('.echo-error-ui')?.textContent).toContain('not currently configured')
       expect(frames()).toHaveLength(0)
     })
   })
 
   describe('switching visitor', () => {
     it('swaps a fresher token for the same visitor in place', async () => {
-      ;(window as any).chattermateToken = tokenFor('cust-1', 'a')
+      ;(window as any).echoToken = tokenFor('cust-1', 'a')
       await loadLoader()
       bringUp()
       const post = spyOnFrame()
@@ -264,7 +264,7 @@ describe('ChatterMate identity continuity', () => {
     })
 
     it('still rebuilds the frame for a different visitor', async () => {
-      ;(window as any).chattermateToken = tokenFor('cust-1')
+      ;(window as any).echoToken = tokenFor('cust-1')
       await loadLoader()
       const before = frame()
 
@@ -275,7 +275,7 @@ describe('ChatterMate identity continuity', () => {
     })
 
     it('has the frame close the conversation it leaves behind, then rebuilds', async () => {
-      ;(window as any).chattermateToken = tokenFor('cust-1')
+      ;(window as any).echoToken = tokenFor('cust-1')
       await loadLoader()
       bringUp()
       fromFrame({ type: 'CHAT_SESSION', sessionId: 's-9', authenticated: true, created: true })
@@ -297,7 +297,7 @@ describe('ChatterMate identity continuity', () => {
 
     it('does not wait for long on a frame that never answers', async () => {
       vi.useFakeTimers()
-      ;(window as any).chattermateToken = tokenFor('cust-1')
+      ;(window as any).echoToken = tokenFor('cust-1')
       await loadLoader({ fakeTimers: true })
       bringUp()
       fromFrame({ type: 'CHAT_SESSION', sessionId: 's-9', authenticated: true, created: true })
@@ -312,7 +312,7 @@ describe('ChatterMate identity continuity', () => {
     })
 
     it('rebuilds once when the visitor changes twice while the frame is closing up', async () => {
-      ;(window as any).chattermateToken = tokenFor('cust-1')
+      ;(window as any).echoToken = tokenFor('cust-1')
       await loadLoader()
       bringUp()
       fromFrame({ type: 'CHAT_SESSION', sessionId: 's-9', authenticated: true, created: true })
@@ -331,7 +331,7 @@ describe('ChatterMate identity continuity', () => {
     })
 
     it('rebuilds straight away when the frame never got a conversation going', async () => {
-      ;(window as any).chattermateToken = tokenFor('cust-1')
+      ;(window as any).echoToken = tokenFor('cust-1')
       await loadLoader()
       bringUp()
       const post = spyOnFrame()
@@ -345,7 +345,7 @@ describe('ChatterMate identity continuity', () => {
     })
 
     it('rebuilds straight away when the frame has not said hello yet', async () => {
-      ;(window as any).chattermateToken = tokenFor('cust-1')
+      ;(window as any).echoToken = tokenFor('cust-1')
       await loadLoader()
       const before = frame()
 
@@ -359,7 +359,7 @@ describe('ChatterMate identity continuity', () => {
   describe('identity given while the frame is starting', () => {
     it('starts the frame again with it once it has mounted, rather than mid-start', async () => {
       // Handing it over while the widget is still starting raced its own start-up
-      ;(window as any).chattermateToken = tokenFor('cust-1', 'a')
+      ;(window as any).echoToken = tokenFor('cust-1', 'a')
       await loadLoader()
       handshake()
       const starting = frame()
@@ -374,7 +374,7 @@ describe('ChatterMate identity continuity', () => {
     })
 
     it('goes in the hello answer when the frame has not said hello yet', async () => {
-      ;(window as any).chattermateToken = tokenFor('cust-1', 'a')
+      ;(window as any).echoToken = tokenFor('cust-1', 'a')
       await loadLoader()
       const fresher = tokenFor('cust-1', 'b')
 
@@ -388,7 +388,7 @@ describe('ChatterMate identity continuity', () => {
 
     it('starts over with it when the token the frame began with had lapsed', async () => {
       // Without a tokenProvider, recovering would throw the fresh token away
-      ;(window as any).chattermateToken = tokenFor('cust-1', 'yesterday')
+      ;(window as any).echoToken = tokenFor('cust-1', 'yesterday')
       await loadLoader()
       handshake()
       const fresh = tokenFor('cust-1', 'today')
@@ -406,7 +406,7 @@ describe('ChatterMate identity continuity', () => {
 
   describe('while the outgoing visitor\'s frame closes up', () => {
     async function closingUp() {
-      ;(window as any).chattermateToken = tokenFor('cust-1')
+      ;(window as any).echoToken = tokenFor('cust-1')
       await loadLoader()
       bringUp()
       fromFrame({ type: 'CHAT_SESSION', sessionId: 's-9', authenticated: true, created: true })
@@ -436,7 +436,7 @@ describe('ChatterMate identity continuity', () => {
     })
 
     it('sends a same-visitor token to the rebuilt frame, not the outgoing one', async () => {
-      ;(window as any).chattermateToken = tokenFor('cust-1', 'a')
+      ;(window as any).echoToken = tokenFor('cust-1', 'a')
       await loadLoader()
       bringUp()
       fromFrame({ type: 'CHAT_SESSION', sessionId: 's-9', authenticated: true, created: true })
@@ -454,7 +454,7 @@ describe('ChatterMate identity continuity', () => {
 
     it('rebuilds once when reload() lands in the middle', async () => {
       vi.useFakeTimers()
-      ;(window as any).chattermateToken = tokenFor('cust-1')
+      ;(window as any).echoToken = tokenFor('cust-1')
       await loadLoader({ fakeTimers: true })
       bringUp()
       fromFrame({ type: 'CHAT_SESSION', sessionId: 's-9', authenticated: true, created: true })
@@ -468,18 +468,18 @@ describe('ChatterMate identity continuity', () => {
   })
 
   it('forgets a token the frame dropped, wherever the page kept it', async () => {
-    ;(window as any).chattermateToken = tokenFor('cust-1')
+    ;(window as any).echoToken = tokenFor('cust-1')
     await loadLoader()
     bringUp()
 
     fromFrame({ type: 'TOKEN_CLEAR' })
 
-    expect((window as any).chattermateToken).toBeNull()
+    expect((window as any).echoToken).toBeNull()
   })
 
   describe('answers that arrive after the page changed its mind', () => {
     it('keeps a token the page set from inside its identityExpired handler', async () => {
-      ;(window as any).chattermateToken = tokenFor('cust-1', 'old')
+      ;(window as any).echoToken = tokenFor('cust-1', 'old')
       await loadLoader()
       handshake()
       const fresh = tokenFor('cust-1', 'new')
@@ -494,8 +494,8 @@ describe('ChatterMate identity continuity', () => {
 
     it('drops a renewed token that comes back after logout', async () => {
       let answer: (token: string) => void = () => {}
-      ;(window as any).chattermateConfig = { tokenProvider: () => new Promise((resolve) => { answer = resolve }) }
-      ;(window as any).chattermateToken = tokenFor('cust-1')
+      ;(window as any).echoConfig = { tokenProvider: () => new Promise((resolve) => { answer = resolve }) }
+      ;(window as any).echoToken = tokenFor('cust-1')
       await loadLoader()
       bringUp()
       fromFrame({ type: 'IDENTITY_EXPIRED' })
@@ -512,8 +512,8 @@ describe('ChatterMate identity continuity', () => {
 
     it('drops a recovered token that comes back after logout, and builds one frame', async () => {
       let answer: (token: string) => void = () => {}
-      ;(window as any).chattermateConfig = { tokenProvider: () => new Promise((resolve) => { answer = resolve }) }
-      ;(window as any).chattermateToken = tokenFor('cust-1')
+      ;(window as any).echoConfig = { tokenProvider: () => new Promise((resolve) => { answer = resolve }) }
+      ;(window as any).echoToken = tokenFor('cust-1')
       await loadLoader()
       handshake()
       fromFrame({ type: 'WIDGET_ERROR', code: 'identity_expired' })
@@ -532,8 +532,8 @@ describe('ChatterMate identity continuity', () => {
 
     it('builds nothing when the widget was destroyed while recovering', async () => {
       let answer: (token: string) => void = () => {}
-      ;(window as any).chattermateConfig = { tokenProvider: () => new Promise((resolve) => { answer = resolve }) }
-      ;(window as any).chattermateToken = tokenFor('cust-1')
+      ;(window as any).echoConfig = { tokenProvider: () => new Promise((resolve) => { answer = resolve }) }
+      ;(window as any).echoToken = tokenFor('cust-1')
       await loadLoader()
       handshake()
       fromFrame({ type: 'WIDGET_ERROR', code: 'identity_expired' })
@@ -548,8 +548,8 @@ describe('ChatterMate identity continuity', () => {
 
     it('ignores the outgoing frame asking for a new identity while it closes up', async () => {
       const provider = vi.fn().mockResolvedValue(tokenFor('cust-1', 'again'))
-      ;(window as any).chattermateConfig = { tokenProvider: provider }
-      ;(window as any).chattermateToken = tokenFor('cust-1')
+      ;(window as any).echoConfig = { tokenProvider: provider }
+      ;(window as any).echoToken = tokenFor('cust-1')
       await loadLoader()
       bringUp()
       fromFrame({ type: 'CHAT_SESSION', sessionId: 's-9', authenticated: true, created: true })
@@ -564,7 +564,7 @@ describe('ChatterMate identity continuity', () => {
     })
 
     it('restarts with a fresher token when a token-only agent refused the old one', async () => {
-      ;(window as any).chattermateToken = tokenFor('cust-1', 'a')
+      ;(window as any).echoToken = tokenFor('cust-1', 'a')
       await loadLoader()
       handshake()
       const fresher = tokenFor('cust-1', 'b')
@@ -573,12 +573,12 @@ describe('ChatterMate identity continuity', () => {
       fromFrame({ type: 'WIDGET_ERROR', code: 'token_required' })
       await flush()
 
-      expect(document.querySelector('.chattermate-error-ui')).toBeNull()
+      expect(document.querySelector('.echo-error-ui')).toBeNull()
       expect(handshake()?.message.token).toBe(fresher)
     })
 
     it('does not send END_CHAT to a frame that reloaded itself and has not mounted again', async () => {
-      ;(window as any).chattermateToken = tokenFor('cust-1')
+      ;(window as any).echoToken = tokenFor('cust-1')
       await loadLoader()
       bringUp()
       fromFrame({ type: 'CHAT_SESSION', sessionId: 's-9', authenticated: true, created: true })

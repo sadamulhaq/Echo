@@ -26,8 +26,8 @@ import {
  * which builds the chat under the page's own policy - so a site owner who can't
  * edit their server's headers still gets a working chat.
  */
-const LOADER_URL = 'https://app.example.com/webclient/chattermate.min.js'
-const IN_PAGE_LOADER_URL = 'https://app.example.com/webclient/chattermate-legacy.min.js'
+const LOADER_URL = 'https://app.example.com/webclient/echo.min.js'
+const IN_PAGE_LOADER_URL = 'https://app.example.com/webclient/echo-legacy.min.js'
 
 // The loader's listeners for the page's policy reports. A test can't dispatch a
 // trusted event (isTrusted is the browser's alone), so it hands the report over.
@@ -43,7 +43,7 @@ const inPageLoader = () =>
 /** The in-page chat's own frame (same-origin srcdoc), with the widget mounted in it or not. */
 function inPageFrame(mounted: boolean) {
   const frame = document.createElement('iframe')
-  frame.className = 'chattermate-iframe'
+  frame.className = 'echo-iframe'
   document.body.appendChild(frame)
   const doc = frame.contentDocument!
   doc.body.innerHTML = mounted ? '<div id="app"><main>chat</main></div>' : '<div id="app"></div>'
@@ -57,12 +57,12 @@ function readyCallback(legacy: { on: ReturnType<typeof vi.fn> }): () => void {
 
 function runInPageLoader() {
   const legacy = { on: vi.fn(), open: vi.fn(), toggle: vi.fn() }
-  ;(window as any).ChatterMate = legacy
+  ;(window as any).Echo = legacy
   inPageLoader()!.dispatchEvent(new Event('load'))
   return legacy
 }
 
-describe('ChatterMate on a page whose policy refuses the frame', () => {
+describe('Echo on a page whose policy refuses the frame', () => {
   beforeEach(() => {
     resetPage()
     vi.spyOn(console, 'warn').mockImplementation(() => {})
@@ -83,7 +83,7 @@ describe('ChatterMate on a page whose policy refuses the frame', () => {
 
   afterEach(() => {
     // The document outlives each test: stop this loader listening to it
-    const current = (window as any).ChatterMate
+    const current = (window as any).Echo
     if (current && typeof current.destroy === 'function') current.destroy()
     delete (document as any).currentScript
     cleanupPage()
@@ -96,7 +96,7 @@ describe('ChatterMate on a page whose policy refuses the frame', () => {
 
     expect(frames()).toHaveLength(0)
     expect(inPageLoader()).toBeDefined()
-    expect(document.querySelector('.chattermate-error-ui')).toBeNull()
+    expect(document.querySelector('.echo-error-ui')).toBeNull()
   })
 
   it('tells the site owner which frame-src would give them the framed chat', async () => {
@@ -133,7 +133,7 @@ describe('ChatterMate on a page whose policy refuses the frame', () => {
 
     expect(inPageLoader()).toBeDefined()
     expect(console.warn).toHaveBeenCalledWith(expect.stringContaining(`frame-src ${FRAME_ORIGIN} https://widget.example.com`))
-    expect(document.querySelector('.chattermate-error-ui')).toBeNull()
+    expect(document.querySelector('.echo-error-ui')).toBeNull()
   })
 
   it('never moves a working chat because some other frame on the page was refused', async () => {
@@ -172,7 +172,7 @@ describe('ChatterMate on a page whose policy refuses the frame', () => {
     refuseFrame(`${BASE_URL}/widgets/${WIDGET_ID}/frame`)
 
     expect(inPageLoader()).toBeUndefined()
-    expect(document.querySelector('.chattermate-error-ui')).not.toBeNull()
+    expect(document.querySelector('.echo-error-ui')).not.toBeNull()
   })
 
   it('ignores a report the page itself made up', async () => {
@@ -193,7 +193,7 @@ describe('ChatterMate on a page whose policy refuses the frame', () => {
     await vi.advanceTimersByTimeAsync(3000)
 
     expect(inPageLoader()).toBeUndefined()
-    expect(document.querySelector('.chattermate-error-ui')?.textContent).toContain('check the widget ID')
+    expect(document.querySelector('.echo-error-ui')?.textContent).toContain('check the widget ID')
   })
 
   it('stops listening once the frame has started', async () => {
@@ -203,7 +203,7 @@ describe('ChatterMate on a page whose policy refuses the frame', () => {
   })
 
   it('passes the site\'s options and the calls made while it loads to the in-page chat', async () => {
-    ;(window as any).chattermateConfig = { launcher: false }
+    ;(window as any).echoConfig = { launcher: false }
     vi.useFakeTimers()
     await loadLoader({ fakeTimers: true })
     api().init({ position: { side: 'left' } })
@@ -212,7 +212,7 @@ describe('ChatterMate on a page whose policy refuses the frame', () => {
     api().toggle()
     const legacy = runInPageLoader()
 
-    expect((window as any).chattermateConfig).toMatchObject({ launcher: false, position: { side: 'left' } })
+    expect((window as any).echoConfig).toMatchObject({ launcher: false, position: { side: 'left' } })
     expect(legacy.toggle).toHaveBeenCalledTimes(1)
   })
 
@@ -227,8 +227,8 @@ describe('ChatterMate on a page whose policy refuses the frame', () => {
     // Refused again: no second fallback, the framed widget says it can't load
     refuseFrame(`${BASE_URL}/widgets/${WIDGET_ID}/frame`)
 
-    expect(console.error).toHaveBeenCalledWith(expect.stringContaining('chattermate-legacy.min.js'))
-    expect(document.querySelector('.chattermate-error-ui')).not.toBeNull()
+    expect(console.error).toHaveBeenCalledWith(expect.stringContaining('echo-legacy.min.js'))
+    expect(document.querySelector('.echo-error-ui')).not.toBeNull()
   })
 
   it('goes back to the framed widget and its error when the in-page chat doesn\'t start either', async () => {
@@ -245,7 +245,7 @@ describe('ChatterMate on a page whose policy refuses the frame', () => {
     refuseFrame(`${BASE_URL}/widgets/${WIDGET_ID}/frame`)
 
     expect(console.error).toHaveBeenCalledWith(expect.stringContaining('couldn\'t start inside this page either'))
-    expect(document.querySelector('.chattermate-error-ui')).not.toBeNull()
+    expect(document.querySelector('.echo-error-ui')).not.toBeNull()
   })
 
   it('stays put when the in-page chat comes up', async () => {
@@ -275,17 +275,17 @@ describe('ChatterMate on a page whose policy refuses the frame', () => {
     expect(legacy.destroy).toHaveBeenCalled()
     refuseFrame(`${BASE_URL}/widgets/${WIDGET_ID}/frame`)
 
-    expect(document.querySelector('.chattermate-error-ui')?.textContent).toContain('Content-Security-Policy blocks it')
+    expect(document.querySelector('.echo-error-ui')?.textContent).toContain('Content-Security-Policy blocks it')
   })
 
   it('shows the usual error when the page took the API object away', async () => {
     vi.useFakeTimers()
     await loadLoader({ fakeTimers: true })
-    delete (window as any).ChatterMate
+    delete (window as any).Echo
 
     refuseFrame(`${BASE_URL}/widgets/${WIDGET_ID}/frame`)
 
     expect(inPageLoader()).toBeUndefined()
-    expect(document.querySelector('.chattermate-error-ui')).not.toBeNull()
+    expect(document.querySelector('.echo-error-ui')).not.toBeNull()
   })
 })

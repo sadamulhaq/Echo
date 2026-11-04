@@ -16,7 +16,7 @@ limitations under the License.
 
 import { userService } from '@/services/user'
 
-const STORAGE_KEY = 'chattermate:onboarding:v1'
+const STORAGE_KEY = 'echo:onboarding:v1'
 
 export const ONBOARDING_STEPS = ['Create', 'Teach', 'Test', 'Launch'] as const
 export type OnboardingStepIndex = 0 | 1 | 2 | 3

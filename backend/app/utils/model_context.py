@@ -26,7 +26,7 @@ from app.core.config import settings
 # AIModelType values, uppercased.
 _PROVIDER_DEFAULT_TOKENS = {
     "OPENAI": 16_000,
-    "CHATTERMATE": 128_000,
+    "ECHO": 128_000,
     "ANTHROPIC": 200_000,
     "DEEPSEEK": 64_000,
     "GOOGLE": 32_000,

@@ -1,8 +1,8 @@
 {
-  "name": "chattermate-e2e",
+  "name": "echo-e2e",
   "private": true,
   "type": "module",
-  "description": "End-to-end tests for ChatterMate (dashboard, widget, backend) — see AUTHORING.md",
+  "description": "End-to-end tests for Echo (dashboard, widget, backend) — see AUTHORING.md",
   "engines": {
     "node": ">=22.18"
   },

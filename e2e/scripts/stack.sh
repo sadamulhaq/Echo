@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Runs the ChatterMate e2e stack natively (no Docker): a throwaway Postgres DB,
+# Runs the Echo e2e stack natively (no Docker): a throwaway Postgres DB,
 # the backend, a production build of the dashboard and the fake LLM — all on
 # 127.0.0.1 ports that never collide with a dev stack on localhost.
 #
@@ -43,7 +43,7 @@ CACHE_DIR="$E2E_DIR/.cache"
 export FASTEMBED_CACHE_PATH="${FASTEMBED_CACHE_PATH:-$CACHE_DIR/fastembed}"
 
 EDITION="${E2E_EDITION:-oss}"
-DB_NAME="chattermate_e2e"
+DB_NAME="echo_e2e"
 TPL_NAME="${DB_NAME}_tpl"
 PG_URL="${E2E_PG_URL:-postgresql://${USER}@127.0.0.1:5432}"
 PG_URL="${PG_URL%/}"
@@ -179,7 +179,7 @@ sync_frontend_copy() {
   mkdir -p "$dest"
   # The loader bundle is generated inside the copy (build_loader), so keep rsync off it.
   local excludes=(--exclude node_modules --exclude 'dist*' --exclude '.env*' --exclude e2e --exclude coverage
-                  --exclude public/webclient/chattermate.min.js)
+                  --exclude public/webclient/echo.min.js)
   if [[ "$EDITION" == oss ]]; then excludes+=(--exclude src/modules/enterprise); fi
   rsync -a --delete -i "${excludes[@]}" "$REPO_DIR/frontend/" "$dest/"
   ln -sfn "$NODE_MODULES" "$dest/node_modules"
@@ -199,15 +199,15 @@ build_widget() {
   find "$out" -mindepth 1 -maxdepth 1 ! -name widget.js ! -name widget.css -exec rm -rf {} +
 }
 
-# The embed loader (chattermate.min.js), built from source into the dashboard copy's
+# The embed loader (echo.min.js), built from source into the dashboard copy's
 # public/ so vite ships it in the build — what build-webclient-*.ts does.
 build_loader() {
   local src="$1"
-  (cd "$src" && node_modules/.bin/esbuild src/webclient/chattermate.js --bundle --minify --format=iife \
+  (cd "$src" && node_modules/.bin/esbuild src/webclient/echo.js --bundle --minify --format=iife \
     --target=es2015 --loader:.svg=text --log-level=warning \
     --define:process.env.NODE_ENV='"production"' \
-    --define:__CHATTERMATE_API_URL__="\"http://127.0.0.1:$BACKEND_PORT/api/v1\"" \
-    --outfile=public/webclient/chattermate.min.js) >&2
+    --define:__ECHO_API_URL__="\"http://127.0.0.1:$BACKEND_PORT/api/v1\"" \
+    --outfile=public/webclient/echo.min.js) >&2
 }
 
 # One copy of frontend/ feeds all three builds: loader, widget, dashboard.
@@ -257,7 +257,7 @@ run_customer_site() {
   cd "$E2E_DIR"
   exec node services/customer-site/server.ts --port "$CUSTOMER_SITE_PORT" --legacy-port "$CUSTOMER_SITE_LEGACY_PORT" \
     --api "http://127.0.0.1:$BACKEND_PORT/api/v1" \
-    --loader "http://127.0.0.1:$FRONTEND_PORT/webclient/chattermate.min.js"
+    --loader "http://127.0.0.1:$FRONTEND_PORT/webclient/echo.min.js"
 }
 
 # SMTP capture (Mailpit): everything the backend emails — email-channel replies,

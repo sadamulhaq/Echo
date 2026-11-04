@@ -1,7 +1,7 @@
 import { test, expect, chatsWithAgent, conversationTokenExpiry, createWidgetApp, issueConversationToken, unique, AI_REPLY } from '@e2e'
 
 test.describe('widget JS API', () => {
-  test('the host page opens and closes the chat with window.ChatterMate @widget', async ({ widget }) => {
+  test('the host page opens and closes the chat with window.Echo @widget', async ({ widget }) => {
     await widget.embed()
 
     await widget.api('open')

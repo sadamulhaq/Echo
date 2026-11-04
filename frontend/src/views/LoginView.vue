@@ -281,7 +281,7 @@ const handleVerifyAndResetPassword = async () => {
                     <div class="dot"></div>
                     <div class="dot"></div>
                 </div>
-                <span class="logo-word">ChatterMate</span>
+                <span class="logo-word">Echo</span>
             </div>
 
             <h1 class="auth-title">Welcome back</h1>

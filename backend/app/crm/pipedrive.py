@@ -239,7 +239,7 @@ class PipedriveAdapter(CrmAdapter):
         if listing.json().get("data") or []:
             return None, None  # open lead exists — nothing to create
 
-        body = {"title": f"{payload.name or payload.email} — ChatterMate lead",
+        body = {"title": f"{payload.name or payload.email} — Echo lead",
                 "person_id": person_id}
         if org_id:
             body["organization_id"] = org_id

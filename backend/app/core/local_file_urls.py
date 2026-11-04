@@ -34,7 +34,7 @@ LOCAL_FILE_ROUTE = f"{settings.API_V1_STR}/files/local"
 
 # SECRET_KEY also signs JWTs; the purpose prefix keeps the two from ever
 # validating each other.
-_PURPOSE = b"chattermate:local-file-url:v1\n"
+_PURPOSE = b"echo:local-file-url:v1\n"
 
 
 def _signature(key: str, expires: int) -> str:

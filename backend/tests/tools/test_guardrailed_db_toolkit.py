@@ -15,7 +15,7 @@ limitations under the License.
 """
 
 """
-ChatterMate - Guardrailed DB toolkit: the system-prompt table catalogue.
+Echo - Guardrailed DB toolkit: the system-prompt table catalogue.
 
 The investigator's first move used to be list_database_tables, spending one of
 its max_tool_calls_per_run just to learn which tables exist. The catalogue is

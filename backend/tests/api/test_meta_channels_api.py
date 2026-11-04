@@ -426,7 +426,7 @@ class TestTemplateManagement:
         assert graph.await_count == 1
 
 class TestEmbeddedSignupConfig:
-    """Embedded Signup onboards a number under ChatterMate's own approved Meta
+    """Embedded Signup onboards a number under Echo's own approved Meta
     app, so without a config id it structurally cannot work — that is the whole
     gate. Like every other integration, it is not restricted by plan."""
 

@@ -26,7 +26,7 @@ from app.database import get_db
 
 logger = get_logger(__name__)
 
-SHOP_NOT_LINKED = "Connect your ChatterMate account to this store first."
+SHOP_NOT_LINKED = "Connect your Echo account to this store first."
 
 
 class ShopifySessionService:

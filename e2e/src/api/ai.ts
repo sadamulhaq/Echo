@@ -27,12 +27,12 @@ export async function currentAiConfig(api: ApiClient): Promise<AiConfig> {
 
 /**
  * Puts the org back on the AI it had before a test changed it: the fake LLM, or
- * (enterprise) the ChatterMate AI its signup created, which reaches the fake too.
+ * (enterprise) the Echo AI its signup created, which reaches the fake too.
  */
 export async function restoreAi(api: ApiClient, before: AiConfig): Promise<void> {
-  if (before.model_type.toUpperCase() === 'CHATTERMATE') {
+  if (before.model_type.toUpperCase() === 'ECHO') {
     // As the dashboard's onboarding sends it: the backend injects the key.
-    await api.post('/ai/setup', { data: { model_type: 'CHATTERMATE', model_name: 'chattermate', api_key: '' } })
+    await api.post('/ai/setup', { data: { model_type: 'ECHO', model_name: 'echo', api_key: '' } })
   } else {
     await useFakeLlm(api)
   }

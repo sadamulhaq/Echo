@@ -75,7 +75,7 @@ def domain_status_response(row: HelpCenterSettings) -> DomainStatusResponse:
             ),
             DnsRecord(
                 type="TXT",
-                host=f"_chattermate.{row.custom_domain}",
+                host=f"_echo.{row.custom_domain}",
                 value=f"cm-verify={row.domain_verification_token}",
                 verified=row.txt_record_verified,
             ),

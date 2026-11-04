@@ -22,7 +22,7 @@ export class AiConfigPage {
 
   async useOpenAiCompatible(settings: ModelSettings): Promise<void> {
     await step(`Save an OpenAI-compatible model (${settings.model})`, async () => {
-      // With the enterprise module the page can open on the "ChatterMate AI" tab.
+      // With the enterprise module the page can open on the "Echo AI" tab.
       await this.page.getByRole('tab', { name: /Bring Your Own Model/ }).click()
       await this.page.getByRole('radio', { name: /OpenAI-compatible/ }).click()
       await this.page.getByLabel('Base URL').fill(settings.baseUrl)

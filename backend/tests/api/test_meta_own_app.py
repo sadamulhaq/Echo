@@ -40,8 +40,8 @@ from app.repositories.channels import ChannelAccountRepository
 
 BASE = "/api/v1/channels/meta"
 WEBHOOK = "/api/v1/webhooks/meta"
-OUR_SECRET = "chattermate-app-secret"
-OUR_APP_ID = "APP_CHATTERMATE"
+OUR_SECRET = "echo-app-secret"
+OUR_APP_ID = "APP_ECHO"
 THEIR_SECRET = "customer-app-secret"
 THEIR_APP_ID = "APP_THEIRS"
 OVERRIDE_RELEASED = {"webhook_configuration": {"override_callback_uri": ""}}
@@ -133,7 +133,7 @@ class TestOwnAppWebhook:
 
     @pytest.mark.parametrize("secret", [OUR_SECRET, "guess"])
     def test_any_other_secret_is_refused(self, client, db, test_organization, secret):
-        """ChatterMate's own secret included: this address answers to one app only."""
+        """Echo's own secret included: this address answers to one app only."""
         account = _account(db, test_organization.id)
         response, process, _ = _post(client, account.id, _wa_message(), secret)
         assert response.status_code == 403
@@ -163,7 +163,7 @@ class TestOwnAppWebhook:
         db.commit()
         _account(db, other_org.id, external_id="PN-THEIRS")  # same app id, other org
         _account(db, test_organization.id, external_id="PN-OTHER-APP", app_id="APP_ELSE")
-        _account(db, test_organization.id, external_id="PN-SHARED", app_id=None)  # via ChatterMate's app
+        _account(db, test_organization.id, external_id="PN-SHARED", app_id=None)  # via Echo's app
         for number in ("PN-THEIRS", "PN-OTHER-APP", "PN-SHARED"):
             response, process, status = _post(client, ours.id, _wa_message(number))
             assert response.status_code == 200
@@ -208,7 +208,7 @@ class TestOwnAppWebhook:
                 "hub.mode": "subscribe", "hub.verify_token": token, "hub.challenge": "42"})
             assert bad.status_code == 403
 
-    def test_no_handshake_for_an_account_from_chattermates_app(self, client, db, test_organization):
+    def test_no_handshake_for_an_account_from_echos_app(self, client, db, test_organization):
         account = _account(db, test_organization.id, app_id=None)
         response = client.get(f"{WEBHOOK}/{account.id}", params={
             "hub.mode": "subscribe", "hub.verify_token": account.webhook_secret, "hub.challenge": "42"})
@@ -311,8 +311,8 @@ class TestConnect:
         assert response.json()["webhook_url"] is None
         assert APP_ID_SETTING not in (_stored(db)[0].settings or {})
 
-    def test_chattermates_own_app_needs_no_address(self, client, db):
-        """A self-hoster's number in the app ChatterMate runs on already
+    def test_echos_own_app_needs_no_address(self, client, db):
+        """A self-hoster's number in the app Echo runs on already
         reaches the shared address: nothing is stored or re-pointed."""
         response, _, graph_post = _connect_whatsapp(client, app=(True, {"id": OUR_APP_ID}))
         assert response.status_code == 200

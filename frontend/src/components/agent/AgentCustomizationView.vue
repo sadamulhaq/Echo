@@ -195,7 +195,7 @@ const selectChatStyle = (value: ChatStyle) => {
 
 // ---- Widget placement (stored in customization_metadata.widget_display) ----
 // The embed loader reads these as site-wide defaults; options set in the install
-// snippet (window.chattermateConfig / ChatterMate.init) override them per page.
+// snippet (window.echoConfig / Echo.init) override them per page.
 const displayModeOptions = [
     { value: 'floating', label: 'Floating bubble', description: 'Classic corner launcher opening a chat window.' },
     { value: 'sidebar-right', label: 'Right drawer', description: 'Full-height panel sliding in from the right edge.' },
@@ -752,7 +752,7 @@ const isSectionExpanded = (sectionId: string) => {
                     <span class="citations-toggle-track"><span class="citations-toggle-thumb"></span></span>
                     <span class="citations-toggle-text">
                         <span class="citations-toggle-title">Hide launcher — I'll use my own button</span>
-                        <span class="citations-toggle-desc">Open the chat from any element with <code>data-chattermate-open</code>, or call <code>ChatterMate.open()</code>.</span>
+                        <span class="citations-toggle-desc">Open the chat from any element with <code>data-echo-open</code>, or call <code>Echo.open()</code>.</span>
                     </span>
                 </label>
             </div>
