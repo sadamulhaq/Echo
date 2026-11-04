@@ -5,7 +5,7 @@ your changes accepted.
 
 ## License
 
-The ChatterMate open-source core is licensed under the
+The Echo open-source core is licensed under the
 [Apache License 2.0](LICENSE). By contributing, you agree that your
 contributions will be licensed under Apache-2.0.
 
