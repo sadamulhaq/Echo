@@ -28,7 +28,7 @@ from app.utils.agno_patches import apply_agno_patches
 # The unit tests cover the replacement in isolation; this drives agno's real
 # run_function_calls to prove the guard is actually in the loop's way.
 
-PAYLOAD = "__import__('os').system('touch /tmp/chattermate-agno-rce')"
+PAYLOAD = "__import__('os').system('touch /tmp/echo-agno-rce')"
 
 
 class _StubModel(Model):

@@ -16,9 +16,9 @@ name: E2E
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   schedule:
     - cron: '30 2 * * *'
   workflow_dispatch:

@@ -1,13 +1,13 @@
 // @ts-nocheck
 // TypeScript declarations for global variables
 /** @type {string} */
-window.chattermateId;
+window.echoId;
 /** @type {string} */
-window.chattermateBaseUrl;
+window.echoBaseUrl;
 /** @type {object} Public widget API — see the assignment at the bottom of this file. */
-window.ChatterMate;
-/** @type {object|undefined} Declarative options, same shape as ChatterMate.init(options). */
-window.chattermateConfig;
+window.Echo;
+/** @type {object|undefined} Declarative options, same shape as Echo.init(options). */
+window.echoConfig;
 
 ;(function () {
   // Function to validate hex color code
@@ -15,26 +15,26 @@ window.chattermateConfig;
     return /^#[0-9A-F]{6}$/i.test(color);
   }
 
-  // Resolve the backend base URL at RUNTIME so a single built chattermate.min.js
+  // Resolve the backend base URL at RUNTIME so a single built echo.min.js
   // works for every deployment without a rebuild. Priority:
-  //   1. window.chattermateBaseUrl — set by the install snippet the dashboard
+  //   1. window.echoBaseUrl — set by the install snippet the dashboard
   //      generates, so a self-hosted embed reaches the right backend even though
   //      this script runs on the customer's own site (where config.js is absent).
   //   2. window.APP_CONFIG.API_URL — present when embedded inside our own SPA.
-  //   3. __CHATTERMATE_API_URL__ — the default baked at build time (see the
+  //   3. __ECHO_API_URL__ — the default baked at build time (see the
   //      build-webclient scripts). Only this default changes per build; the
   //      resolution logic above stays runtime, so env changes need no rebuild.
   function getBaseUrl() {
-    if (typeof window !== 'undefined' && window.chattermateBaseUrl) {
-      return window.chattermateBaseUrl;
+    if (typeof window !== 'undefined' && window.echoBaseUrl) {
+      return window.echoBaseUrl;
     }
 
     if (typeof window !== 'undefined' && window.APP_CONFIG && window.APP_CONFIG.API_URL) {
       return window.APP_CONFIG.API_URL;
     }
 
-    if (typeof __CHATTERMATE_API_URL__ !== 'undefined') {
-      return __CHATTERMATE_API_URL__;
+    if (typeof __ECHO_API_URL__ !== 'undefined') {
+      return __ECHO_API_URL__;
     }
 
     // Final fallback — default to production so a plain build ships working.
@@ -44,11 +44,11 @@ window.chattermateConfig;
   // Configuration object
   const config = {
     baseUrl: getBaseUrl(),
-    containerId: 'chattermate-container',
-    backdropId: 'chattermate-backdrop',
-    buttonId: 'chattermate-button',
+    containerId: 'echo-container',
+    backdropId: 'echo-backdrop',
+    buttonId: 'echo-button',
     chatBubbleColor: '#f34611', // Default color
-    loadingContainerId: 'chattermate-loading',
+    loadingContainerId: 'echo-loading',
     tokenKey: 'ctid', // Key for localStorage
     tokenProvider: null, // Host callback that mints a fresh conversation token
     containerBottom: 100, // Default bottom position
@@ -69,13 +69,13 @@ window.chattermateConfig;
     surfaceIsPalette: null, // Reported by the widget (WIDGET_SURFACE); null until then
     chatStyle: null, // Reported by the widget; decides whether it draws its own close
     chatInitiationMessages: [], // Will be populated from widget data
-    initiationMessageId: 'chattermate-initiation',
+    initiationMessageId: 'echo-initiation',
     initiationShownKey: 'ctim_shown', // Key for tracking if initiation was shown
     unreadCount: 0, // unread agent messages (reported by the iframe) once chat opened
     hasOpened: false, // whether the visitor has opened the chat at least once
   }
 
-  // Keys the developer set explicitly (via chattermateConfig / init / setPosition).
+  // Keys the developer set explicitly (via echoConfig / init / setPosition).
   // Dashboard defaults arriving later over CUSTOMIZATION_UPDATE never override these —
   // precedence is: developer options > dashboard settings > built-in defaults.
   const devOverrides = {}
@@ -236,7 +236,7 @@ window.chattermateConfig;
   let frameRefusedByPolicy = false
   // This script's own address while it runs: the in-page loader sits beside it.
   const LOADER_SRC = (document.currentScript && document.currentScript.src) || ''
-  const IN_PAGE_LOADER = 'chattermate-legacy.min.js'
+  const IN_PAGE_LOADER = 'echo-legacy.min.js'
   // How long the in-page chat gets to load, then to come up once loaded, before the
   // framed widget comes back to say it can't load here
   const IN_PAGE_START_MS = 20000
@@ -244,7 +244,7 @@ window.chattermateConfig;
   let fellBackInPage = false
   // The in-page loader couldn't be fetched: the framed widget is back, showing its error
   let inPageUnavailable = false
-  // Every option given (window.chattermateConfig, init()): handed on to the in-page loader
+  // Every option given (window.echoConfig, init()): handed on to the in-page loader
   const givenOptions = {}
   // Set while the frame closes an outgoing visitor's session; called on END_CHAT_DONE.
   let endChatDone = null
@@ -286,7 +286,7 @@ window.chattermateConfig;
     return lum > 0.6 ? '#0B0C10' : '#FFFFFF'
   }
 
-  // The launcher stays invisible (`.chattermate-pending`, see updateStyles) until
+  // The launcher stays invisible (`.echo-pending`, see updateStyles) until
   // revealButton() runs, so the correct brand color is applied before it's ever seen —
   // no orange-then-green flash on a cold cache. Reveal fires on whichever happens
   // first: the real color arrives (CUSTOMIZATION_UPDATE), the widget fails to load
@@ -303,7 +303,7 @@ window.chattermateConfig;
       revealTimeoutId = null
     }
     const btn = document.getElementById(config.buttonId)
-    if (btn) btn.classList.remove('chattermate-pending')
+    if (btn) btn.classList.remove('echo-pending')
     onRevealCallbacks.splice(0).forEach((cb) => {
       try { cb() } catch (e) { /* no-op */ }
     })
@@ -342,7 +342,7 @@ window.chattermateConfig;
     const palette = paletteSize()
 
     const style = document.createElement('style')
-    style.id = 'chattermate-styles'
+    style.id = 'echo-styles'
     style.textContent = `
       /* ===== Rounded-square launcher (design comp) ===== */
       #${config.buttonId} {
@@ -361,12 +361,12 @@ window.chattermateConfig;
         align-items: center;
         justify-content: center;
         transition: transform 0.3s cubic-bezier(.34,1.3,.5,1), opacity 320ms ease;
-        animation: chattermate-float 4s ease-in-out infinite;
+        animation: echo-float 4s ease-in-out infinite;
       }
       #${config.buttonId}.active { animation: none; }
       /* Stay fully invisible until the org's real brand color is known (or the
          widget errors out / times out) — avoids ever flashing the wrong color. */
-      #${config.buttonId}.chattermate-pending {
+      #${config.buttonId}.echo-pending {
         opacity: 0;
         pointer-events: none;
       }
@@ -378,7 +378,7 @@ window.chattermateConfig;
         inset: 0;
         border-radius: 20px 20px 20px 6px;
         border: 1.5px solid ${config.chatBubbleColor};
-        animation: chattermate-ring 2.4s ease-out infinite;
+        animation: echo-ring 2.4s ease-out infinite;
         pointer-events: none;
       }
       #${config.buttonId} .cm-ring.r2 { animation-delay: 1.2s; }
@@ -400,7 +400,7 @@ window.chattermateConfig;
         height: 7px;
         border-radius: 50%;
         background: currentColor;
-        animation: chattermate-pulse 1.5s ease-in-out infinite;
+        animation: echo-pulse 1.5s ease-in-out infinite;
       }
       #${config.buttonId} .cm-dot:nth-child(2) { animation-delay: .18s; }
       #${config.buttonId} .cm-dot:nth-child(3) { animation-delay: .36s; }
@@ -453,7 +453,7 @@ window.chattermateConfig;
         border: 2px solid rgba(255,255,255,0.3);
         border-radius: 50%;
         border-top-color: #fff;
-        animation: chattermate-spin 0.6s linear infinite;
+        animation: echo-spin 0.6s linear infinite;
       }
 
       /* Search-bar trigger content: hidden unless search-bar mode (below) shows it. */
@@ -507,10 +507,10 @@ window.chattermateConfig;
       }
       ` : ''}
 
-      @keyframes chattermate-spin { to { transform: rotate(360deg); } }
-      @keyframes chattermate-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-      @keyframes chattermate-ring { 0% { transform: scale(.85); opacity: .5; } 100% { transform: scale(1.6); opacity: 0; } }
-      @keyframes chattermate-pulse { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
+      @keyframes echo-spin { to { transform: rotate(360deg); } }
+      @keyframes echo-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+      @keyframes echo-ring { 0% { transform: scale(.85); opacity: .5; } 100% { transform: scale(1.6); opacity: 0; } }
+      @keyframes echo-pulse { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
 
       @media (prefers-reduced-motion: reduce) {
         #${config.buttonId},
@@ -526,7 +526,7 @@ window.chattermateConfig;
       #${config.containerId} {
         position: fixed;
         /* The window sits above the launcher; when the launcher is moved (via
-           ChatterMate.init position / setPosition) the window shifts by the same
+           Echo.init position / setPosition) the window shifts by the same
            delta so the two stay together. Mobile is full-screen (media query below)
            and is unaffected. */
         bottom: ${(config.containerBottom || 100) + ((config.launcherBottom || 20) - 20)}px;
@@ -596,7 +596,7 @@ window.chattermateConfig;
                     transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
                     height 200ms cubic-bezier(0.22, 1, 0.36, 1);
       }
-      #${config.containerId} .chattermate-iframe {
+      #${config.containerId} .echo-iframe {
         border-radius: 16px;
       }
       #${config.backdropId} {
@@ -645,7 +645,7 @@ window.chattermateConfig;
       #${config.containerId}.active {
         transform: translateX(0);
       }
-      #${config.containerId} .chattermate-iframe {
+      #${config.containerId} .echo-iframe {
         border-radius: 0;
       }
       ${hasInPanelClose ? `
@@ -673,7 +673,7 @@ window.chattermateConfig;
       /* The widget panel (inside the iframe) draws its own theme-aware border, so the
          container no longer adds one — avoids a double border (and a white line on dark themes). */
 
-        .chattermate-iframe {
+        .echo-iframe {
                 width: 100%;
         height: 100%;
         border: none;
@@ -685,7 +685,7 @@ window.chattermateConfig;
         box-shadow: none;
       }
 
-      #chattermate-mobile-close {
+      #echo-mobile-close {
         display: none;
         position: fixed;
         top: 20px;
@@ -701,7 +701,7 @@ window.chattermateConfig;
         transition: all 0.3s ease;
       }
 
-      #chattermate-mobile-topbar {
+      #echo-mobile-topbar {
         display: none;
         position: fixed;
         top: 0;
@@ -718,11 +718,11 @@ window.chattermateConfig;
         box-sizing: border-box;
       }
 
-      #chattermate-mobile-topbar.active {
+      #echo-mobile-topbar.active {
         display: flex;
       }
 
-      #chattermate-mobile-topbar .topbar-title {
+      #echo-mobile-topbar .topbar-title {
         font-size: 16px;
         font-weight: 600;
         color: #333;
@@ -731,7 +731,7 @@ window.chattermateConfig;
 
       /* Only ASK_ANYTHING (which has no in-panel header chevron) uses the floating
          mobile-close; other styles close via the header chevron, so don't double up. */
-      .ask-anything-mobile #chattermate-mobile-close.active {
+      .ask-anything-mobile #echo-mobile-close.active {
         display: flex;
       }
 
@@ -760,7 +760,7 @@ window.chattermateConfig;
           bottom: 0 !important;
         }
 
-        .chattermate-iframe {
+        .echo-iframe {
           border-radius: 0 !important;
           width: 100vw !important;
           height: 100vh !important;
@@ -788,27 +788,27 @@ window.chattermateConfig;
           ${side}: ${config.launcherRight}px !important;
         }
 
-        .ask-anything-mobile #chattermate-mobile-close.active {
+        .ask-anything-mobile #echo-mobile-close.active {
           display: flex !important;
         }
 
-        #chattermate-mobile-close:hover {
+        #echo-mobile-close:hover {
           opacity: 0.7;
         }
 
         /* ASK_ANYTHING style specific mobile topbar */
-        .ask-anything-mobile #chattermate-mobile-topbar.active {
+        .ask-anything-mobile #echo-mobile-topbar.active {
           display: flex !important;
         }
 
-        .ask-anything-mobile #chattermate-mobile-close.active {
+        .ask-anything-mobile #echo-mobile-close.active {
           top: 15px !important;
           right: 15px !important;
           z-index: ${config.zIndex + 2} !important;
         }
 
         /* When topbar is visible, push iframe down to avoid overlap */
-        .ask-anything-mobile .chattermate-iframe {
+        .ask-anything-mobile .echo-iframe {
           top: 60px !important;
           height: calc(100vh - 60px) !important;
           height: calc(100dvh - 60px) !important;
@@ -816,7 +816,7 @@ window.chattermateConfig;
       }
 
       @media (min-width: 769px) {
-        #chattermate-mobile-close {
+        #echo-mobile-close {
           display: none !important;
         }
       }
@@ -876,10 +876,10 @@ window.chattermateConfig;
         border-radius: 50% !important;
         background: conic-gradient(from 0deg, #C9F24E, #9D8CFF, #5FE3D6, #FF8A73, #C9F24E) !important;
         box-shadow: 0 4px 14px rgba(157, 140, 255, 0.4) !important;
-        animation: chattermate-orb-spin 6s linear infinite !important;
+        animation: echo-orb-spin 6s linear infinite !important;
         z-index: 1 !important;
       }
-      @keyframes chattermate-orb-spin { to { transform: rotate(360deg); } }
+      @keyframes echo-orb-spin { to { transform: rotate(360deg); } }
       ${side === 'left' ? `
       /* On the left edge the orb (which protrudes 34px past the bubble) would clip
          off-screen — mirror it to the bubble's page-facing side. */
@@ -893,10 +893,10 @@ window.chattermateConfig;
         opacity: 1;
         visibility: visible;
         transform: translateY(0) scale(1);
-        animation: chattermate-bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        animation: echo-bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       }
 
-      @keyframes chattermate-bounce-in {
+      @keyframes echo-bounce-in {
         0% {
           opacity: 0;
           transform: translateY(20px) scale(0.8);
@@ -1057,7 +1057,7 @@ window.chattermateConfig;
       }
 
       /* Error UI Styles */
-      .chattermate-error-ui {
+      .echo-error-ui {
         width: 100%;
         height: 100%;
         display: flex;
@@ -1070,7 +1070,7 @@ window.chattermateConfig;
         position: relative;
       }
 
-      .chattermate-error-ui::before {
+      .echo-error-ui::before {
         content: '';
         position: absolute;
         top: 0;
@@ -1083,7 +1083,7 @@ window.chattermateConfig;
         pointer-events: none;
       }
 
-      .chattermate-error-card {
+      .echo-error-card {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -1095,7 +1095,7 @@ window.chattermateConfig;
         max-width: 90%;
       }
 
-      .chattermate-error-close {
+      .echo-error-close {
         position: absolute;
         top: 12px;
         right: 12px;
@@ -1114,11 +1114,11 @@ window.chattermateConfig;
         cursor: pointer;
         transition: background 0.15s ease;
       }
-      .chattermate-error-close:hover {
+      .echo-error-close:hover {
         background: rgba(120, 120, 140, 0.22);
       }
 
-      .chattermate-error-icon-wrapper {
+      .echo-error-icon-wrapper {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1130,13 +1130,13 @@ window.chattermateConfig;
         box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
       }
 
-      .chattermate-error-icon {
+      .echo-error-icon {
         width: 36px;
         height: 36px;
         color: #6366f1;
       }
 
-      .chattermate-error-title {
+      .echo-error-title {
         font-size: 20px;
         font-weight: 600;
         color: #1e293b;
@@ -1145,7 +1145,7 @@ window.chattermateConfig;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       }
 
-      .chattermate-error-message {
+      .echo-error-message {
         font-size: 14px;
         line-height: 1.6;
         color: #64748b;
@@ -1154,7 +1154,7 @@ window.chattermateConfig;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       }
 
-      .chattermate-error-footer {
+      .echo-error-footer {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1164,40 +1164,40 @@ window.chattermateConfig;
         opacity: 0.8;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       }
-      .chattermate-error-footer-link {
+      .echo-error-footer-link {
         color: inherit;
         text-decoration: none;
         cursor: pointer;
       }
-      .chattermate-error-footer-link:hover {
+      .echo-error-footer-link:hover {
         text-decoration: underline;
       }
 
       @media (max-width: 768px) {
-        .chattermate-error-ui {
+        .echo-error-ui {
           border-radius: 0;
         }
 
-        .chattermate-error-card {
+        .echo-error-card {
           padding: 24px 20px;
         }
 
-        .chattermate-error-icon-wrapper {
+        .echo-error-icon-wrapper {
           width: 64px;
           height: 64px;
           border-radius: 16px;
         }
 
-        .chattermate-error-icon {
+        .echo-error-icon {
           width: 32px;
           height: 32px;
         }
 
-        .chattermate-error-title {
+        .echo-error-title {
           font-size: 18px;
         }
 
-        .chattermate-error-message {
+        .echo-error-message {
           font-size: 13px;
           max-width: 260px;
         }
@@ -1211,7 +1211,7 @@ window.chattermateConfig;
       `}
     `
     // Remove existing style if it exists
-    const existingStyle = document.getElementById('chattermate-styles')
+    const existingStyle = document.getElementById('echo-styles')
     if (existingStyle) {
       existingStyle.remove()
     }
@@ -1242,7 +1242,7 @@ window.chattermateConfig;
     return trimmed;
   }
 
-  // Get stored token - check window.chattermateToken first (set by developer),
+  // Get stored token - check window.echoToken first (set by developer),
   // then fall back to localStorage (persisted from previous sessions)
   function getStoredToken() {
     let stored = null
@@ -1251,7 +1251,7 @@ window.chattermateConfig;
     } catch (e) {
       // A sandboxed page has no storage: carry on with what the page set, if anything
     }
-    return normalizeToken(window.chattermateToken) || normalizeToken(stored);
+    return normalizeToken(window.echoToken) || normalizeToken(stored);
   }
 
   // The customer a token names, or null. Read-only: the backend still verifies every
@@ -1449,7 +1449,7 @@ window.chattermateConfig;
     // Create chat button with icon
     const button = document.createElement('div')
     button.id = config.buttonId
-    button.classList.add('chattermate-pending')
+    button.classList.add('echo-pending')
     button.innerHTML = `
       <span class="cm-ring"></span>
       <span class="cm-ring r2"></span>
@@ -1472,7 +1472,7 @@ window.chattermateConfig;
 
     // Create mobile minimize button
     const mobileCloseButton = document.createElement('div')
-    mobileCloseButton.id = 'chattermate-mobile-close'
+    mobileCloseButton.id = 'echo-mobile-close'
     mobileCloseButton.innerHTML = `
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M5 12H19" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1481,7 +1481,7 @@ window.chattermateConfig;
 
     // Create mobile topbar for ASK_ANYTHING style
     const mobileTopbar = document.createElement('div')
-    mobileTopbar.id = 'chattermate-mobile-topbar'
+    mobileTopbar.id = 'echo-mobile-topbar'
     mobileTopbar.innerHTML = `
       <h3 class="topbar-title">Chat</h3>
       <div style="width: 44px;"></div>
@@ -1552,7 +1552,7 @@ window.chattermateConfig;
           // When closing on mobile, show the button
           button.classList.add('mobile-closed')
           // Add subtle idle bounce when closed
-          button.style.animation = 'chattermate-float 4s ease-in-out infinite'
+          button.style.animation = 'echo-float 4s ease-in-out infinite'
           // Hide topbar when closing
           mobileTopbar.classList.remove('active')
           document.body.classList.remove('ask-anything-mobile')
@@ -1569,7 +1569,7 @@ window.chattermateConfig;
       emitEvent(isOpen ? 'open' : 'close')
     }
 
-    // Prefill (don't send) the chat input, e.g. ChatterMate.open({ message: '...' }).
+    // Prefill (don't send) the chat input, e.g. Echo.open({ message: '...' }).
     // Queued until the iframe has loaded so an early open({message}) isn't lost.
     let pendingPrefill = null
     function prefillMessage(text) {
@@ -1613,7 +1613,7 @@ window.chattermateConfig;
     }
 
     // Rebuild the widget for whatever token is current — the mechanism behind
-    // ChatterMate.identify() / logout() / reload().
+    // Echo.identify() / logout() / reload().
     function reloadWidget() {
       // The conversation goes away with the frame; leaving the panel open would
       // just show the visitor an empty box while the replacement loads.
@@ -1628,7 +1628,7 @@ window.chattermateConfig;
     // Remove the widget from the page entirely: frame, launcher, styles, listeners
     // and timers. Nothing of ours is left behind for a site that is unmounting the
     // page region it lives in, or hiding chat for a whole class of visitor.
-    // ChatterMate.reload() builds it again from scratch.
+    // Echo.reload() builds it again from scratch.
     function destroyWidget() {
       if (isOpen) toggleChat()
       teardownFrame()
@@ -1644,9 +1644,9 @@ window.chattermateConfig;
         initiationMessageElement = null
       }
       ;[button, backdrop, container, mobileCloseButton, mobileTopbar].forEach(removeNode)
-      removeNode(document.getElementById('chattermate-styles'))
+      removeNode(document.getElementById('echo-styles'))
       document.body.classList.remove('ask-anything-mobile')
-      // A rebuilt launcher starts hidden again (.chattermate-pending) and needs its
+      // A rebuilt launcher starts hidden again (.echo-pending) and needs its
       // own reveal, so drop the reveal state and the pending safety-net timer with it.
       buttonRevealed = false
       if (revealTimeoutId) {
@@ -1666,16 +1666,16 @@ window.chattermateConfig;
     // Create error UI for authentication failures using safe DOM methods
     function createErrorUI(message) {
       const errorDiv = document.createElement('div');
-      errorDiv.className = 'chattermate-error-ui';
+      errorDiv.className = 'echo-error-ui';
 
       const card = document.createElement('div');
-      card.className = 'chattermate-error-card';
+      card.className = 'echo-error-card';
 
       // Close button (top-right). Without this there's no way to dismiss the error on
       // mobile, where the launcher is hidden while the widget is open.
       const closeBtn = document.createElement('button');
       closeBtn.type = 'button';
-      closeBtn.className = 'chattermate-error-close';
+      closeBtn.className = 'echo-error-close';
       closeBtn.setAttribute('aria-label', 'Close chat');
       closeBtn.textContent = '×';
       closeBtn.addEventListener('click', function () {
@@ -1687,9 +1687,9 @@ window.chattermateConfig;
 
       // Icon wrapper
       const iconWrapper = document.createElement('div');
-      iconWrapper.className = 'chattermate-error-icon-wrapper';
+      iconWrapper.className = 'echo-error-icon-wrapper';
       const iconSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      iconSvg.setAttribute('class', 'chattermate-error-icon');
+      iconSvg.setAttribute('class', 'echo-error-icon');
       iconSvg.setAttribute('viewBox', '0 0 24 24');
       iconSvg.setAttribute('fill', 'none');
       iconSvg.setAttribute('stroke', 'currentColor');
@@ -1704,17 +1704,17 @@ window.chattermateConfig;
 
       // Title
       const title = document.createElement('h2');
-      title.className = 'chattermate-error-title';
+      title.className = 'echo-error-title';
       title.textContent = 'Chat Unavailable';
 
       // Message
       const messageEl = document.createElement('p');
-      messageEl.className = 'chattermate-error-message';
+      messageEl.className = 'echo-error-message';
       messageEl.textContent = message;
 
       // Footer
       const footer = document.createElement('div');
-      footer.className = 'chattermate-error-footer';
+      footer.className = 'echo-error-footer';
       const logoSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       logoSvg.setAttribute('width', '14');
       logoSvg.setAttribute('height', '14');
@@ -1730,8 +1730,8 @@ window.chattermateConfig;
       footerText.href = 'https://chattermate.chat';
       footerText.target = '_blank';
       footerText.rel = 'noopener noreferrer';
-      footerText.className = 'chattermate-error-footer-link';
-      footerText.textContent = 'Powered by ChatterMate';
+      footerText.className = 'echo-error-footer-link';
+      footerText.textContent = 'Powered by Echo';
       footer.appendChild(logoSvg);
       footer.appendChild(footerText);
 
@@ -1804,7 +1804,7 @@ window.chattermateConfig;
     function frameUrl() {
       let url
       try {
-        url = new URL(config.baseUrl + '/widgets/' + encodeURIComponent(window.chattermateId) + '/frame', window.location.href)
+        url = new URL(config.baseUrl + '/widgets/' + encodeURIComponent(window.echoId) + '/frame', window.location.href)
       } catch (e) {
         return null
       }
@@ -1850,7 +1850,7 @@ window.chattermateConfig;
       const generation = loadGeneration
 
       iframe = document.createElement('iframe')
-      iframe.className = 'chattermate-iframe'
+      iframe.className = 'echo-iframe'
       // Screen readers announce a frame by its title.
       iframe.title = 'Chat'
       // A srcdoc frame inherited this from the page; a real frame must be granted it.
@@ -1968,7 +1968,7 @@ window.chattermateConfig;
         // The widget dropped the visitor's identity (e.g. it was refused): forget it here too.
         if (closingUp) return
         removeToken()
-        window.chattermateToken = null
+        window.echoToken = null
         return
       }
       if (event.data.type === 'WIDGET_ESCAPE') {
@@ -2030,7 +2030,7 @@ window.chattermateConfig;
         // Nobody can replace the identity, so load as an anonymous visitor rather
         // than leaving the page with a chat widget that refuses to open at all.
         removeToken()
-        window.chattermateToken = null
+        window.echoToken = null
         prefetchWidget()
         return
       }
@@ -2046,18 +2046,18 @@ window.chattermateConfig;
           if (stale()) return
           const next = normalizeToken(token)
           if (next) {
-            window.chattermateToken = next
+            window.echoToken = next
             saveToken(next)
           } else {
             removeToken()
-            window.chattermateToken = null
+            window.echoToken = null
           }
         })
         .catch((error) => {
-          console.error('ChatterMate: tokenProvider failed', error)
+          console.error('Echo: tokenProvider failed', error)
           if (stale()) return
           removeToken()
-          window.chattermateToken = null
+          window.echoToken = null
         })
         .finally(() => {
           if (!stale()) prefetchWidget()
@@ -2093,12 +2093,12 @@ window.chattermateConfig;
             postToFrame({ type: 'IDENTITY_UNAVAILABLE' })
             return
           }
-          window.chattermateToken = next
+          window.echoToken = next
           saveToken(next)
           postToFrame({ type: 'TOKEN_REFRESH', token: next })
         })
         .catch((error) => {
-          console.error('ChatterMate: tokenProvider failed', error)
+          console.error('Echo: tokenProvider failed', error)
           postToFrame({ type: 'IDENTITY_UNAVAILABLE' })
         })
         .finally(() => {
@@ -2141,7 +2141,7 @@ window.chattermateConfig;
     if (isMobileDevice() && !isOpen) {
       button.classList.add('mobile-closed')
       // Idle bounce animation when initially closed
-      button.style.animation = 'chattermate-float 4s ease-in-out infinite'
+      button.style.animation = 'echo-float 4s ease-in-out infinite'
     }
 
     // Handle window resize to update mobile behavior
@@ -2151,7 +2151,7 @@ window.chattermateConfig;
       if (isMobile && !isOpen) {
         // On mobile when closed, show the button
         button.classList.add('mobile-closed')
-        button.style.animation = 'chattermate-float 4s ease-in-out infinite'
+        button.style.animation = 'echo-float 4s ease-in-out infinite'
         // Ensure mobile close button is hidden when widget is closed
         mobileCloseButton.classList.remove('active')
       } else if (!isMobile) {
@@ -2191,9 +2191,9 @@ window.chattermateConfig;
     })
   }
 
-  // Declarative options: the install snippet may set window.chattermateConfig with the
-  // same shape as ChatterMate.init(options). Applied before the widget is built.
-  applyOptions(window.chattermateConfig)
+  // Declarative options: the install snippet may set window.echoConfig with the
+  // same shape as Echo.init(options). Applied before the widget is built.
+  applyOptions(window.echoConfig)
 
   // Wait for DOM to be fully loaded
   if (document.readyState === 'loading') {
@@ -2224,12 +2224,12 @@ window.chattermateConfig;
   })
 
   // No-code custom launcher: any element matching the developer's `trigger` selector or
-  // carrying data-chattermate-open toggles the chat. Delegated, so elements added after
+  // carrying data-echo-open toggles the chat. Delegated, so elements added after
   // page load work too.
   document.addEventListener('click', function (e) {
     const el = e.target
     if (!el || !el.closest) return
-    let match = el.closest('[data-chattermate-open]')
+    let match = el.closest('[data-echo-open]')
     if (!match && config.trigger) {
       try {
         match = el.closest(config.trigger)
@@ -2297,7 +2297,7 @@ window.chattermateConfig;
 
       // ASK_ANYTHING sits a little lower than the other styles (desktop only).
       // A per-style default, not an override: geometry the developer set via
-      // init()/chattermateConfig (devOverrides) always wins.
+      // init()/echoConfig (devOverrides) always wins.
       if (!isMobileDevice()) {
         if (!devOverrides.containerBottom) {
           config.containerBottom = customData.chat_style === 'ASK_ANYTHING' ? 90 : 100;
@@ -2306,7 +2306,7 @@ window.chattermateConfig;
         // Handle mobile ASK_ANYTHING style. This handler is outside initialize(), so
         // reach the open-state and topbar through the controller/DOM, not closures.
         const chatOpen = controller ? controller.isOpen() : false
-        const topbar = document.getElementById('chattermate-mobile-topbar')
+        const topbar = document.getElementById('echo-mobile-topbar')
         if (customData.chat_style === 'ASK_ANYTHING' && chatOpen) {
           document.body.classList.add('ask-anything-mobile')
           if (topbar) topbar.classList.add('active')
@@ -2341,7 +2341,7 @@ window.chattermateConfig;
   // Re-inject styles so an already-rendered widget updates immediately; before the
   // first render this is a no-op (initialize() injects them).
   function refreshStylesIfRendered() {
-    if (document.getElementById('chattermate-styles')) {
+    if (document.getElementById('echo-styles')) {
       updateStyles()
     }
   }
@@ -2367,8 +2367,8 @@ window.chattermateConfig;
     if (!deferRefresh) refreshStylesIfRendered()
   }
 
-  // Apply developer options — shared by ChatterMate.init(options) and the declarative
-  // window.chattermateConfig. Every recognized key counts as a developer override, so
+  // Apply developer options — shared by Echo.init(options) and the declarative
+  // window.echoConfig. Every recognized key counts as a developer override, so
   // dashboard defaults arriving later never fight it. Loose sanity clamps only; the
   // page owner is configuring their own page.
   function applyOptions(options) {
@@ -2378,7 +2378,7 @@ window.chattermateConfig;
       config.baseUrl = options.baseUrl
     }
     if (options.id) {
-      window.chattermateId = options.id
+      window.echoId = options.id
     }
     if (typeof options.tokenProvider === 'function') {
       // Called when the widget needs a token the page alone can mint: on an expired
@@ -2459,7 +2459,7 @@ window.chattermateConfig;
     postToFrame({ type: 'END_CHAT', sessionId: sessionId })
   }
 
-  // ChatterMate.reload(): rebuild the widget, and build it again after destroy().
+  // Echo.reload(): rebuild the widget, and build it again after destroy().
   function reloadOrRebuild() {
     if (fellBackInPage && !inPageUnavailable) return
     if (controller) {
@@ -2479,7 +2479,7 @@ window.chattermateConfig;
   // scripts). The site's options, listeners, an open chat and any calls made while
   // it loads carry over. False when it can't be done.
   function fallBackInPage(sources) {
-    const ownApi = window.ChatterMate
+    const ownApi = window.Echo
     if (fellBackInPage || !LOADER_SRC || !ownApi || typeof ownApi !== 'object') return false
     let src
     try {
@@ -2488,8 +2488,8 @@ window.chattermateConfig;
       return false
     }
     fellBackInPage = true
-    console.warn('[ChatterMate] This page\'s Content-Security-Policy blocks the chat frame, so the chat runs inside the page instead. ' +
-      'For the framed chat, add to the policy: frame-src ' + sources.join(' ') + ' (the Widget tab in ChatterMate lists every source).')
+    console.warn('[Echo] This page\'s Content-Security-Policy blocks the chat frame, so the chat runs inside the page instead. ' +
+      'For the framed chat, add to the policy: frame-src ' + sources.join(' ') + ' (the Widget tab in Echo lists every source).')
     const wasOpen = !!(controller && controller.isOpen())
     const carried = Object.keys(listeners).map(function (event) { return [event, listeners[event].splice(0)] })
     // Until the in-page loader is up, the page's calls wait for it
@@ -2499,19 +2499,19 @@ window.chattermateConfig;
       if (typeof ownApi[name] === 'function') standIn[name] = function () { waiting.push([name, arguments]) }
     })
     standIn.isOpen = function () { return wasOpen }
-    window.ChatterMate = standIn
+    window.Echo = standIn
     destroyWidgetIfRunning()
-    window.chattermateConfig = Object.assign({}, givenOptions)
+    window.echoConfig = Object.assign({}, givenOptions)
 
     // The in-page chat can't run here either (missing, or the page's policy blocks
     // its inline scripts too): back to the framed widget, which shows why it can't load
     function backToFramed(reason) {
       if (inPageUnavailable) return
-      console.error('[ChatterMate] ' + reason + ' Add to the Content-Security-Policy: frame-src ' + sources.join(' '))
+      console.error('[Echo] ' + reason + ' Add to the Content-Security-Policy: frame-src ' + sources.join(' '))
       inPageUnavailable = true
-      const inPage = window.ChatterMate
+      const inPage = window.Echo
       if (inPage && inPage !== standIn && inPage !== ownApi && typeof inPage.destroy === 'function') inPage.destroy()
-      window.ChatterMate = ownApi
+      window.Echo = ownApi
       carried.forEach(function (entry) { listeners[entry[0]] = entry[1] })
       ownApi.reload()
     }
@@ -2519,7 +2519,7 @@ window.chattermateConfig;
     const script = document.createElement('script')
     script.src = src
     script.onload = function () {
-      const api = window.ChatterMate
+      const api = window.Echo
       if (!api || api === standIn || typeof api.on !== 'function') {
         backToFramed('The in-page chat didn\'t start.')
         return
@@ -2548,7 +2548,7 @@ window.chattermateConfig;
   // has loaded, even when this page's policy then blocks the scripts inside it (a
   // nonce or 'strict-dynamic' policy). That page is same-origin, so look at it.
   function inPageChatMounted() {
-    const frame = document.querySelector('iframe.chattermate-iframe')
+    const frame = document.querySelector('iframe.echo-iframe')
     try {
       const app = frame && frame.contentDocument && frame.contentDocument.getElementById('app')
       return !!(app && app.childElementCount)
@@ -2582,7 +2582,7 @@ window.chattermateConfig;
     const sameVisitor = current && tokenSubject(next) && tokenSubject(next) === tokenSubject(current)
     // Any new token supersedes an answer still on its way for the old one
     identityEpoch++
-    window.chattermateToken = next
+    window.echoToken = next
     saveToken(next)
 
     // A fresher token for the SAME visitor is not a new identity: hand it to the
@@ -2607,7 +2607,7 @@ window.chattermateConfig;
   function clearIdentity() {
     const previousSession = currentSessionId
     identityEpoch++
-    window.chattermateToken = null
+    window.echoToken = null
     removeToken()
     endConversationThenReload(previousSession)
   }
@@ -2619,10 +2619,10 @@ window.chattermateConfig;
 
   // Public widget API. Open/close/toggle work from any point after the script loads;
   // calls that land before the DOM is ready are queued and run on init.
-  window.ChatterMate = {
+  window.Echo = {
     // Configure, e.g. init({ id, launcher: false, position: { side: 'left', bottom: 24, offset: 24 } })
     init: applyOptions,
-    // Runtime reposition, e.g. ChatterMate.setPosition({ bottom: 100, right: 24 })
+    // Runtime reposition, e.g. Echo.setPosition({ bottom: 100, right: 24 })
     // Wrapped so stray extra arguments never hit applyPosition's internal param.
     setPosition: function (position) { applyPosition(position) },
     // open() accepts an optional { message } to prefill (not send) the chat input.

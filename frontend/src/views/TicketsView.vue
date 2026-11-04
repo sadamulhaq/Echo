@@ -155,7 +155,7 @@ function openTicket(id: string) {
                 <span
                   class="avatar"
                   :class="{ 'avatar-ai': !ticket.assignee_name }"
-                  :title="ticket.assignee_name || 'ChatterMate AI'"
+                  :title="ticket.assignee_name || 'Echo AI'"
                 >
                   {{ ticketInitials(ticket.assignee_name) }}
                 </span>

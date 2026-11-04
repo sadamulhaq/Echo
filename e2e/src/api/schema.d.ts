@@ -4961,7 +4961,7 @@ export interface components {
          * AIModelType
          * @enum {string}
          */
-        AIModelType: "OPENAI" | "ANTHROPIC" | "DEEPSEEK" | "GOOGLE" | "GOOGLEVERTEX" | "GROQ" | "MISTRAL" | "HUGGINGFACE" | "OLLAMA" | "XAI" | "OPENAI_COMPATIBLE" | "CHATTERMATE";
+        AIModelType: "OPENAI" | "ANTHROPIC" | "DEEPSEEK" | "GOOGLE" | "GOOGLEVERTEX" | "GROQ" | "MISTRAL" | "HUGGINGFACE" | "OLLAMA" | "XAI" | "OPENAI_COMPATIBLE" | "ECHO";
         /** AISetupResponse */
         AISetupResponse: {
             /** Message */

@@ -285,7 +285,7 @@ watch(() => currentChat.value?.session_id, () => refreshLinkedTicket())
                 class="ticket-menu-item"
                 @click="showTicketMenu = false; showTicketModal = true"
               >
-                Create ChatterMate ticket
+                Create Echo ticket
               </button>
             </div>
           </div>

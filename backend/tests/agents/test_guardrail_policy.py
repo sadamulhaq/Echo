@@ -283,7 +283,7 @@ class TestRefusalDetection:
         "I can only assist with questions related to freetest. How can I help?",
         "I can only help with questions about Acme — what do you need?",
         "Sorry, I can only assist with inquiries about our products.",
-        "I can only help with ChatterMate topics.",
+        "I can only help with Echo topics.",
     ])
     def test_recognises_decline_variants(self, reply):
         assert looks_like_scope_refusal(reply) is True

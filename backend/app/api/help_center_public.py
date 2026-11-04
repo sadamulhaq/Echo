@@ -74,7 +74,7 @@ from app.services.help_center_seo import (
 )
 from app.services.public_rate_limit import allow_request
 
-public_app = FastAPI(title="ChatterMate Help Center", docs_url=None, redoc_url=None, openapi_url=None)
+public_app = FastAPI(title="Echo Help Center", docs_url=None, redoc_url=None, openapi_url=None)
 install_error_handlers(public_app)
 # Serve ONLY help-center images on this app, so relative logo/article-image paths
 # resolve on a subdomain/custom-domain origin (host dispatch). Scoped to the
@@ -154,11 +154,11 @@ async def _chrome_context(row: HelpCenterSettings, base_path: str = "") -> dict:
         "favicon_url": await resolve_public_url(row.favicon_url) if row.favicon_url else None,
         "header_links": row.header_links or [],
         "widget_id": widget_id_for(row),
-        # The widget LOADER (chattermate.min.js) is served by the frontend, while
+        # The widget LOADER (echo.min.js) is served by the frontend, while
         # the widget APP it pulls in (/assets/widget.js) is served from
         # VITE_WIDGET_URL by the backend. In prod both resolve to the app domain.
-        "widget_script_url": f"{settings.FRONTEND_URL}/webclient/chattermate.min.js",
-        # This install's API root, handed to the loader as window.chattermateBaseUrl
+        "widget_script_url": f"{settings.FRONTEND_URL}/webclient/echo.min.js",
+        # This install's API root, handed to the loader as window.echoBaseUrl
         # (same contract as the dashboard's embed snippet). Without it the loader
         # uses its build-time default — the vendor cloud — which no self-hosted
         # deployment can talk to.

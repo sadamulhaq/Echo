@@ -24,7 +24,7 @@ vi.mock('@/services/user', () => ({
 }))
 vi.mock('@/utils/permissions', () => ({ permissionChecks: { canManageAgents: () => true } }))
 
-const STORAGE_KEY = 'chattermate:onboarding:v1'
+const STORAGE_KEY = 'echo:onboarding:v1'
 const stubs = {
   StepCreate: {
     emits: ['created'],

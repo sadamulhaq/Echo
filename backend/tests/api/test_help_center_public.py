@@ -279,7 +279,7 @@ def test_widget_embed_points_at_this_install(
     client, db, test_organization, help_center, test_widget, monkeypatch
 ):
     """The loader falls back to the API URL baked in at build time (the vendor
-    cloud) unless the page sets window.chattermateBaseUrl. Without it, a
+    cloud) unless the page sets window.echoBaseUrl. Without it, a
     self-hosted help center asks the wrong backend for its widget and the
     visitor gets "Chat Unavailable"."""
     monkeypatch.setattr(settings, "BACKEND_URL", "https://api.selfhosted.example")
@@ -287,8 +287,8 @@ def test_widget_embed_points_at_this_install(
     db.commit()
 
     r = client.get("/", headers={"host": HOST})
-    assert f'window.chattermateId = "{test_widget.id}"' in r.text
-    assert 'window.chattermateBaseUrl = "https://api.selfhosted.example/api/v1"' in r.text
+    assert f'window.echoId = "{test_widget.id}"' in r.text
+    assert 'window.echoBaseUrl = "https://api.selfhosted.example/api/v1"' in r.text
 
 
 def test_custom_domain_page_is_self_contained(
@@ -316,7 +316,7 @@ def test_custom_domain_page_is_self_contained(
         '<meta property="og:image" content="https://help.customer.com/api/v1/uploads/help_center/logo.png">'
         in r.text
     )
-    assert 'window.chattermateBaseUrl = "https://api.selfhosted.example/api/v1"' in r.text
+    assert 'window.echoBaseUrl = "https://api.selfhosted.example/api/v1"' in r.text
 
 
 def test_og_card_degrades_without_a_logo(client, db, test_organization, help_center):

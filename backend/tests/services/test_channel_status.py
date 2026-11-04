@@ -308,7 +308,7 @@ async def test_failed_after_read_changes_nothing(db, account, test_organization,
 @pytest.mark.asyncio
 async def test_every_receipt_is_announced_even_for_unknown_messages(
         db, account, use_test_db, mock_sio, redis):
-    """Usage counting needs receipts for messages ChatterMate never stored."""
+    """Usage counting needs receipts for messages Echo never stored."""
     seen = []
 
     async def listen(event):

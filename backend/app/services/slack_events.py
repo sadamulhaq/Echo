@@ -151,7 +151,7 @@ def _dashboard_url() -> str:
 
 
 async def publish_agent_home(account_id: UUID, user_id: str) -> None:
-    """Publish the Home tab: what ChatterMate does, the agent connected to this
+    """Publish the Home tab: what Echo does, the agent connected to this
     workspace, how to use it, and a link to the dashboard."""
     if not user_id:
         return

@@ -19,7 +19,7 @@ limitations under the License.
  * source, a finished run). Anything showing setup progress listens and
  * refreshes (the enterprise module's setup bar).
  */
-export const SETUP_CHANGED_EVENT = 'chattermate:setup-changed'
+export const SETUP_CHANGED_EVENT = 'echo:setup-changed'
 
 export function notifySetupChanged(): void {
   window.dispatchEvent(new Event(SETUP_CHANGED_EVENT))

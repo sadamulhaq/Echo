@@ -85,6 +85,6 @@ test.describe('connecting a Shopify store', () => {
 
     const inbox = await embedded.raw('GET', '/chats/recent/shopify')
     expect(inbox.status()).toBe(403)
-    expect((await inbox.json()).detail).toBe('Connect your ChatterMate account to this store first.')
+    expect((await inbox.json()).detail).toBe('Connect your Echo account to this store first.')
   })
 })

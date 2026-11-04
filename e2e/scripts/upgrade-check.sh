@@ -13,8 +13,8 @@ set -euo pipefail
 E2E_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 REPO_DIR="$(cd "$E2E_DIR/.." && pwd)"
 PG_URL="${E2E_PG_URL:-postgresql://${USER}@127.0.0.1:5432}"; PG_URL="${PG_URL%/}"
-DB_NAME="chattermate_upgrade_e2e"
-FRESH_DB="chattermate_fresh_e2e"
+DB_NAME="echo_upgrade_e2e"
+FRESH_DB="echo_fresh_e2e"
 BASE_REF="${1:-$(git -C "$REPO_DIR" describe --tags --abbrev=0 --match 'v*')}"
 if [[ -z "${E2E_PYTHON:-}" ]]; then
   if [[ -x "$REPO_DIR/backend/venv/bin/python" ]]; then E2E_PYTHON="$REPO_DIR/backend/venv/bin/python"; else E2E_PYTHON="python3"; fi

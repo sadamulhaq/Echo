@@ -454,7 +454,7 @@ def _store_customer_message(db: Session, inbound: InboundMessage, session_record
 async def _within_message_limit(db: Session, org_id: str, ai_config) -> bool:
     """Enterprise subscription limit; permissive on any failure so the
     community edition and enterprise errors never block conversations."""
-    if not (HAS_ENTERPRISE and ai_config.model_type == AIModelType.CHATTERMATE):
+    if not (HAS_ENTERPRISE and ai_config.model_type == AIModelType.ECHO):
         return True
     try:
         return await check_message_limit(db, org_id, None, None)

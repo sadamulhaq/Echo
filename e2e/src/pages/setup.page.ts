@@ -19,7 +19,7 @@ export class SetupPage {
 
   async goto(): Promise<void> {
     await this.page.goto('/setup')
-    await expect(this.page.getByRole('heading', { name: 'Welcome to ChatterMate' })).toBeVisible()
+    await expect(this.page.getByRole('heading', { name: 'Welcome to Echo' })).toBeVisible()
   }
 
   async createOrganization(details: OrgDetails): Promise<void> {

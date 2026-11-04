@@ -258,7 +258,7 @@ const closeKnowledgeModal = () => {
         <div class="knowledge-header">
             <div class="header-left">
                 <h3>Knowledge sources</h3>
-                <p class="header-subtitle">Connect docs and pages — ChatterMate indexes them automatically to ground
+                <p class="header-subtitle">Connect docs and pages — Echo indexes them automatically to ground
                     every answer.</p>
             </div>
             <div class="header-actions">

@@ -32,7 +32,7 @@ class DBConnectorEngine(_ValueStrEnum):
 
 # Which value of the ticket's customer is matched against the scope column.
 # Email is the default because it is the identifier a support database is most
-# likely to share with ChatterMate; phone suits channel-first businesses.
+# likely to share with Echo; phone suits channel-first businesses.
 ROW_SCOPE_KEYS = ("email", "phone")
 
 

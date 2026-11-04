@@ -22,7 +22,7 @@ import golden from '../fixtures/widget-snippet.txt?raw'
 
 /**
  * The embed snippet runs on the CUSTOMER's own site, where window.APP_CONFIG is
- * absent — so it must carry this install's backend URL as window.chattermateBaseUrl
+ * absent — so it must carry this install's backend URL as window.echoBaseUrl
  * and load the loader from this frontend's own origin. Both are resolved at
  * generation time from runtime config, so a self-hosted install needs no rebuild.
  */
@@ -42,17 +42,17 @@ describe('buildWidgetEmbed', () => {
     delete window.APP_CONFIG
   })
 
-  it('bakes chattermateBaseUrl from the runtime API url (simple variant)', () => {
+  it('bakes echoBaseUrl from the runtime API url (simple variant)', () => {
     const code = buildWidgetEmbed('w-123')
-    expect(code).toContain(`window.chattermateBaseUrl = '${API_URL}'`)
-    expect(code).toContain(`window.chattermateId = 'w-123'`)
-    expect(code).toContain(`${ORIGIN}/webclient/chattermate.min.js`)
+    expect(code).toContain(`window.echoBaseUrl = '${API_URL}'`)
+    expect(code).toContain(`window.echoId = 'w-123'`)
+    expect(code).toContain(`${ORIGIN}/webclient/echo.min.js`)
   })
 
-  it('bakes chattermateBaseUrl in the token-auth variant too', () => {
+  it('bakes echoBaseUrl in the token-auth variant too', () => {
     const code = buildWidgetEmbed('w-123', true)
-    expect(code).toContain(`window.chattermateBaseUrl = '${API_URL}'`)
-    expect(code).toContain(`${ORIGIN}/webclient/chattermate.min.js`)
+    expect(code).toContain(`window.echoBaseUrl = '${API_URL}'`)
+    expect(code).toContain(`${ORIGIN}/webclient/echo.min.js`)
   })
 
   it('never hardcodes the vendor cloud when self-host config is present', () => {

@@ -117,21 +117,21 @@ class TestCreateModel:
                 model_name="local-model"
             )
 
-    def test_create_model_chattermate(self):
-        """Test creating CHATTERMATE model (should use OpenAI)"""
+    def test_create_model_echo(self):
+        """Test creating ECHO model (should use OpenAI)"""
         with patch("app.utils.agno_utils.OpenAIChat") as mock_openai:
             mock_model = MagicMock()
             mock_openai.return_value = mock_model
             
             result = agno_utils.create_model(
-                model_type="CHATTERMATE",
+                model_type="ECHO",
                 api_key="test-api-key",
-                model_name="chattermate-model"
+                model_name="echo-model"
             )
             
             mock_openai.assert_called_once_with(
                 api_key="test-api-key", 
-                id="chattermate-model", 
+                id="echo-model", 
                 max_tokens=1000
             )
             assert result == mock_model

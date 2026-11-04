@@ -249,7 +249,7 @@ const handleTextAdded = () => {
   <div class="step">
     <header class="step-head">
       <h2 class="step-title">Teach it your business</h2>
-      <p class="step-sub">Drop a website URL or PDF — ChatterMate reads and indexes it automatically.</p>
+      <p class="step-sub">Drop a website URL or PDF — Echo reads and indexes it automatically.</p>
     </header>
 
     <div class="source-input">

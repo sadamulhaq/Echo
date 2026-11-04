@@ -262,7 +262,7 @@ async def send_test_notification(
             user_id=current_user.id,
             type="CHAT",
             title="Test Notification",
-            message="This is a test notification from ChatterMate",
+            message="This is a test notification from Echo",
             notification_metadata={"test": True}
         )
         db.add(notification)

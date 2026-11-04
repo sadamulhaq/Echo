@@ -37,7 +37,7 @@ export const env = {
    */
   customerSiteLegacyUrl: 'http://127.0.0.1:13001',
   /** The throwaway database stack.sh manages (same E2E_PG_URL convention). */
-  databaseUrl: `${(process.env.E2E_PG_URL ?? `postgresql://${process.env.USER}@127.0.0.1:5432`).replace(/\/$/, '')}/chattermate_e2e`,
+  databaseUrl: `${(process.env.E2E_PG_URL ?? `postgresql://${process.env.USER}@127.0.0.1:5432`).replace(/\/$/, '')}/echo_e2e`,
   /** The private enterprise suite, present only where the enterprise_frontend submodule is checked out. */
   enterpriseSpecDir: fileURLToPath(new URL('../../frontend/src/modules/enterprise/e2e/', import.meta.url)),
   /** stack.sh, for `stack.sh python …` one-off jobs against the running stack. */

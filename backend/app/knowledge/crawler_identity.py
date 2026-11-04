@@ -19,4 +19,4 @@ scrapers commonly fake, while a named crawler is let through - and site
 owners can see (and allow or block) who is reading them.
 """
 
-CRAWLER_USER_AGENT = "Mozilla/5.0 (compatible; ChatterMateBot/1.0; +https://chattermate.chat)"
+CRAWLER_USER_AGENT = "Mozilla/5.0 (compatible; EchoBot/1.0; +https://chattermate.chat)"

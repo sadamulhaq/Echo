@@ -23,7 +23,7 @@
 //   Meta tokens `…:app=<id>.<secret>:…`          were issued by the customer's own Meta
 //                                              app: GET /app answers that id and checks
 //                                              appsecret_proof against that secret (any
-//                                              other token is ChatterMate's app)
+//                                              other token is Echo's app)
 //   Meta POST /<number> {webhook_configuration}  verifies the override callback the way
 //                                              Meta does — a GET with hub.verify_token
 //                                              that must echo hub.challenge — before
@@ -188,13 +188,13 @@ function graphError(message: string, code = 100): Answer {
   return { status: 400, body: { error: { message, type: 'OAuthException', code, fbtrace_id: 'e2e' } } }
 }
 
-/** ChatterMate's own Meta app; its secret mirrors META_APP_SECRET in .env.e2e. */
-const CHATTERMATE_APP = { id: 'e2e-chattermate-app', secret: 'e2e-meta-app-secret' }
+/** Echo's own Meta app; its secret mirrors META_APP_SECRET in .env.e2e. */
+const ECHO_APP = { id: 'e2e-echo-app', secret: 'e2e-meta-app-secret' }
 
 /** The Meta app that issued a token. */
 function appOf(token: string): { id: string; secret: string } {
   const match = /:app=([^.:]+)\.([^:]+)/.exec(token)
-  return match ? { id: match[1], secret: match[2] } : CHATTERMATE_APP
+  return match ? { id: match[1], secret: match[2] } : ECHO_APP
 }
 
 /** Meta checks an override callback before taking it: the GET must echo the challenge. */

@@ -275,7 +275,7 @@ class TestManualSync:
             organization_id=test_organization.id, agent_id=test_agent.id,
             customer_id=cust.id, consent=True,
             field_values={"email": "amit@gmail.com", "name": "Arun",
-                          "company": "ChatterMate", "phone": "6362262617"}))
+                          "company": "Echo", "phone": "6362262617"}))
         db.commit()
 
         captured = {}
@@ -289,7 +289,7 @@ class TestManualSync:
 
         payload = captured["payload"]
         assert payload.name == "Arun"
-        assert payload.company == "ChatterMate"     # was silently dropped before
+        assert payload.company == "Echo"     # was silently dropped before
         assert payload.phone == "6362262617"        # from field_values, not the empty column
 
     @pytest.mark.asyncio

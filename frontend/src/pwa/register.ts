@@ -42,7 +42,7 @@ const UPDATE_TAKEOVER_TIMEOUT_MS = 4000
 async function promptForUpdate(reload: (reloadPage?: boolean) => Promise<void>) {
   try {
     const { toast } = await import('vue-sonner')
-    const id = toast('A new version of ChatterMate is available', {
+    const id = toast('A new version of Echo is available', {
       description: 'Reload to pick up the latest changes.',
       duration: Number.POSITIVE_INFINITY,
       action: {

@@ -60,7 +60,7 @@ class WidgetDisplaySide(str, enum.Enum):
 class WidgetDisplayConfig(BaseModel):
     """Dashboard "Widget placement" defaults, stored in customization_metadata.
 
-    The embed loader (chattermate.js) merges these under any options the
+    The embed loader (echo.js) merges these under any options the
     installing developer set on the page. Bounds keep saved values renderable
     on any reasonable screen; the loader clamps again client-side.
     """

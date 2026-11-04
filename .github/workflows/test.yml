@@ -2,9 +2,9 @@ name: CI/CD Pipeline
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
   push:
-    branches: [ main ]
+    branches: [ main, master ]
 
 # Both jobs only check out code and run tests. Declaring this at the top level
 # makes every job's GITHUB_TOKEN read-only, so a compromised action or

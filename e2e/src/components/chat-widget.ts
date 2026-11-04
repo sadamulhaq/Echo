@@ -4,11 +4,11 @@ import { unique } from '../support/ids'
 import { step } from '../support/step'
 
 export interface EmbedOptions {
-  /** window.chattermateConfig — launcher, displayMode, position, trigger, … */
+  /** window.echoConfig — launcher, displayMode, position, trigger, … */
   config?: Record<string, unknown>
-  /** window.chattermateToken, for agents that require token auth. */
+  /** window.echoToken, for agents that require token auth. */
   token?: string
-  /** Put a `[data-chattermate-open]` button on the page. */
+  /** Put a `[data-echo-open]` button on the page. */
   withTriggerButton?: boolean
   /** Open the site under its second origin (env.customerSiteOtherUrl). */
   onOtherOrigin?: boolean
@@ -66,7 +66,7 @@ const header = (headers: Record<string, string> | undefined, name: string): stri
  * The customer's view: a pretend website with the widget embedded exactly the way the
  * dashboard's install snippet does it, and the chat inside the widget's iframe.
  *
- * Why CSS here: the loader's launcher (#chattermate-button) and the widget's message
+ * Why CSS here: the loader's launcher (#echo-button) and the widget's message
  * bubbles have no accessible role or name yet. Keeping those selectors in this one
  * file means adding aria-labels later is a one-file change.
  */
@@ -88,7 +88,7 @@ export class ChatWidget {
     this.widgetId = widgetId
     const id = unique('customer')
     this.customer = customer ?? { name: `Customer ${id}`, email: `${id}@example.com` }
-    this.frame = page.frameLocator('iframe.chattermate-iframe')
+    this.frame = page.frameLocator('iframe.echo-iframe')
     page.on('request', (request) => {
       if (this.isStart(request)) this.starts++
       if (this.isAuthorization(request)) this.authorizationCount++
@@ -214,7 +214,7 @@ export class ChatWidget {
   /** The visitor comes back to the site with `token` kept from an earlier visit. */
   async returnWithStoredToken(token: string): Promise<void> {
     await step('Customer comes back to the site', async () => {
-      // The loader's own storage key (chattermate.js tokenKey)
+      // The loader's own storage key (echo.js tokenKey)
       await this.page.evaluate((stored) => localStorage.setItem('ctid', stored), token)
       await this.page.reload()
     })
@@ -227,11 +227,11 @@ export class ChatWidget {
     })
   }
 
-  /** The page's tokenProvider calls window.chattermateE2eToken (services/customer-site). */
+  /** The page's tokenProvider calls window.echoE2eToken (services/customer-site). */
   private async answerTokenRequests(mint: () => Promise<string>): Promise<void> {
     if (this.tokenProviderExposed) return
     this.tokenProviderExposed = true
-    await this.page.exposeFunction('chattermateE2eToken', async () => {
+    await this.page.exposeFunction('echoE2eToken', async () => {
       this.tokenAnswers++
       return mint()
     })
@@ -322,7 +322,7 @@ export class ChatWidget {
 
   /** Whether the widget was built inside the page (srcdoc) rather than framed from our origin. */
   async runsInPage(): Promise<boolean> {
-    return (await this.page.locator('iframe.chattermate-iframe').getAttribute('srcdoc')) !== null
+    return (await this.page.locator('iframe.echo-iframe').getAttribute('srcdoc')) !== null
   }
 
   /** The origin the widget's frame runs on (the frame host, or the API's own origin). */
@@ -427,11 +427,11 @@ export class ChatWidget {
     })
   }
 
-  /** Calls the public `window.ChatterMate` API the host page uses. */
+  /** Calls the public `window.Echo` API the host page uses. */
   async api(method: JsApiMethod, ...args: unknown[]): Promise<unknown> {
-    await this.page.waitForFunction(() => 'ChatterMate' in window)
+    await this.page.waitForFunction(() => 'Echo' in window)
     return this.page.evaluate(
-      ({ method, args }) => (window as unknown as { ChatterMate: Record<string, (...a: unknown[]) => unknown> }).ChatterMate[method](...args),
+      ({ method, args }) => (window as unknown as { Echo: Record<string, (...a: unknown[]) => unknown> }).Echo[method](...args),
       { method, args },
     )
   }
@@ -442,12 +442,12 @@ export class ChatWidget {
   }
 
   get launcher(): Locator {
-    return this.page.locator('#chattermate-button')
+    return this.page.locator('#echo-button')
   }
 
   /** The chat panel; it carries `.active` while open. */
   get panel(): Locator {
-    return this.page.locator('#chattermate-container')
+    return this.page.locator('#echo-container')
   }
 
   /** Shown by the loader instead of a chat when the widget refuses to load (e.g. no token). */
@@ -457,7 +457,7 @@ export class ChatWidget {
 
   /** What the "Chat Unavailable" card says went wrong. CSS: the card's text has no role. */
   get unavailableReason(): Locator {
-    return this.page.locator('.chattermate-error-message')
+    return this.page.locator('.echo-error-message')
   }
 
   /** The email field an email-first agent shows before the chat. */

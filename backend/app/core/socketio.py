@@ -137,7 +137,7 @@ def configure_socketio(cors_origins=None):
             manager = socketio.AsyncRedisManager(
                 redis_url,
                 write_only=False,
-                channel='chattermate',
+                channel='echo',
                 redis_options=redis_options(redis_url),
             )
             manager.set_server(sio)

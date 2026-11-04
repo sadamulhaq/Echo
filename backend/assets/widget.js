@@ -6612,7 +6612,7 @@ const ii = "Start a new chat", El = "Start a new chat? This ends the current one
           href: "https://chattermate.chat",
           target: "_blank",
           rel: "noopener noreferrer"
-        }, "Powered by ChatterMate", -1))
+        }, "Powered by Echo", -1))
       ])
     ]));
   }
@@ -11384,7 +11384,7 @@ const e_ = {
         title: "Close",
         onClick: oe
       }, "×"),
-      p[20] || (p[20] = Zn('<div class="widget-unavailable-card" data-v-9fd058c8><div class="widget-unavailable-icon-wrapper" data-v-9fd058c8><svg class="widget-unavailable-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-v-9fd058c8><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" data-v-9fd058c8></path><path d="M9 12l2 2 4-4" data-v-9fd058c8></path></svg></div><h2 class="widget-unavailable-title" data-v-9fd058c8>Chat Unavailable</h2><p class="widget-unavailable-message" data-v-9fd058c8> This chat widget is not currently configured. Please contact the website administrator to enable chat support. </p><div class="widget-unavailable-footer" data-v-9fd058c8><svg class="chattermate-logo-small" width="14" height="14" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-9fd058c8><path d="M19 3H41A16 16 0 0 1 57 19V41A16 16 0 0 1 41 57H9A6 6 0 0 1 3 51V19A16 16 0 0 1 19 3Z" fill="#C9F24E" data-v-9fd058c8></path><circle cx="19.7" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="30" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="40.3" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle></svg><a class="cm-powered-link" href="https://chattermate.chat" target="_blank" rel="noopener" data-v-9fd058c8><span class="cm-powered-prefix" data-v-9fd058c8>Powered by </span><strong class="cm-brand" data-v-9fd058c8>ChatterMate</strong></a></div></div>', 1))
+      p[20] || (p[20] = Zn('<div class="widget-unavailable-card" data-v-9fd058c8><div class="widget-unavailable-icon-wrapper" data-v-9fd058c8><svg class="widget-unavailable-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-v-9fd058c8><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" data-v-9fd058c8></path><path d="M9 12l2 2 4-4" data-v-9fd058c8></path></svg></div><h2 class="widget-unavailable-title" data-v-9fd058c8>Chat Unavailable</h2><p class="widget-unavailable-message" data-v-9fd058c8> This chat widget is not currently configured. Please contact the website administrator to enable chat support. </p><div class="widget-unavailable-footer" data-v-9fd058c8><svg class="echo-logo-small" width="14" height="14" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-9fd058c8><path d="M19 3H41A16 16 0 0 1 57 19V41A16 16 0 0 1 41 57H9A6 6 0 0 1 3 51V19A16 16 0 0 1 19 3Z" fill="#C9F24E" data-v-9fd058c8></path><circle cx="19.7" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="30" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="40.3" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle></svg><a class="cm-powered-link" href="https://chattermate.chat" target="_blank" rel="noopener" data-v-9fd058c8><span class="cm-powered-prefix" data-v-9fd058c8>Powered by </span><strong class="cm-brand" data-v-9fd058c8>Echo</strong></a></div></div>', 1))
     ])) : I.value ? (x(), A("div", t_, [
       v("button", {
         type: "button",
@@ -11543,7 +11543,7 @@ const e_ = {
           class: "powered-by-welcome",
           style: Ee(S(Y))
         }, p[27] || (p[27] = [
-          Zn('<svg class="chattermate-logo" width="16" height="16" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-9fd058c8><path d="M19 3H41A16 16 0 0 1 57 19V41A16 16 0 0 1 41 57H9A6 6 0 0 1 3 51V19A16 16 0 0 1 19 3Z" fill="#C9F24E" data-v-9fd058c8></path><circle cx="19.7" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="30" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="40.3" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle></svg><a class="cm-powered-link" href="https://chattermate.chat" target="_blank" rel="noopener" data-v-9fd058c8><span class="cm-powered-prefix" data-v-9fd058c8>Powered by </span><strong class="cm-brand" data-v-9fd058c8>ChatterMate</strong></a>', 2)
+          Zn('<svg class="echo-logo" width="16" height="16" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-9fd058c8><path d="M19 3H41A16 16 0 0 1 57 19V41A16 16 0 0 1 41 57H9A6 6 0 0 1 3 51V19A16 16 0 0 1 19 3Z" fill="#C9F24E" data-v-9fd058c8></path><circle cx="19.7" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="30" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="40.3" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle></svg><a class="cm-powered-link" href="https://chattermate.chat" target="_blank" rel="noopener" data-v-9fd058c8><span class="cm-powered-prefix" data-v-9fd058c8>Powered by </span><strong class="cm-brand" data-v-9fd058c8>Echo</strong></a>', 2)
         ]), 4)
       ], 6)) : ae("", !0),
       qn.value && Ns.value ? (x(), A("div", {
@@ -11567,7 +11567,7 @@ const e_ = {
           class: "powered-by-landing",
           style: Ee(S(Y))
         }, p[28] || (p[28] = [
-          Zn('<svg class="chattermate-logo" width="16" height="16" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-9fd058c8><path d="M19 3H41A16 16 0 0 1 57 19V41A16 16 0 0 1 41 57H9A6 6 0 0 1 3 51V19A16 16 0 0 1 19 3Z" fill="#C9F24E" data-v-9fd058c8></path><circle cx="19.7" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="30" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="40.3" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle></svg><a class="cm-powered-link" href="https://chattermate.chat" target="_blank" rel="noopener" data-v-9fd058c8><span class="cm-powered-prefix" data-v-9fd058c8>Powered by </span><strong class="cm-brand" data-v-9fd058c8>ChatterMate</strong></a>', 2)
+          Zn('<svg class="echo-logo" width="16" height="16" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-9fd058c8><path d="M19 3H41A16 16 0 0 1 57 19V41A16 16 0 0 1 41 57H9A6 6 0 0 1 3 51V19A16 16 0 0 1 19 3Z" fill="#C9F24E" data-v-9fd058c8></path><circle cx="19.7" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="30" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="40.3" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle></svg><a class="cm-powered-link" href="https://chattermate.chat" target="_blank" rel="noopener" data-v-9fd058c8><span class="cm-powered-prefix" data-v-9fd058c8>Powered by </span><strong class="cm-brand" data-v-9fd058c8>Echo</strong></a>', 2)
         ]), 4)
       ], 4)) : jn.value && St.value ? (x(), A("div", {
         key: 6,
@@ -11696,7 +11696,7 @@ const e_ = {
           class: "powered-by-landing",
           style: Ee(S(Y))
         }, p[30] || (p[30] = [
-          Zn('<svg class="chattermate-logo" width="16" height="16" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-9fd058c8><path d="M19 3H41A16 16 0 0 1 57 19V41A16 16 0 0 1 41 57H9A6 6 0 0 1 3 51V19A16 16 0 0 1 19 3Z" fill="#C9F24E" data-v-9fd058c8></path><circle cx="19.7" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="30" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="40.3" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle></svg><a class="cm-powered-link" href="https://chattermate.chat" target="_blank" rel="noopener" data-v-9fd058c8><span class="cm-powered-prefix" data-v-9fd058c8>Powered by </span><strong class="cm-brand" data-v-9fd058c8>ChatterMate</strong></a>', 2)
+          Zn('<svg class="echo-logo" width="16" height="16" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-9fd058c8><path d="M19 3H41A16 16 0 0 1 57 19V41A16 16 0 0 1 41 57H9A6 6 0 0 1 3 51V19A16 16 0 0 1 19 3Z" fill="#C9F24E" data-v-9fd058c8></path><circle cx="19.7" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="30" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="40.3" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle></svg><a class="cm-powered-link" href="https://chattermate.chat" target="_blank" rel="noopener" data-v-9fd058c8><span class="cm-powered-prefix" data-v-9fd058c8>Powered by </span><strong class="cm-brand" data-v-9fd058c8>Echo</strong></a>', 2)
         ]), 4)
       ], 4)) : !Aa.value && Pe.value && !Ni.value ? (x(), A("div", {
         key: 7,
@@ -12425,7 +12425,7 @@ const e_ = {
           class: "powered-by",
           style: Ee(S(Y))
         }, p[51] || (p[51] = [
-          Zn('<svg class="chattermate-logo" width="16" height="16" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-9fd058c8><path d="M19 3H41A16 16 0 0 1 57 19V41A16 16 0 0 1 41 57H9A6 6 0 0 1 3 51V19A16 16 0 0 1 19 3Z" fill="#C9F24E" data-v-9fd058c8></path><circle cx="19.7" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="30" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="40.3" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle></svg><a class="cm-powered-link" href="https://chattermate.chat" target="_blank" rel="noopener" data-v-9fd058c8><span class="cm-powered-prefix" data-v-9fd058c8>Powered by </span><strong class="cm-brand" data-v-9fd058c8>ChatterMate</strong></a>', 2)
+          Zn('<svg class="echo-logo" width="16" height="16" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-9fd058c8><path d="M19 3H41A16 16 0 0 1 57 19V41A16 16 0 0 1 41 57H9A6 6 0 0 1 3 51V19A16 16 0 0 1 19 3Z" fill="#C9F24E" data-v-9fd058c8></path><circle cx="19.7" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="30" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle><circle cx="40.3" cy="30" r="4.3" fill="#0B0C10" data-v-9fd058c8></circle></svg><a class="cm-powered-link" href="https://chattermate.chat" target="_blank" rel="noopener" data-v-9fd058c8><span class="cm-powered-prefix" data-v-9fd058c8>Powered by </span><strong class="cm-brand" data-v-9fd058c8>Echo</strong></a>', 2)
         ]), 4)
       ], 6)) : ae("", !0),
       bt.value ? (x(), A("div", Zv, [

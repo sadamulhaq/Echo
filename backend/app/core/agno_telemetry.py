@@ -23,7 +23,7 @@ limitations under the License.
 # or backend/.env). agno reads these variables before each run report, so
 # setting them once per process covers every agent, wherever it is built. With
 # both off, AGNO_API_ENABLED=false also stops agno's other calls to its API
-# (session logging, playground, evals), which ChatterMate never uses.
+# (session logging, playground, evals), which Echo never uses.
 #
 # Environment variables rather than Agent(telemetry=False) because agents are
 # built in many places (chat, transfer, tickets, FAQs, summaries, help center)

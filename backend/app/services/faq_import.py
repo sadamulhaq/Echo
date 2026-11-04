@@ -55,7 +55,7 @@ _BLOCK_TAGS = (
 )
 _BOILERPLATE_TAGS = ("script", "style", "noscript", "nav", "footer", "header", "form")
 
-_FETCH_HEADERS = {"User-Agent": "ChatterMate-FAQ-Import/1.0 (+https://chattermate.chat)"}
+_FETCH_HEADERS = {"User-Agent": "Echo-FAQ-Import/1.0 (+https://chattermate.chat)"}
 
 
 def _soup_to_text(soup: BeautifulSoup) -> str:

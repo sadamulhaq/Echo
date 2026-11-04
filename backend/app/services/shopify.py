@@ -1144,7 +1144,7 @@ class ShopifyService:
 
     async def inject_widget_script(self, shop: ShopifyShop, script_tag: str) -> None:
         """
-        Creates a Shopify Script Tag to inject the ChatterMate widget using the scriptTagCreate GraphQL mutation.
+        Creates a Shopify Script Tag to inject the Echo widget using the scriptTagCreate GraphQL mutation.
         
         Args:
             shop: The ShopifyShop object.
@@ -1158,12 +1158,12 @@ class ShopifyService:
         
         # 1. Extract the script URL from the script_tag string
         # The script_tag is in format: 
-        # <script>/* ChatterMate Start */window.chattermateId='widget_id';</script><script src="script_url" async defer></script>
+        # <script>/* Echo Start */window.echoId='widget_id';</script><script src="script_url" async defer></script>
         # We need to extract the script_url
         
         import re
         script_url_match = re.search(r'<script src=["\']([^"\']+)["\']', script_tag)
-        widget_id_match = re.search(r"window\.chattermateId=\'([^\']+)\'", script_tag)
+        widget_id_match = re.search(r"window\.echoId=\'([^\']+)\'", script_tag)
         
         if not script_url_match:
             raise Exception("Could not extract script URL from the provided script tag.")
@@ -1193,7 +1193,7 @@ class ShopifyService:
         script_edges = script_response["data"]["scriptTags"]["edges"]
         for edge in script_edges:
             if edge["node"]["src"] == script_url:
-                logger.info(f"ChatterMate script already installed at {script_url}. Skipping injection.")
+                logger.info(f"Echo script already installed at {script_url}. Skipping injection.")
                 return
         
         # 3. Create the script tag using scriptTagCreate mutation
@@ -1243,7 +1243,7 @@ class ShopifyService:
 
     async def remove_widget_script(self, shop: ShopifyShop, widget_id: str) -> None:
         """
-        Removes the ChatterMate widget script tag using scriptTagDelete GraphQL mutation.
+        Removes the Echo widget script tag using scriptTagDelete GraphQL mutation.
         
         Args:
             shop: The ShopifyShop object.
@@ -1280,11 +1280,11 @@ class ShopifyService:
             src = edge["node"]["src"]
             # Match any scripts from your domain and potentially containing the widget ID
             # Adjust this condition based on your script URL structure
-            if "chattermate" in src.lower():
+            if "echo" in src.lower():
                 widget_scripts.append(edge["node"]["id"])
         
         if not widget_scripts:
-            logger.info(f"No ChatterMate script tags found for shop {shop.shop_domain}. Nothing to remove.")
+            logger.info(f"No Echo script tags found for shop {shop.shop_domain}. Nothing to remove.")
             return
         
         # 3. Delete each matching script tag
