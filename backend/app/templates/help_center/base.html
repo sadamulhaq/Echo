@@ -368,7 +368,7 @@ org content safe. Colors: only `--brand`/`--brand-ink` come from the server
       </div>
       <a class="hc-powered" href="https://chattermate.chat" target="_blank" rel="noopener">
         <span>Powered by</span>
-        <strong><span class="hc-cm-mark"><i></i><i></i><i></i></span> ChatterMate</strong>
+        <strong><span class="hc-cm-mark"><i></i><i></i><i></i></span> Echo</strong>
       </a>
     </div>
   </footer>
@@ -377,19 +377,19 @@ org content safe. Colors: only `--brand`/`--brand-ink` come from the server
   <script type="application/ld+json">{{ json_ld | tojson }}</script>
   {% endif %}
 
-  <!-- open the real embedded ChatterMate widget -->
+  <!-- open the real embedded Echo widget -->
   <script>
   (function () {
-    // The widget script is async and builds its launcher (#chattermate-button)
+    // The widget script is async and builds its launcher (#echo-button)
     // a moment after load, so a click can land before it exists — poll briefly
     // and click as soon as it appears instead of silently doing nothing.
     function openChat() {
       var tries = 0;
       (function attempt() {
-        var btn = document.getElementById('chattermate-button');
+        var btn = document.getElementById('echo-button');
         if (btn) { btn.click(); return; }
         if (tries++ < 40) { setTimeout(attempt, 150); return; }  // ~6s
-        if (window.console) console.warn('[ChatterMate] chat widget is not available on this page.');
+        if (window.console) console.warn('[Echo] chat widget is not available on this page.');
       })();
     }
     [].slice.call(document.querySelectorAll('[data-chat]')).forEach(function (b) {
@@ -402,12 +402,12 @@ org content safe. Colors: only `--brand`/`--brand-ink` come from the server
 
   {% if widget_id %}
   <script>
-    window.chattermateId = {{ widget_id | tojson }};
+    window.echoId = {{ widget_id | tojson }};
     // Must be set, exactly like the dashboard's install snippet does: the loader
     // otherwise falls back to the API URL baked in at build time (the vendor
     // cloud), so a self-hosted help center would ask the wrong backend for its
     // widget and the visitor would just see "Chat Unavailable".
-    window.chattermateBaseUrl = {{ widget_api_url | tojson }};
+    window.echoBaseUrl = {{ widget_api_url | tojson }};
     (function () {
       var s = document.createElement('script');
       s.src = {{ widget_script_url | tojson }};

@@ -236,7 +236,7 @@ class TicketProposal(Base):
     """Autonomy L2: a resolution the AI proposes and a human decides on.
     Approval resolves the ticket and notifies the customer; a rejection can
     feed a refined investigation run (the reason becomes its context_note).
-    ChatterMate never executes infrastructure changes — approval records the
+    Echo never executes infrastructure changes — approval records the
     decision, humans/runbooks perform any mutation."""
     __tablename__ = "ticket_proposals"
 

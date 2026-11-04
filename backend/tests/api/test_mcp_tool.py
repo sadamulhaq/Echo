@@ -15,7 +15,7 @@ limitations under the License.
 """
 
 """
-ChatterMate - MCP Tool API Tests
+Echo - MCP Tool API Tests
 """
 
 import pytest

@@ -13,7 +13,7 @@ import {
 // by the dashboard's unit tests.
 
 test.describe('a number or Page from the customer\'s own Meta app', () => {
-  test('a WhatsApp number receives messages: its webhooks are pointed at ChatterMate on connect @channels', async ({ agent, llm, adminApi, request }) => {
+  test('a WhatsApp number receives messages: its webhooks are pointed at Echo on connect @channels', async ({ agent, llm, adminApi, request }) => {
     await llm.script(agent, (s) => s
       .when(/opening hours/i).reply('We are open 9am to 5pm, Monday to Friday.')
       .otherwise().reply('Happy to help!'))

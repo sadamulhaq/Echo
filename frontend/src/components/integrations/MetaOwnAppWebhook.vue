@@ -28,8 +28,8 @@ const hint = computed(() => {
     return 'In your Meta app, add these under Messenger → Settings → Webhooks, then subscribe your Page to messages.'
   }
   return props.account.webhook_auto_configured
-    ? 'Messages from this number come to ChatterMate. Nothing to set up.'
-    : 'Add these in your Meta app under WhatsApp → Configuration so messages reach ChatterMate.'
+    ? 'Messages from this number come to Echo. Nothing to set up.'
+    : 'Add these in your Meta app under WhatsApp → Configuration so messages reach Echo.'
 })
 </script>
 

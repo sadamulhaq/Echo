@@ -67,7 +67,7 @@ function submitReject(reason: string) {
         <div>
           <div class="banner-title">AI proposes a resolution — awaiting your approval</div>
           <div class="banner-sub">
-            Approving resolves the ticket and sends the customer message below. ChatterMate never
+            Approving resolves the ticket and sends the customer message below. Echo never
             executes infrastructure changes — any fix stays with your team.
           </div>
         </div>
@@ -131,7 +131,7 @@ function submitReject(reason: string) {
           <div class="banner-sub">
             <template v-if="proposal.decided_by_name">By {{ proposal.decided_by_name }} — </template>
             the ticket was resolved and the customer notified. Any infrastructure change is
-            performed by your team, not ChatterMate.
+            performed by your team, not Echo.
           </div>
         </div>
       </div>

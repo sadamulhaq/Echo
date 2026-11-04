@@ -1,9 +1,9 @@
 ---
 name: write-e2e-test
-description: Write or change a ChatterMate Playwright end-to-end test (e2e/). Use when adding e2e coverage for a feature, fixing a failing e2e spec, or adding a page object, fixture or fake-LLM script.
+description: Write or change an Echo Playwright end-to-end test (e2e/). Use when adding e2e coverage for a feature, fixing a failing e2e spec, or adding a page object, fixture or fake-LLM script.
 ---
 
-# Writing a ChatterMate e2e test
+# Writing an Echo e2e test
 
 The suite lives in `e2e/`. Read `e2e/AUTHORING.md` first — it is the source of truth for
 layout and rules. The essentials:

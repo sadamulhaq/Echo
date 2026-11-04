@@ -177,7 +177,7 @@ const saveAgent = async () => {
           @select="onPageSelected"
         />
 
-        <!-- One-click signup under ChatterMate's Meta app; the manual form
+        <!-- One-click signup under Echo's Meta app; the manual form
              stays available for anyone who already has their own credentials. -->
         <div v-else-if="signupEnabled && !showManualForm" class="meta-signup">
           <p class="meta-intro">{{ signupCopy.intro }}</p>

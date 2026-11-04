@@ -71,14 +71,14 @@ const {
 } = useAISetup()
 
 // Set initial tab based on enterprise availability
-const activeTab = ref(hasEnterpriseModule ? 'chattermate' : 'custom')
+const activeTab = ref(hasEnterpriseModule ? 'echo' : 'custom')
 
 // Watch for existing configuration changes to set the correct tab
 watch([hasExistingConfig, setupConfig], ([hasConfig, config]) => {
   if (hasConfig && config.provider) {
-    // If existing config is ChatterMate, show ChatterMate tab
-    if (config.provider.toLowerCase() === 'chattermate' && hasEnterpriseModule) {
-      activeTab.value = 'chattermate'
+    // If existing config is Echo, show Echo tab
+    if (config.provider.toLowerCase() === 'echo' && hasEnterpriseModule) {
+      activeTab.value = 'echo'
     } else {
       // If existing config is a custom model (OpenAI, Groq, etc.), show custom tab
       activeTab.value = 'custom'
@@ -280,8 +280,8 @@ watch(() => setupConfig.value.provider, () => {
   useCustomModel.value = false
 })
 
-const selectTab = (tab: 'chattermate' | 'custom') => {
-  if (tab === 'chattermate' && !hasEnterpriseModule) return
+const selectTab = (tab: 'echo' | 'custom') => {
+  if (tab === 'echo' && !hasEnterpriseModule) return
   // Allow clicking on custom tab even when locked to show upgrade option
   activeTab.value = tab
 }
@@ -327,11 +327,11 @@ const handleSubmit = async () => {
   }
 }
 
-const setupChatterMateAI = async () => {
+const setupEchoAI = async () => {
   try {
     // Set the config values first
-    setupConfig.value.provider = 'chattermate'
-    setupConfig.value.model = 'chattermate'
+    setupConfig.value.provider = 'echo'
+    setupConfig.value.model = 'echo'
     setupConfig.value.apiKey = ''
     
     // Then save using the existing function without arguments
@@ -346,7 +346,7 @@ const setupChatterMateAI = async () => {
       emit('ai-setup-complete')
     }
   } catch (error) {
-    console.error('ChatterMate setup error:', error)
+    console.error('Echo setup error:', error)
   }
 }
 
@@ -356,8 +356,8 @@ const submitButtonText = computed(() => {
   return hasExistingConfig.value ? 'Update Configuration' : 'Save Configuration'
 })
 
-const chatterMateButtonText = computed(() => {
-  return hasExistingConfig.value ? 'Update to ChatterMate AI' : 'Proceed with ChatterMate AI'
+const echoButtonText = computed(() => {
+  return hasExistingConfig.value ? 'Update to Echo AI' : 'Proceed with Echo AI'
 })
 </script>
 
@@ -374,7 +374,7 @@ const chatterMateButtonText = computed(() => {
 
       <header class="page-header">
         <h1 class="page-title">AI Configuration</h1>
-        <p class="page-subtitle">Your agents already run on ChatterMate AI. Switch to your own model any time — this is optional.</p>
+        <p class="page-subtitle">Your agents already run on Echo AI. Switch to your own model any time — this is optional.</p>
       </header>
 
       <div class="tabs-container">
@@ -382,20 +382,20 @@ const chatterMateButtonText = computed(() => {
           <div
             v-if="hasEnterpriseModule"
             class="tab"
-            :class="{ active: activeTab === 'chattermate' }"
+            :class="{ active: activeTab === 'echo' }"
             role="tab"
             tabindex="0"
-            :aria-selected="activeTab === 'chattermate'"
-            @click="selectTab('chattermate')"
-            @keydown.enter.prevent="selectTab('chattermate')"
-            @keydown.space.prevent="selectTab('chattermate')"
+            :aria-selected="activeTab === 'echo'"
+            @click="selectTab('echo')"
+            @keydown.enter.prevent="selectTab('echo')"
+            @keydown.space.prevent="selectTab('echo')"
           >
             <span class="tab-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="8"></circle>
               </svg>
             </span>
-            <span class="tab-label">ChatterMate AI</span>
+            <span class="tab-label">Echo AI</span>
           </div>
           <div
             class="tab"
@@ -428,14 +428,14 @@ const chatterMateButtonText = computed(() => {
         </div>
 
         <div class="tab-content">
-          <div v-if="activeTab === 'chattermate' && hasEnterpriseModule" class="chattermate-content">
+          <div v-if="activeTab === 'echo' && hasEnterpriseModule" class="echo-content">
             <div class="provider-info">
               <div class="provider-header">
                 <span class="active-pill">
                   <span class="active-dot"></span>
                   <span class="active-text">ACTIVE</span>
                 </span>
-                <h4>ChatterMate AI</h4>
+                <h4>Echo AI</h4>
                 <p class="provider-tagline">Zero setup. Managed models, ready instantly — this is the default.</p>
               </div>
 
@@ -470,8 +470,8 @@ const chatterMateButtonText = computed(() => {
               </div>
               
               <div class="action-area">
-                <button class="continue-button" @click="setupChatterMateAI">
-                  {{ chatterMateButtonText }}
+                <button class="continue-button" @click="setupEchoAI">
+                  {{ echoButtonText }}
                 </button>
               </div>
             </div>
@@ -650,7 +650,7 @@ const chatterMateButtonText = computed(() => {
                     Enter any model ID your provider supports — we'll validate it with your API key.
                   </p>
                   <p v-if="useCustomModel" class="model-warning">
-                    ⚠️ Custom models aren't verified by ChatterMate. Smaller or older models may not reliably support tool calling and structured output, which can affect knowledge search, lead capture, and ending chats. Prefer a larger, tool-calling-capable model.
+                    ⚠️ Custom models aren't verified by Echo. Smaller or older models may not reliably support tool calling and structured output, which can affect knowledge search, lead capture, and ending chats. Prefer a larger, tool-calling-capable model.
                   </p>
                 </div>
 

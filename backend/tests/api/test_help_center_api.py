@@ -152,7 +152,7 @@ def test_faq_seo_fields_round_trip(client):
     created = client.post(f"{BASE}/faqs", json={
         "question": "What does it cost?", "answer": "From $19.",
         "slug": "Pricing & Plans!", "meta_title": "Pricing",
-        "meta_description": "What ChatterMate costs.",
+        "meta_description": "What Echo costs.",
     })
     assert created.status_code == 201
     # A hand-typed slug is normalized the same way a generated one is.
@@ -163,7 +163,7 @@ def test_faq_seo_fields_round_trip(client):
     updated = client.put(f"{BASE}/faqs/{faq_id}", json={"slug": "our-pricing"})
     assert updated.json()["slug"] == "our-pricing"
     # Untouched overrides survive a partial update.
-    assert updated.json()["meta_description"] == "What ChatterMate costs."
+    assert updated.json()["meta_description"] == "What Echo costs."
 
 
 def test_faq_slug_is_deduped_but_stable_for_its_own_row(client):

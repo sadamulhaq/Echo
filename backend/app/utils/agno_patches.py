@@ -50,7 +50,7 @@ from app.utils.agno_eval_guard import install_eval_guard
 
 logger = get_logger(__name__)
 
-_PATCHED_FLAG = "_chattermate_answers_at_limit"
+_PATCHED_FLAG = "_echo_answers_at_limit"
 
 # Set on the Model instance once this run has spent its tool budget. Safe as
 # instance state: create_model() builds a fresh Model per ChatAgent and ChatAgent
@@ -61,7 +61,7 @@ _PATCHED_FLAG = "_chattermate_answers_at_limit"
 # single round. That is fine — setting it twice is a no-op. It mattered only while
 # there was a backstop that had to tell a parallel sibling apart from a genuine
 # repeat; without one, a plain flag is enough.
-_EXHAUSTED = "_chattermate_tools_exhausted"
+_EXHAUSTED = "_echo_tools_exhausted"
 
 # Groq's structured output arrives as a tool call of this name rather than as
 # text. Kept in step with app.agents.structured_output.build_groq_json_tool.

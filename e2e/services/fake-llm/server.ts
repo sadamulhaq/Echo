@@ -5,7 +5,7 @@
 // replies keyed by a `[[e2e:<id>]]` marker in its agent's instructions or by the
 // agent's unique name — so parallel tests in one org never see each other's script.
 //
-// It speaks only what ChatterMate uses: non-streaming /v1/chat/completions, with or
+// It speaks only what Echo uses: non-streaming /v1/chat/completions, with or
 // without a strict json_schema response_format (ChatAgent's ChatResponse), and tool
 // calls. Anything else fails loudly instead of returning something plausible.
 //
@@ -245,7 +245,7 @@ async function route(req: IncomingMessage, res: ServerResponse) {
       throw new HttpError(401, 'Incorrect API key provided.')
     }
     const body = (await readJson(req)) as ChatRequest
-    if (body.stream) throw new HttpError(400, 'the e2e fake LLM does not stream — ChatterMate never asks it to; if it does now, extend services/fake-llm')
+    if (body.stream) throw new HttpError(400, 'the e2e fake LLM does not stream — Echo never asks it to; if it does now, extend services/fake-llm')
     if (!Array.isArray(body.messages)) throw new HttpError(400, 'messages[] is required')
     return send(res, 200, await answer(body, req.headers.authorization ?? ''))
   }

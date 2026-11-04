@@ -26,7 +26,7 @@ from app.knowledge.failure_advice import FAILURE_ADVICE, FailureCause, plain_rea
 
 
 def test_identifies_honestly_by_name():
-    assert "ChatterMateBot" in CRAWLER_USER_AGENT
+    assert "EchoBot" in CRAWLER_USER_AGENT
     assert "Chrome/" not in CRAWLER_USER_AGENT  # the stale fake that WordPress.com refuses
 
 

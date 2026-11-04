@@ -153,7 +153,7 @@ def mock_validate_model_selection(model_type: str, model_name: str):
             detail={
                 "error": "Unsupported provider",
                 "type": "invalid_provider",
-                "details": "Currently only these providers are supported: GROQ, OPENAI, CHATTERMATE"
+                "details": "Currently only these providers are supported: GROQ, OPENAI, ECHO"
             }
         )
     return original_validate(model_type, model_name)
@@ -318,16 +318,16 @@ def test_setup_ai_groq(client, db, test_user):
     assert data["config"]["model_name"] == "llama-3.3-70b-versatile"
 
 @patch.dict(os.environ, {
-    'CHATTERMATE_API_KEY': 'test_chattermate_key',
-    'CHATTERMATE_MODEL_NAME': 'gpt-4o-mini'
+    'ECHO_API_KEY': 'test_echo_key',
+    'ECHO_MODEL_NAME': 'gpt-4o-mini'
 })
 @patch('app.api.ai_setup.HAS_ENTERPRISE', True)
-def test_setup_ai_chattermate_success(client, db, test_user):
-    """Test successful ChatterMate AI setup"""
+def test_setup_ai_echo_success(client, db, test_user):
+    """Test successful Echo AI setup"""
     config_data = {
-        "model_type": "CHATTERMATE",
-        "model_name": "chattermate",
-        "api_key": "any_key"  # This will be ignored for ChatterMate
+        "model_type": "ECHO",
+        "model_name": "echo",
+        "api_key": "any_key"  # This will be ignored for Echo
     }
     
     response = client.post(
@@ -337,16 +337,16 @@ def test_setup_ai_chattermate_success(client, db, test_user):
     assert response.status_code == 200
     data = response.json()
     assert data["message"] == "AI configuration completed successfully"
-    assert data["config"]["model_type"] == "CHATTERMATE"
+    assert data["config"]["model_type"] == "ECHO"
     assert data["config"]["model_name"] == "gpt-4o-mini"
 
 @patch.dict(os.environ, {}, clear=True)  # Clear environment variables
 @patch('app.api.ai_setup.HAS_ENTERPRISE', True)
-def test_setup_ai_chattermate_missing_key(client, db, test_user):
-    """Test ChatterMate AI setup with missing API key"""
+def test_setup_ai_echo_missing_key(client, db, test_user):
+    """Test Echo AI setup with missing API key"""
     config_data = {
-        "model_type": "CHATTERMATE",
-        "model_name": "chattermate",
+        "model_type": "ECHO",
+        "model_name": "echo",
         "api_key": "any_key"
     }
     
@@ -355,7 +355,7 @@ def test_setup_ai_chattermate_missing_key(client, db, test_user):
         json=config_data
     )
     assert response.status_code == 500
-    assert "ChatterMate API configuration missing" in response.json()["detail"]
+    assert "Echo API configuration missing" in response.json()["detail"]
 
 def test_setup_ai_general_exception(client, db, test_user):
     """Test setup AI with general exception"""
@@ -432,8 +432,8 @@ def test_get_providers(client, db, test_user):
     # Newly enabled providers are present alongside OpenAI/Groq
     for expected in ("OPENAI", "GROQ", "ANTHROPIC", "GOOGLE", "MISTRAL", "XAI", "DEEPSEEK", "OPENAI_COMPATIBLE"):
         assert expected in providers, f"{expected} missing from /providers"
-    # ChatterMate (managed) is not a user-selectable BYO-key provider
-    assert "CHATTERMATE" not in providers
+    # Echo (managed) is not a user-selectable BYO-key provider
+    assert "ECHO" not in providers
     # Each provider exposes suggested models and BYO-key metadata
     openai = providers["OPENAI"]
     assert openai["requires_api_key"] is True
@@ -616,15 +616,15 @@ def test_update_ai_config_validation_exception(client, db, test_user, test_ai_co
     assert data["detail"]["type"] == "api_key_validation_error"
 
 @patch.dict(os.environ, {
-    'CHATTERMATE_API_KEY': 'test_chattermate_key',
-    'CHATTERMATE_MODEL_NAME': 'gpt-4o-mini'
+    'ECHO_API_KEY': 'test_echo_key',
+    'ECHO_MODEL_NAME': 'gpt-4o-mini'
 })
 @patch('app.api.ai_setup.HAS_ENTERPRISE', True)
-def test_update_ai_config_chattermate_success(client, db, test_user, test_ai_config):
-    """Test successful ChatterMate AI config update"""
+def test_update_ai_config_echo_success(client, db, test_user, test_ai_config):
+    """Test successful Echo AI config update"""
     update_data = {
-        "model_type": "CHATTERMATE",
-        "model_name": "chattermate"
+        "model_type": "ECHO",
+        "model_name": "echo"
     }
     
     response = client.put(
@@ -634,15 +634,15 @@ def test_update_ai_config_chattermate_success(client, db, test_user, test_ai_con
     assert response.status_code == 200
     data = response.json()
     assert data["message"] == "AI configuration updated successfully"
-    assert data["config"]["model_type"] == "CHATTERMATE"
+    assert data["config"]["model_type"] == "ECHO"
 
 @patch.dict(os.environ, {}, clear=True)
 @patch('app.api.ai_setup.HAS_ENTERPRISE', True)
-def test_update_ai_config_chattermate_missing_key(client, db, test_user, test_ai_config):
-    """Test ChatterMate AI config update with missing API key"""
+def test_update_ai_config_echo_missing_key(client, db, test_user, test_ai_config):
+    """Test Echo AI config update with missing API key"""
     update_data = {
-        "model_type": "CHATTERMATE",
-        "model_name": "chattermate"
+        "model_type": "ECHO",
+        "model_name": "echo"
     }
     
     response = client.put(
@@ -650,7 +650,7 @@ def test_update_ai_config_chattermate_missing_key(client, db, test_user, test_ai
         json=update_data
     )
     assert response.status_code == 500
-    assert "ChatterMate API configuration missing" in response.json()["detail"]
+    assert "Echo API configuration missing" in response.json()["detail"]
 
 def test_update_ai_config_general_exception(client, db, test_user, test_ai_config):
     """Test update AI config with general exception"""
@@ -670,11 +670,11 @@ def test_update_ai_config_general_exception(client, db, test_user, test_ai_confi
         assert response.status_code == 500
         assert response.json()["detail"] == "Failed to update AI configuration"
 
-def test_validate_model_selection_chattermate():
-    """Test validate_model_selection with ChatterMate"""
+def test_validate_model_selection_echo():
+    """Test validate_model_selection with Echo"""
     # Should not raise any exception
-    ai_setup_router.validate_model_selection("CHATTERMATE", "chattermate")
-    ai_setup_router.validate_model_selection("chattermate", "CHATTERMATE")
+    ai_setup_router.validate_model_selection("ECHO", "echo")
+    ai_setup_router.validate_model_selection("echo", "ECHO")
 
 def test_validate_model_selection_groq_valid():
     """Test validate_model_selection with valid Groq model"""
@@ -726,18 +726,18 @@ def test_validate_model_selection_unsupported_provider():
 def test_setup_ai_unsupported_model_type(client, db, test_user):
     """Test setup AI with unsupported model type for API key validation"""
     config_data = {
-        "model_type": "CHATTERMATE", 
-        "model_name": "some-model",  # Invalid model name for ChatterMate
+        "model_type": "ECHO", 
+        "model_name": "some-model",  # Invalid model name for Echo
         "api_key": "test_valid_key"
     }
     
-    # When HAS_ENTERPRISE is False, ChatterMate should be rejected by validation
+    # When HAS_ENTERPRISE is False, Echo should be rejected by validation
     with patch('app.api.ai_setup.HAS_ENTERPRISE', False):
         response = client.post(
             "/api/ai/setup",
             json=config_data
         )
-        # Should fail validation because CHATTERMATE with non-"chattermate" model name is invalid
+        # Should fail validation because ECHO with non-"echo" model name is invalid
         assert response.status_code == 400
         data = response.json()
         assert "error" in data["detail"]

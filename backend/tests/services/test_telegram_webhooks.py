@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Registering ChatterMate's webhook with Telegram bots — including again for
+Registering Echo's webhook with Telegram bots — including again for
 an agent's bots when its reply buttons are turned on.
 """
 

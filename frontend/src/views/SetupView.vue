@@ -212,7 +212,7 @@ const timeOptions = Array.from({ length: 24 * 4 }, (_, i) => {
         <div class="container">
             <!-- Header -->
             <header class="setup-header text-center">
-                <h1 class="gradient-text">Welcome to ChatterMate</h1>
+                <h1 class="gradient-text">Welcome to Echo</h1>
                 <p class="subtitle opacity-80">Let's get your organization set up</p>
             </header>
 

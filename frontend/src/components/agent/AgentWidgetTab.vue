@@ -83,7 +83,7 @@ const isAskAnythingStyle = computed(() => {
 // Per-page overrides + JS control examples. Placement defaults live in the
 // Customization tab; these snippets are for developers who need more.
 const configExampleCode = `<script>
-  window.chattermateConfig = {
+  window.echoConfig = {
     displayMode: 'sidebar-right', // 'floating' | 'sidebar-left' | 'sidebar-right' | 'search-bar'
     position: { side: 'right', bottom: 20, offset: 20 },
     width: 400,                   // floating window size
@@ -95,20 +95,20 @@ const configExampleCode = `<script>
 <\/script>`
 
 const jsApiExampleCode = `// From your own code:
-ChatterMate.open();                  // open({ message: 'Hi!' }) prefills the input
-ChatterMate.close();
-ChatterMate.toggle();
-ChatterMate.on('unread', (count) => { /* badge your own button */ });
-ChatterMate.on('ready', () => { /* widget loaded */ });
+Echo.open();                  // open({ message: 'Hi!' }) prefills the input
+Echo.close();
+Echo.toggle();
+Echo.on('unread', (count) => { /* badge your own button */ });
+Echo.on('ready', () => { /* widget loaded */ });
 
 // Single-page apps — switch identity without reloading the page:
-ChatterMate.identify(token);         // after login (token from your backend)
-ChatterMate.logout();                // after logout: back to anonymous
-ChatterMate.destroy();               // remove the widget from the page
-ChatterMate.reload();                // rebuild it (also brings back a destroyed widget)
+Echo.identify(token);         // after login (token from your backend)
+Echo.logout();                // after logout: back to anonymous
+Echo.destroy();               // remove the widget from the page
+Echo.reload();                // rebuild it (also brings back a destroyed widget)
 
 // Or with no JavaScript at all:
-<button data-chattermate-open>Chat with us</button>`
+<button data-echo-open>Chat with us</button>`
 
 const copyText = (text: string) => {
   if (!navigator.clipboard) {
@@ -158,7 +158,7 @@ const iframeEmbedCode = computed(() => {
             </div>
 
             <p class="code-description">
-              This agent requires token authentication. Your backend must generate a token using the ChatterMate API before loading the widget.
+              This agent requires token authentication. Your backend must generate a token using the Echo API before loading the widget.
             </p>
 
             <!-- Step 1: Get API Key -->
@@ -180,7 +180,7 @@ const iframeEmbedCode = computed(() => {
                 <h5 class="step-title">Generate token (Server-side)</h5>
               </div>
               <p class="step-description">
-                Create a backend endpoint that calls the ChatterMate API to generate a token:
+                Create a backend endpoint that calls the Echo API to generate a token:
               </p>
               <div class="code-block">
                 <pre><code>// Your backend endpoint (e.g., /api/chat-token)
@@ -215,7 +215,7 @@ const { data } = await response.json();
                 <h5 class="step-title">Add to your website (Client-side)</h5>
               </div>
               <p class="step-description">
-                Add this code to your HTML, replacing <code>/api/chattermate</code> with your backend endpoint:
+                Add this code to your HTML, replacing <code>/api/echo</code> with your backend endpoint:
               </p>
               <div class="code-block">
                 <pre><code>{{ embedCode }}</code></pre>
@@ -294,7 +294,7 @@ const { data } = await response.json();
         <div class="widget-code-section">
           <p class="code-description">
             Placement, size and launcher visibility are set in the <strong>Customization</strong> tab.
-            To override them on a specific page, set <code>window.chattermateConfig</code> before the loader script:
+            To override them on a specific page, set <code>window.echoConfig</code> before the loader script:
           </p>
           <div class="code-block">
             <pre><code>{{ configExampleCode }}</code></pre>

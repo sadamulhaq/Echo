@@ -17,7 +17,7 @@ limitations under the License.
 import { vi } from 'vitest'
 
 /**
- * Drives the embed loader (chattermate.js) the way the widget frame would: the
+ * Drives the embed loader (echo.js) the way the widget frame would: the
  * frame is a real iframe the loader creates, and this plays its side of the
  * handshake (FRAME_READY → HOST_INIT, WIDGET_READY, …) with real MessageEvents.
  */
@@ -39,30 +39,30 @@ export function resetPage() {
   localStorage.clear()
   sessionStorage.clear()
   const w = window as any
-  w.chattermateId = WIDGET_ID
-  w.chattermateBaseUrl = BASE_URL
-  w.chattermateToken = undefined
-  w.chattermateConfig = undefined
+  w.echoId = WIDGET_ID
+  w.echoBaseUrl = BASE_URL
+  w.echoToken = undefined
+  w.echoConfig = undefined
 }
 
 export function cleanupPage() {
   vi.unstubAllGlobals()
   vi.useRealTimers()
-  delete (window as any).ChatterMate
+  delete (window as any).Echo
 }
 
 /** Import the loader; it builds the widget straight away (the DOM is ready). */
 export async function loadLoader({ fakeTimers = false } = {}) {
   vi.resetModules()
-  await import('@/webclient/chattermate.js')
+  await import('@/webclient/echo.js')
   if (fakeTimers) await vi.advanceTimersByTimeAsync(0)
   else await flush()
 }
 
-export const api = () => (window as any).ChatterMate
+export const api = () => (window as any).Echo
 
 export function frames(): HTMLIFrameElement[] {
-  return Array.from(document.querySelectorAll('.chattermate-iframe')) as HTMLIFrameElement[]
+  return Array.from(document.querySelectorAll('.echo-iframe')) as HTMLIFrameElement[]
 }
 
 export function frame(): HTMLIFrameElement {

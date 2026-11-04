@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatterMate Widget Test</title>
+    <title>Echo Widget Test</title>
     <style>
         * {
             box-sizing: border-box;
@@ -307,12 +307,12 @@
 </head>
 
 <body>
-    <h1>ChatterMate Widget Test Page</h1>
+    <h1>Echo Widget Test Page</h1>
 
     <div class="content">
-        <h2>About ChatterMate</h2>
+        <h2>About Echo</h2>
         <p>
-            This is a test page demonstrating the ChatterMate chat widget integration.
+            This is a test page demonstrating the Echo chat widget integration.
             The widget provides real-time chat functionality with AI-powered responses
             and seamless human handoff capabilities.
         </p>
@@ -366,19 +366,19 @@
 
     <div class="content">
         <h2>Integration Code</h2>
-        <p>To add the ChatterMate widget to your website, add the following code before the closing
+        <p>To add the Echo widget to your website, add the following code before the closing
             <code>&lt;/body&gt;</code> tag:
         </p>
 
         <h3 style="margin-top: 20px; font-size: 1rem;">Basic (No Authentication)</h3>
         <pre><code>
 &lt;script&gt;
-    window.chattermateId = 'YOUR_WIDGET_ID';
+    window.echoId = 'YOUR_WIDGET_ID';
     // Required for local testing — without it the widget uses the API URL baked
     // into the build (the cloud API for a production build).
-    window.chattermateBaseUrl = 'http://localhost:8000/api/v1';
+    window.echoBaseUrl = 'http://localhost:8000/api/v1';
 &lt;/script&gt;
-&lt;script src="http://localhost:5173/webclient/chattermate.min.js"&gt;&lt;/script&gt;
+&lt;script src="http://localhost:5173/webclient/echo.min.js"&gt;&lt;/script&gt;
         </code></pre>
 
         <h3 style="margin-top: 20px; font-size: 1rem;">With Token Authentication</h3>
@@ -402,25 +402,25 @@ const { data } = await response.json();
 
 // Client-side: Initialize widget with token
 &lt;script&gt;
-    window.chattermateId = 'YOUR_WIDGET_ID';
-    window.chattermateToken = 'TOKEN_FROM_SERVER';
-    window.chattermateBaseUrl = 'http://localhost:8000/api/v1';
+    window.echoId = 'YOUR_WIDGET_ID';
+    window.echoToken = 'TOKEN_FROM_SERVER';
+    window.echoBaseUrl = 'http://localhost:8000/api/v1';
 &lt;/script&gt;
-&lt;script src="http://localhost:5173/webclient/chattermate.min.js"&gt;&lt;/script&gt;
+&lt;script src="http://localhost:5173/webclient/echo.min.js"&gt;&lt;/script&gt;
         </code></pre>
     </div>
 
-    <!-- ChatterMate Widget Integration -->
+    <!-- Echo Widget Integration -->
     <script>
         // Constants for localStorage keys
-        const WIDGET_ID_KEY = 'chattermate_widget_id';
-        const WIDGET_INITIALIZED_KEY = 'chattermate_initialized';
+        const WIDGET_ID_KEY = 'echo_widget_id';
+        const WIDGET_INITIALIZED_KEY = 'echo_initialized';
 
         // Where the widget talks to. WITHOUT this the loader falls back to the URL
         // baked in at build time — which for a :prod build is the cloud API, so a
         // local test would silently chat with api.chattermate.chat.
-        // Override in the console: localStorage.setItem('chattermate_api_base', '...')
-        const CM_API_BASE = localStorage.getItem('chattermate_api_base') || 'http://localhost:8000/api/v1';
+        // Override in the console: localStorage.setItem('echo_api_base', '...')
+        const CM_API_BASE = localStorage.getItem('echo_api_base') || 'http://localhost:8000/api/v1';
         // The loader is served by the FRONTEND (vite in dev, the dashboard origin in
         // production) — never copied into this folder, where it would go stale.
         // The backend does not serve it. Rebuild after loader changes:
@@ -428,8 +428,8 @@ const { data } = await response.json();
         // Follow the page's own scheme rather than hardcoding http://: served over
         // https this page would otherwise pull executable code over an unencrypted
         // connection, which the browser blocks as mixed content anyway.
-        const CM_LOADER_URL = localStorage.getItem('chattermate_loader_url')
-            || `${window.location.protocol}//localhost:5173/webclient/chattermate.min.js`;
+        const CM_LOADER_URL = localStorage.getItem('echo_loader_url')
+            || `${window.location.protocol}//localhost:5173/webclient/echo.min.js`;
         
         // Load saved widget ID and initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
@@ -456,7 +456,7 @@ const { data } = await response.json();
         function autoInitializeWidget() {
             const savedWidgetId = localStorage.getItem(WIDGET_ID_KEY);
             const wasInitialized = localStorage.getItem(WIDGET_INITIALIZED_KEY) === 'true';
-            const hasApiKey = localStorage.getItem('chattermate_api_key');
+            const hasApiKey = localStorage.getItem('echo_api_key');
 
             // Don't auto-initialize if we have an API key saved (requires token auth)
             if (hasApiKey) {
@@ -487,11 +487,11 @@ const { data } = await response.json();
         
         function performWidgetInitialization(widgetId) {
             // Set the widget ID
-            window.chattermateId = widgetId;
-            window.chattermateBaseUrl = CM_API_BASE;
+            window.echoId = widgetId;
+            window.echoBaseUrl = CM_API_BASE;
 
             // Remove existing script if any
-            const existingScript = document.getElementById('chattermate-script');
+            const existingScript = document.getElementById('echo-script');
             if (existingScript) {
                 existingScript.remove();
             }
@@ -500,12 +500,12 @@ const { data } = await response.json();
             setTimeout(() => {
                 // Create and add new script
                 const script = document.createElement('script');
-                script.id = 'chattermate-script';
+                script.id = 'echo-script';
                 script.src = CM_LOADER_URL;
                 script.onload = function() {
                     // Initialize the widget once script loads
-                    if (window.ChatterMate) {
-                        window.ChatterMate.init({ id: widgetId });
+                    if (window.Echo) {
+                        window.Echo.init({ id: widgetId });
                         console.log('Widget initialized with ID:', widgetId);
                     }
                 };
@@ -515,21 +515,21 @@ const { data } = await response.json();
         
         function clearWidget() {
             // Remove widget script first to prevent it from recreating storage items
-            const existingScript = document.getElementById('chattermate-script');
+            const existingScript = document.getElementById('echo-script');
             if (existingScript) {
                 existingScript.remove();
             }
             
             // Reset window properties to disable widget functionality
-            if (window.chattermateId) {
-                delete window.chattermateId;
+            if (window.echoId) {
+                delete window.echoId;
             }
-            if (window.ChatterMate) {
+            if (window.Echo) {
                 // Call destroy method if it exists
-                if (typeof window.ChatterMate.destroy === 'function') {
-                    window.ChatterMate.destroy();
+                if (typeof window.Echo.destroy === 'function') {
+                    window.Echo.destroy();
                 }
-                delete window.ChatterMate;
+                delete window.Echo;
             }
             
             // Function to clear storage items with specific patterns
@@ -540,7 +540,7 @@ const { data } = await response.json();
                 for (let i = 0; i < storage.length; i++) {
                     const key = storage.key(i);
                     if (key && (
-                        key.includes('chattermate') || 
+                        key.includes('echo') || 
                         key.includes('widget') || 
                         key === 'ctid' ||
                         key.includes('chat') ||
@@ -577,7 +577,7 @@ const { data } = await response.json();
             let cookiesCleared = 0;
             document.cookie.split(";").forEach(function(c) { 
                 const cookie = c.trim();
-                if (cookie.includes('chattermate') || 
+                if (cookie.includes('echo') || 
                     cookie.includes('widget') || 
                     cookie.includes('ctid') ||
                     cookie.includes('chat')) {
@@ -637,7 +637,7 @@ const { data } = await response.json();
             });
 
             // Load saved API key
-            const savedApiKey = localStorage.getItem('chattermate_api_key');
+            const savedApiKey = localStorage.getItem('echo_api_key');
             if (savedApiKey) {
                 document.getElementById('apiKeyInput').value = savedApiKey;
             }
@@ -688,13 +688,13 @@ const { data } = await response.json();
 
                 if (data.success && data.data?.token) {
                     // Save API key for future use
-                    localStorage.setItem('chattermate_api_key', apiKey);
+                    localStorage.setItem('echo_api_key', apiKey);
                     localStorage.setItem(WIDGET_ID_KEY, widgetId);
                     localStorage.setItem(WIDGET_INITIALIZED_KEY, 'true');
 
                     // Set the token for the widget
-                    window.chattermateToken = data.data.token;
-                    window.chattermateId = widgetId;
+                    window.echoToken = data.data.token;
+                    window.echoId = widgetId;
 
                     // Show success
                     authStatus.textContent = `Authenticated! Token expires: ${new Date(data.data.expires_at).toLocaleString()}`;
@@ -720,42 +720,42 @@ const { data } = await response.json();
         }
 
         function performAuthenticatedWidgetInitialization(widgetId, token) {
-            // Set widget configuration - widget loader checks window.chattermateToken first
-            window.chattermateId = widgetId;
-            window.chattermateToken = token;
-            window.chattermateBaseUrl = CM_API_BASE;
+            // Set widget configuration - widget loader checks window.echoToken first
+            window.echoId = widgetId;
+            window.echoToken = token;
+            window.echoBaseUrl = CM_API_BASE;
 
             // Remove existing script if any
-            const existingScript = document.getElementById('chattermate-script');
+            const existingScript = document.getElementById('echo-script');
             if (existingScript) {
                 existingScript.remove();
             }
 
             // Also remove any existing widget elements to ensure fresh initialization
-            const existingContainer = document.getElementById('chattermate-container');
-            const existingButton = document.getElementById('chattermate-button');
-            const existingClose = document.getElementById('chattermate-mobile-close');
-            const existingTopbar = document.getElementById('chattermate-mobile-topbar');
+            const existingContainer = document.getElementById('echo-container');
+            const existingButton = document.getElementById('echo-button');
+            const existingClose = document.getElementById('echo-mobile-close');
+            const existingTopbar = document.getElementById('echo-mobile-topbar');
             if (existingContainer) existingContainer.remove();
             if (existingButton) existingButton.remove();
             if (existingClose) existingClose.remove();
             if (existingTopbar) existingTopbar.remove();
 
-            // Clear ChatterMate instance
-            if (window.ChatterMate) {
-                delete window.ChatterMate;
+            // Clear Echo instance
+            if (window.Echo) {
+                delete window.Echo;
             }
 
             // Wait a moment for cleanup
             setTimeout(() => {
                 // Create and add new script
                 const script = document.createElement('script');
-                script.id = 'chattermate-script';
+                script.id = 'echo-script';
                 script.src = CM_LOADER_URL;
 
                 script.onload = function() {
-                    if (window.ChatterMate) {
-                        window.ChatterMate.init({
+                    if (window.Echo) {
+                        window.Echo.init({
                             id: widgetId
                         });
                     }

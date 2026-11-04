@@ -16,7 +16,7 @@ limitations under the License.
 Custom-domain verification for the public help center.
 
 The customer proves control of the domain with a TXT record
-(_chattermate.<domain> = cm-verify=<token>) and routes traffic with a CNAME
+(_echo.<domain> = cm-verify=<token>) and routes traffic with a CNAME
 to HELP_CENTER_CNAME_TARGET (A/AAAA records matching HELP_CENTER_TARGET_IPS
 are accepted for providers that flatten CNAMEs). Both must pass before the
 host dispatcher will ever serve the domain. SSL turns active once an HTTPS
@@ -38,7 +38,7 @@ logger = get_logger(__name__)
 
 DNS_LIFETIME_SECONDS = 5.0
 SSL_PROBE_TIMEOUT_SECONDS = 10.0
-TXT_RECORD_PREFIX = "_chattermate"
+TXT_RECORD_PREFIX = "_echo"
 # Public resolvers for verification lookups. The container's own resolver is
 # Docker's embedded DNS (127.0.0.11) for service discovery — it negatively
 # caches names that didn't exist when first queried (so a TXT added *after* the

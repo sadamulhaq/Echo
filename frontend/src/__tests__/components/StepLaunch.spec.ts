@@ -38,7 +38,7 @@ describe('StepLaunch', () => {
 
     const mailto = wrapper.find('a[href^="mailto:"]').attributes('href')!
     const body = new URLSearchParams(mailto.slice('mailto:?'.length)).get('body')!
-    expect(body).toContain("window.chattermateId = 'w-1'")
+    expect(body).toContain("window.echoId = 'w-1'")
     expect(body).toContain(WIDGET_INSTALL_GUIDE_URL)
     expect(mailto).not.toContain('+') // spaces encoded as %20 for mail clients
     expect(wrapper.find(`a[href="${WIDGET_INSTALL_GUIDE_URL}"]`).exists()).toBe(true)
@@ -71,7 +71,7 @@ describe('StepLaunch - copying and help', () => {
     const wrapper = await mountStep()
     await copyButton(wrapper).trigger('click')
     await flushPromises()
-    expect(writeText).toHaveBeenCalledWith(expect.stringContaining("window.chattermateId = 'w-1'"))
+    expect(writeText).toHaveBeenCalledWith(expect.stringContaining("window.echoId = 'w-1'"))
     expect(copyButton(wrapper).text()).toBe('Copied')
     await vi.advanceTimersByTimeAsync(2000)
     expect(copyButton(wrapper).text()).toBe('Copy')

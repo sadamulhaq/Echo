@@ -16,7 +16,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/webclient/widget.ts'),
-      name: 'ChatterMateWidget',
+      name: 'EchoWidget',
       fileName: 'widget',
       formats: ['es'],
     },

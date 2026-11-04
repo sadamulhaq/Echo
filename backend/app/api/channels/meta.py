@@ -302,7 +302,7 @@ def _upsert_account(db: Session, organization: Organization, channel_type: str,
                     forget: tuple = ()):
     """Create the account or refresh credentials on reconnect (same org only).
     `forget` names stored credentials that no longer apply (an app secret,
-    once the account is connected through ChatterMate's own app)."""
+    once the account is connected through Echo's own app)."""
     repo = ChannelAccountRepository(db)
     existing = repo.get_by_external_id(channel_type, external_account_id)
     if existing is not None:
@@ -542,7 +542,7 @@ async def list_messenger_signup_pages(
     pages = await _list_manageable_pages(user_token, "id,name,access_token")
     if not pages:
         raise HTTPException(status_code=400, detail=(
-            "No Facebook Pages were shared with ChatterMate. Run the connect "
+            "No Facebook Pages were shared with Echo. Run the connect "
             "again and tick the Page you want to use."))
 
     return MessengerSignupPagesOut(

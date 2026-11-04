@@ -35,13 +35,13 @@ load_dotenv(ENV_FILE)
 DEFAULT_CORS = ["https://chattermate.chat", "http://localhost:5173", "http://localhost:8000"]
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "ChatterMate"
+    PROJECT_NAME: str = "Echo"
     VERSION: str = "0.1.0"
     API_V1_STR: str = "/api/v1"
 
     # Database
     DATABASE_URL: str = os.getenv(
-        "DATABASE_URL", "postgresql+psycopg://test:test@localhost:5432/chattermate")
+        "DATABASE_URL", "postgresql+psycopg://test:test@localhost:5432/echo")
     # Redis
     REDIS_URL: str = os.getenv("REDIS_URL", "redis://localhost:6379/0")
     REDIS_ENABLED: bool = os.getenv("REDIS_ENABLED", "false").lower() == "true"
@@ -92,7 +92,7 @@ class Settings(BaseSettings):
     SMTP_USERNAME: str = os.getenv("SMTP_USERNAME", "your-email@gmail.com")
     SMTP_PASSWORD: str = os.getenv("SMTP_PASSWORD", "your-password")
     FROM_EMAIL: str = os.getenv("FROM_EMAIL", "noreply@chattermate.chat")
-    FROM_NAME: str = os.getenv("FROM_NAME", "ChatterMate")
+    FROM_NAME: str = os.getenv("FROM_NAME", "Echo")
 
     # Shopify
     SHOPIFY_API_KEY: str = os.getenv("SHOPIFY_API_KEY", "")
@@ -158,7 +158,7 @@ class Settings(BaseSettings):
 
     # S3 Configuration
     S3_FILE_STORAGE: bool = os.getenv("S3_FILE_STORAGE", "false").lower() == "true"
-    S3_BUCKET: str = os.getenv("S3_BUCKET", "chattermate-uploads")
+    S3_BUCKET: str = os.getenv("S3_BUCKET", "echo-uploads")
     S3_REGION: str = os.getenv("S3_REGION", "us-east-1")
     # None, not "", when unset: boto3 only falls back to its default credential
     # chain (env → shared config → IAM instance/container role) if these are
@@ -279,7 +279,7 @@ class Settings(BaseSettings):
     # Force a context-window size (tokens) for exotic/self-hosted models; 0 = auto.
     FAQ_CONTEXT_TOKENS_OVERRIDE: int = int(os.getenv("FAQ_CONTEXT_TOKENS_OVERRIDE", "0"))
     # Meter FAQ generation credits even for orgs on their own API key
-    # (default: hosted CHATTERMATE model only).
+    # (default: hosted ECHO model only).
     FAQ_METER_OWN_KEY: bool = os.getenv("FAQ_METER_OWN_KEY", "false").lower() == "true"
     FAQ_IMPORT_MAX_PAGE_CHARS: int = int(os.getenv("FAQ_IMPORT_MAX_PAGE_CHARS", "100000"))
     FAQ_IMPORT_FETCH_TIMEOUT: int = int(os.getenv("FAQ_IMPORT_FETCH_TIMEOUT", "30"))

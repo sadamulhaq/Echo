@@ -723,23 +723,23 @@ async def generate_instructions(
         except ImportError:
             HAS_ENTERPRISE = False
         
-        # Get API key and model - first check for ChatterMate config if enterprise is available
+        # Get API key and model - first check for Echo config if enterprise is available
         api_key = ""
         model_name = ""
         model_type = ""
         base_url = None
 
         if HAS_ENTERPRISE:
-            # Use Groq/OpenAI with keys from env for ChatterMate model
+            # Use Groq/OpenAI with keys from env for Echo model
             model_type = 'OPENAI'
-            model_name = os.getenv('CHATTERMATE_MODEL_NAME', 'gpt-4o-mini')
-            api_key = os.getenv('CHATTERMATE_API_KEY', '')
+            model_name = os.getenv('ECHO_MODEL_NAME', 'gpt-4o-mini')
+            api_key = os.getenv('ECHO_API_KEY', '')
             
             if not api_key:
-                logger.error("ChatterMate API key not found in environment")
+                logger.error("Echo API key not found in environment")
                 raise HTTPException(
                     status_code=500,
-                    detail="ChatterMate API configuration missing"
+                    detail="Echo API configuration missing"
                 )
         else:
             # Get from organization's AI config

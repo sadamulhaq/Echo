@@ -32,7 +32,7 @@ class AIModelType(str, Enum):
     OLLAMA = "OLLAMA"
     XAI = "XAI"
     OPENAI_COMPATIBLE = "OPENAI_COMPATIBLE"
-    CHATTERMATE = "CHATTERMATE" # own model for enterprise customers
+    ECHO = "ECHO" # own model for enterprise customers
 
 DEFAULT_AI_SETTINGS = {
     "instructions": [

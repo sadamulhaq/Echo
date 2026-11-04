@@ -15,7 +15,7 @@ limitations under the License.
 """
 
 """
-ChatterMate - Ticket investigator agent tests
+Echo - Ticket investigator agent tests
 """
 
 import pytest

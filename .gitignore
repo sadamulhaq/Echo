@@ -25,10 +25,10 @@ uploads/
 *.csr.crt
 /shopify/
 
-# WordPress plugin source lives in its own repo (chattermate-wordpress-plugin);
+# WordPress plugin source lives in its own repo (echo-wordpress-plugin);
 # only the built, installable zip is tracked here for manual download.
 /wordpress/*
-!/wordpress/chattermate-chat.zip
+!/wordpress/echo-chat.zip
 
 # Firebase service account key (contains sensitive credentials)
 chattermate-13e0a-firebase-adminsdk-7dqo6-57f3de88cb.json
@@ -71,7 +71,7 @@ config/
 frontend/.env.*.bak*
 
 # Stale loader copies — server.js serves the current build from frontend/public/webclient
-chattermate-test/chattermate.min.js
+echo-test/echo.min.js
 
 # Only the :dev webclient build emits a sourcemap, and the committed loader is
 # the :prod one, which does not reference it. Keeps a stray dev artifact out.

@@ -1,11 +1,11 @@
-// A pretend customer website with the ChatterMate widget embedded the way the
+// A pretend customer website with the Echo widget embedded the way the
 // dashboard's install snippet does it. Everything about the embed comes from the
 // query string:
 //
 //   http://127.0.0.1:13000/?widget=<id>
-//     &config=<json>   → window.chattermateConfig (launcher, position, trigger, …)
-//     &token=<jwt>     → window.chattermateToken (token-authenticated widgets)
-//     &trigger=1       → adds a page button with data-chattermate-open
+//     &config=<json>   → window.echoConfig (launcher, position, trigger, …)
+//     &token=<jwt>     → window.echoToken (token-authenticated widgets)
+//     &trigger=1       → adds a page button with data-echo-open
 //     &snippet=iframe  → the dashboard's iframe snippet instead of the script
 //     &csp=strict      → a strict Content-Security-Policy (default-src 'none') that allows
 //                        our script and API, like a hardened merchant site; frames only
@@ -13,11 +13,11 @@
 //     &csp=nonce       → the same, but scripts only by nonce ('strict-dynamic', no
 //                        'unsafe-inline'), as the most locked-down sites run
 //     &loader=current  → on the legacy port: the current loader, not the frozen one
-//     &tokenProvider=1 → chattermateConfig.tokenProvider asks the test for a fresh token
-//                        (window.chattermateE2eToken, which ChatWidget exposes)
+//     &tokenProvider=1 → echoConfig.tokenProvider asks the test for a fresh token
+//                        (window.echoE2eToken, which ChatWidget exposes)
 //
 // The same site also listens on --legacy-port (127.0.0.1:13001), where it embeds the
-// last release's loader (frontend/public/webclient/chattermate-legacy.min.js, as a browser's cache still serves it)
+// last release's loader (frontend/public/webclient/echo-legacy.min.js, as a browser's cache still serves it)
 // instead of the current one. That loader fetches the widget cross-origin, so only
 // this origin is in .env.e2e's CORS_ORIGINS: 13000 keeps proving the current loader
 // needs none.
@@ -39,11 +39,11 @@ function arg(name: string, fallback: string): string {
 
 const port = Number(arg('port', '13000'))
 const apiUrl = arg('api', 'http://127.0.0.1:18000/api/v1')
-const loaderUrl = arg('loader', 'http://127.0.0.1:15173/webclient/chattermate.min.js')
+const loaderUrl = arg('loader', 'http://127.0.0.1:15173/webclient/echo.min.js')
 const legacyPort = Number(arg('legacy-port', '13001'))
-const LEGACY_LOADER_PATH = '/legacy/chattermate.min.js'
+const LEGACY_LOADER_PATH = '/legacy/echo.min.js'
 // The frozen last-release loader the dashboard serves for the in-page fallback
-const legacyLoader = readFileSync(new URL('../../../frontend/public/webclient/chattermate-legacy.min.js', import.meta.url))
+const legacyLoader = readFileSync(new URL('../../../frontend/public/webclient/echo-legacy.min.js', import.meta.url))
 
 interface Embed {
   widgetId: string
@@ -78,7 +78,7 @@ function strictCsp(loader: string, frameSrc: string, nonce: string | null): stri
 /** The dashboard's iframe snippet (AgentWidgetTab), classed so the page object finds it. */
 function iframeSnippet(widgetId: string): string {
   const src = `${apiUrl}/widgets/${encodeURIComponent(widgetId)}/frame`
-  return `<iframe class="chattermate-iframe" src="${src}" width="100%" height="600" frameborder="0" title="AI Assistant" allow="clipboard-write *"></iframe>`
+  return `<iframe class="echo-iframe" src="${src}" width="100%" height="600" frameborder="0" title="AI Assistant" allow="clipboard-write *"></iframe>`
 }
 
 function page(embed: Embed): string {
@@ -93,14 +93,14 @@ function page(embed: Embed): string {
 </html>`
   }
   const globals = [
-    `window.chattermateId = ${JSON.stringify(embed.widgetId)};`,
-    `window.chattermateBaseUrl = ${JSON.stringify(apiUrl)};`,
+    `window.echoId = ${JSON.stringify(embed.widgetId)};`,
+    `window.echoBaseUrl = ${JSON.stringify(apiUrl)};`,
     // config arrives as JSON text; parse it here so a malformed value fails the request, not the page.
-    embed.config ? `window.chattermateConfig = ${JSON.stringify(JSON.parse(embed.config))};` : '',
-    embed.token ? `window.chattermateToken = ${JSON.stringify(embed.token)};` : '',
+    embed.config ? `window.echoConfig = ${JSON.stringify(JSON.parse(embed.config))};` : '',
+    embed.token ? `window.echoToken = ${JSON.stringify(embed.token)};` : '',
     // What a site's own code does: ask its server for a fresh token when the widget needs one
     embed.tokenProvider
-      ? 'window.chattermateConfig = Object.assign({}, window.chattermateConfig, { tokenProvider: function () { return window.chattermateE2eToken() } });'
+      ? 'window.echoConfig = Object.assign({}, window.echoConfig, { tokenProvider: function () { return window.echoE2eToken() } });'
       : '',
   ].filter(Boolean).join('\n      ')
   const csp = embed.strictCspFrameSrc === null ? ''
@@ -111,7 +111,7 @@ function page(embed: Embed): string {
   <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">${csp}<title>Acme Store</title></head>
   <body>
     <h1>Acme Store</h1>
-    ${embed.trigger ? '<button type="button" data-chattermate-open>Chat with us</button>' : ''}
+    ${embed.trigger ? '<button type="button" data-echo-open>Chat with us</button>' : ''}
     <script${nonce}>
       ${globals}
     </script>

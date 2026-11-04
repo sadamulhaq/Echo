@@ -56,7 +56,7 @@ def _m(value: str, label: str) -> CatalogModel:
     return {"value": value, "label": label}
 
 
-# Keyed by AIModelType value. CHATTERMATE (managed) is intentionally excluded — it
+# Keyed by AIModelType value. ECHO (managed) is intentionally excluded — it
 # is handled as a special case in the setup flow and is not user-selectable here.
 MODEL_CATALOG: Dict[str, CatalogProvider] = {
     "OPENAI": {

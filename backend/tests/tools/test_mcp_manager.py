@@ -15,7 +15,7 @@ limitations under the License.
 """
 
 """
-ChatterMate - MCP Manager Tests
+Echo - MCP Manager Tests
 """
 
 import pytest

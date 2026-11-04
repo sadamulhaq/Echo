@@ -16,7 +16,7 @@ export interface PreparedOrg {
   adminStorageState: string
   /**
    * OSS points the org at the fake LLM itself. Enterprise orgs keep the
-   * ChatterMate AI their signup created, which reaches the fake through
+   * Echo AI their signup created, which reaches the fake through
    * OPENAI_BASE_URL.
    */
   configureAi: boolean

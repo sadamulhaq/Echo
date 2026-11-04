@@ -16,7 +16,7 @@ limitations under the License.
 
 import { getApiUrl } from '@/config/api'
 
-// The loader (chattermate.min.js) is served by THIS frontend, so resolve its
+// The loader (echo.min.js) is served by THIS frontend, so resolve its
 // origin at snippet-generation time from where the dashboard is running — no
 // build-time VITE_WIDGET_URL bake, so a self-hosted install just works.
 function getLoaderOrigin(): string {
@@ -25,14 +25,14 @@ function getLoaderOrigin(): string {
 
 /**
  * Build the embeddable <script> snippet for a widget.
- * - Simple (anonymous) variant: drops `window.chattermateId` + the loader script.
+ * - Simple (anonymous) variant: drops `window.echoId` + the loader script.
  * - Token-auth variant: fetches a short-lived token from the host's backend
  *   before loading the widget (used when the agent requires token auth).
  * Shared by the AI Agents list and the onboarding Launch step. Its exact text
  * is pinned in __tests__/fixtures/widget-snippet.txt, which other code that
  * builds the snippet tests against too.
  *
- * `window.chattermateBaseUrl` is baked into the snippet from the runtime API URL
+ * `window.echoBaseUrl` is baked into the snippet from the runtime API URL
  * so the embedded widget (running on the customer's own site, where APP_CONFIG is
  * absent) talks to THIS install's backend instead of the vendor cloud.
  */
@@ -44,7 +44,7 @@ export function buildWidgetEmbed(widgetId: string, requireTokenAuth?: boolean): 
 <!-- Security Note: Widget ID and token are cryptographically bound in the JWT. -->
     <script>
     (function() {
-    fetch('/api/chattermate')
+    fetch('/api/echo')
         .then(r => r.json())
         .then(d => {
         let token, widget_id;
@@ -59,22 +59,22 @@ export function buildWidgetEmbed(widgetId: string, requireTokenAuth?: boolean): 
             widget_id = d.widget_id;
         }
         if (!token || !widget_id) throw new Error('Failed to extract token or widget_id');
-        window.chattermateId = widget_id;
-        window.chattermateBaseUrl = '${apiUrl}';
+        window.echoId = widget_id;
+        window.echoBaseUrl = '${apiUrl}';
         localStorage.setItem('ctid', token);
         const script = document.createElement('script');
-        script.src = '${loaderOrigin}/webclient/chattermate.min.js';
+        script.src = '${loaderOrigin}/webclient/echo.min.js';
         document.head.appendChild(script);
         })
-        .catch(e => console.error('[ChatterMate] Initialization failed:', e));
+        .catch(e => console.error('[Echo] Initialization failed:', e));
     })();
     <\/script>`
   }
   return `<script>
-  window.chattermateId = '${widgetId}';
-  window.chattermateBaseUrl = '${apiUrl}';
+  window.echoId = '${widgetId}';
+  window.echoBaseUrl = '${apiUrl}';
 <\/script>
-<script src="${loaderOrigin}/webclient/chattermate.min.js"><\/script>`
+<script src="${loaderOrigin}/webclient/echo.min.js"><\/script>`
 }
 
 /**
