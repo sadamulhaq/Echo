@@ -63,6 +63,7 @@ backend/AWSCLIV2.pkg
 backend/scripts/repro_*.py
 build-and-push.sh
 config/
+!frontend/src/config/
 
 # Env backups — these hold real credentials, never commit them
 *.env.bak*
